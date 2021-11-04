@@ -1,0 +1,20 @@
+{
+    "files.exclude": {
+        "**/.git": true,
+        "**/.svn": true,
+        "**/.hg": true,
+        "**/CVS": true,
+        "**/.DS_Store": true,
+        "**/Thumbs.db": true,
+        "package.json": true,
+        "package-lock.json": true,
+        "babel.config.js": true,
+        "app.json": false,
+        ".gitignore": true,
+        "node_modules": true,
+        ".vscode": true,
+        ".expo-shared": true,
+        ".expo": true
+    },
+    "explorerExclude.backup": null
+}
