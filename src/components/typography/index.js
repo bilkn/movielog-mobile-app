@@ -4,11 +4,11 @@ import { Text, StyleSheet } from "react-native";
 const getFontByVariant = {
   body: {
     fontSize: 16,
-    fontWeight: "light",
+    fontWeight: "300",
   },
   title: {
     fontSize: 24,
-    fontWeight: "medium",
+    fontWeight: "500",
   },
   subtitle: {
     fontSize: 20,

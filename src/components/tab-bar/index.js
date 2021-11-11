@@ -4,7 +4,7 @@ import React from "react";
 import { SCREENS } from "../../constants/screens";
 import { Home, Search, List, Profile } from "../../screens";
 import { styles } from "./styles";
-import { Ionicons, Feather } from "@expo/vector-icons";
+import { Ionicons, Feather,FontAwesome } from "@expo/vector-icons";
 const Tab = createBottomTabNavigator();
 
 const getIconColor = {};
@@ -20,6 +20,8 @@ const TabBar = () => {
           backgroundColor: colors.primary,
           borderColor: colors.primaryBorder,
         },
+        tabBarActiveTintColor: colors.ternary,
+        tabBarInactiveTintColor: colors.text,
         tabBarShowLabel: false,
       }}
     >
@@ -28,10 +30,9 @@ const TabBar = () => {
         component={Home}
         options={{
           tabBarLabel: "Home",
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name="ios-home" size={27} color="black" />
+          tabBarIcon: ({ color }) => (
+            <Ionicons name="ios-home" size={27} color={color} />
           ),
-          tabBarActiveTintColor: colors.primary,
         }}
       />
       <Tab.Screen
@@ -39,8 +40,28 @@ const TabBar = () => {
         component={Search}
         options={{
           tabBarLabel: "Search",
-          tabBarIcon: ({ color, size }) => (
-            <Feather name="search" size={27} color="black" />
+          tabBarIcon: ({ color }) => (
+            <Feather name="search" size={27} color={color} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name={SCREENS.LIST}
+        component={List}
+        options={{
+          tabBarLabel: "List",
+          tabBarIcon: ({ color }) => (
+            <Feather name="list" size={27} color={color} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name={SCREENS.PROFILE}
+        component={Profile}
+        options={{
+          tabBarLabel: "Profile",
+          tabBarIcon: ({ color }) => (
+            <FontAwesome name="user" size={27} color={color} />
           ),
         }}
       />
