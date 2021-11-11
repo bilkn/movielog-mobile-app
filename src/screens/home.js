@@ -2,22 +2,30 @@ import React from "react";
 import { StyleSheet, View } from "react-native";
 import { Category, Form, MainLayout, Typography } from "../components";
 
+const commonHeadingStyle = {
+  flexDirection: "row",
+  justifyContent: "flex-start",
+  width: "100%",
+};
+
 const styles = StyleSheet.create({
   heading: {
-    flexDirection: "row",
-    justifyContent: "flex-start",
-    width: "100%",
+    ...commonHeadingStyle,
+  },
+  featuredHeading: {
+    marginTop: 30,
+    ...commonHeadingStyle,
   },
 });
+
+const lightTitleProps = { style: { fontWeight: "300" }, variant: "titleLight" };
 
 const Home = () => {
   return (
     <MainLayout>
       <View style={styles.heading}>
         <Typography variant="title">Hello </Typography>
-        <Typography style={{ fontWeight: "300" }} variant="titleLight">
-          Bilkan!
-        </Typography>
+        <Typography {...lightTitleProps}>Bilkan!</Typography>
       </View>
       <Form.Searchbox />
       <Typography
@@ -31,6 +39,10 @@ const Home = () => {
         Categories
       </Typography>
       <Category />
+      <View style={styles.featuredHeading}>
+        <Typography variant="title">Featured </Typography>
+        <Typography {...lightTitleProps}>Movies</Typography>
+      </View>
     </MainLayout>
   );
 };

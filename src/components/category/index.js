@@ -71,11 +71,13 @@ const Card = ({ item, i }) => {
 
 const Category = () => {
   return (
-    <ScrollView style={styles.container} horizontal={true}>
-      {categoryList.map((item, i) => (
-        <Card key={item.genre} item={item} i={i} />
-      ))}
-    </ScrollView>
+    <View style={styles.container}>
+      <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+        {categoryList.map((item, i) => (
+          <Card key={item.genre} item={item} i={i} />
+        ))}
+      </ScrollView>
+    </View>
   );
 };
 
