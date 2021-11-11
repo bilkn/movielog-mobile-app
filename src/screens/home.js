@@ -8,22 +8,16 @@ const Home = () => {
   const [data, setData] = useState("");
   const [message, setMessage] = useState("");
 
-  console.log(data);
-  const handlePress = () => {
-    setMessage("Loading...");
-    axios
-      .get(`https://api.themoviedb.org/3/movie/550?api_key=${API_TOKEN}`)
-      .then(({ data }) => setData(data));
-  };
-
   return (
     <MainLayout>
-      <Text style={{ color: "white" }}>{message}</Text>
-      <Typography variant="title">
-        HOME PAGE
-        <Pressable onPress={handlePress}>
-          <Text style={{ color: "white" }}>Get movies</Text>
-        </Pressable>
+      <Typography
+        style={{
+          alignItems: "flex-start",
+          width: "100%",
+        }}
+        variant="subtitle"
+      >
+        Categories
       </Typography>
       <Text>{JSON.stringify(data)}</Text>
       <Category />

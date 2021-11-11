@@ -21,8 +21,10 @@ const getFontByVariant = {
   },
 };
 
+
+
 const Typography = (props) => {
-  const { children, variant, color, style = {} } = props;
+  const { children, variant, color, align, style = {} } = props;
   return (
     <Text
       style={{

@@ -1,8 +1,9 @@
 import React from "react";
-import { View, Text, ActionSheetIOS } from "react-native";
+import { View, Text, ScrollView } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { styles } from "./styles";
 import { createIconSetFromIcoMoon } from "@expo/vector-icons";
+import { useTheme } from "@react-navigation/native";
 
 const categoryList = [
   {
@@ -10,41 +11,71 @@ const categoryList = [
     iconName: "gun",
   },
   {
-    genre: "Action",
-    iconName: "gun",
+    genre: "Adventure",
+    iconName: "compass",
   },
   {
-    genre: "Action",
-    iconName: "gun",
+    genre: "Crime",
+    iconName: "handcuffs",
   },
   {
-    genre: "Action",
-    iconName: "gun",
+    genre: "Comedy",
+    iconName: "happy-face",
+  },
+  {
+    genre: "Drama",
+    iconName: "drama-masks",
+  },
+  {
+    genre: "Horror",
+    iconName: "ghost",
+  },
+  {
+    genre: "Romantic",
+    iconName: "rose",
+  },
+  {
+    genre: "Sci-fi",
+    iconName: "alien",
   },
 ];
 
-const Category = () => {
+const Card = ({ item, i }) => {
+  const { colors } = useTheme();
   const Icon = createIconSetFromIcoMoon(
     require("../../assets/font-icons/selection.json"),
     "IcoMoon",
     "icomoon.ttf"
   );
+  const { genre, iconName } = item;
   return (
-    <View style={styles.container}>
-      {categoryList.map(({ title, iconName }) => (
-        <View>
-          <Text>{title}</Text>
-          <LinearGradient
-            start={{ x: 0, y: 0 }}
-            end={{ x: 360, y: 360 }}
-            colors={["rgba(255, 255, 255, 0.49)", "rgba(255, 255, 255, 0.21)"]}
-            style={styles.card}
-          >
-            <Icon name={iconName} size={36} color="white" />
-          </LinearGradient>
-        </View>
-      ))}
+    <View
+      style={{
+        ...styles.cardContainer,
+        marginLeft: i === 0 ? 0 : 15,
+        color: colors.text,
+      }}
+    >
+      <Text style={{ color: colors.text }}>{genre}</Text>
+      <LinearGradient
+        start={{ x: 0, y: 0 }}
+        end={{ x: 360, y: 360 }}
+        colors={["rgba(255, 255, 255, 0.49)", "rgba(255, 255, 255, 0.21)"]}
+        style={styles.card}
+      >
+        <Icon name={iconName} size={36} color="white" />
+      </LinearGradient>
     </View>
+  );
+};
+
+const Category = () => {
+  return (
+    <ScrollView style={styles.container} horizontal={true}>
+      {categoryList.map((item, i) => (
+        <Card key={item.genre} item={item} i={i} />
+      ))}
+    </ScrollView>
   );
 };
 
