@@ -4,6 +4,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import { styles } from "./styles";
 import { createIconSetFromIcoMoon } from "@expo/vector-icons";
 import { useTheme } from "@react-navigation/native";
+import { Typography } from "..";
 
 const categoryList = [
   {
@@ -53,10 +54,9 @@ const Card = ({ item, i }) => {
       style={{
         ...styles.cardContainer,
         marginLeft: i === 0 ? 0 : 15,
-        color: colors.text,
       }}
     >
-      <Text style={{ color: colors.text }}>{genre}</Text>
+      <Typography variant="textSmall">{genre}</Typography>
       <LinearGradient
         start={{ x: 0, y: 0 }}
         end={{ x: 360, y: 360 }}

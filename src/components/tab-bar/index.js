@@ -4,10 +4,15 @@ import React from "react";
 import { SCREENS } from "../../constants/screens";
 import { Home, Search, List, Profile } from "../../screens";
 import { styles } from "./styles";
-import { Ionicons, Feather,FontAwesome } from "@expo/vector-icons";
+import { Ionicons, Feather, FontAwesome } from "@expo/vector-icons";
+import { Text } from "react-native";
 const Tab = createBottomTabNavigator();
 
 const getIconColor = {};
+
+const CustomTitle = () => {
+  return <Text>Testing one one</Text>;
+};
 
 const TabBar = () => {
   const { colors } = useTheme();
@@ -33,6 +38,7 @@ const TabBar = () => {
           tabBarIcon: ({ color }) => (
             <Ionicons name="ios-home" size={27} color={color} />
           ),
+          headerTitle: (props) => <CustomTitle />,
         }}
       />
       <Tab.Screen
