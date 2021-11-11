@@ -9,12 +9,13 @@
         "package.json": true,
         "package-lock.json": true,
         "babel.config.js": true,
-        "app.json": false,
+        "app.json": true,
         ".gitignore": true,
         "node_modules": true,
         ".vscode": true,
         ".expo-shared": true,
-        ".expo": true
+        ".expo": true,
+        ".env": true
     },
     "explorerExclude.backup": null
 }

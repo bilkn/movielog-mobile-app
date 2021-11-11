@@ -3,12 +3,19 @@ import { Text, StyleSheet } from "react-native";
 
 const getFontByVariant = {
   body: {
+    fontFamily: "Roboto_300Light",
     fontSize: 16,
-    fontWeight: "light",
+    fontWeight: "300",
   },
   title: {
+    fontFamily: "Roboto_500Medium",
     fontSize: 24,
-    fontWeight: "medium",
+    fontWeight: "500",
+  },
+  titleLight: {
+    fontFamily: "Roboto_300Light",
+    fontSize: 24,
+    fontWeight: "300",
   },
   subtitle: {
     fontSize: 20,
@@ -28,6 +35,8 @@ const Typography = (props) => {
       style={{
         ...styles,
         ...getFontByVariant[variant],
+        fontFamily:
+          getFontByVariant[variant]?.fontFamily || "Roboto_400Regular",
         color: color || "white",
         ...style,
       }}
