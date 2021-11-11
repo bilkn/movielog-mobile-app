@@ -63,7 +63,7 @@ const Card = ({ item, i }) => {
         colors={["rgba(255, 255, 255, 0.49)", "rgba(255, 255, 255, 0.21)"]}
         style={styles.card}
       >
-        <Icon name={iconName} size={36} color="white" />
+        <Icon name={iconName} size={36} color={colors.text} />
       </LinearGradient>
     </View>
   );

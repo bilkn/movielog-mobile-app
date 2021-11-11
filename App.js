@@ -33,7 +33,7 @@ export default function App() {
       </Stack.Navigator>
     </NavigationContainer> */
     <>
-      <StatusBar />
+      <StatusBar style='light'/>
       <NavigationContainer theme={MainTheme}>
         <TabBar />
       </NavigationContainer>

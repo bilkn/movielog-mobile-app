@@ -7,8 +7,10 @@ export const MainTheme = {
     ternary: "#FF3B30",
     background: "#151823",
     gray: "#22232D",
+    grayBorder: "rgba(55, 55, 61, 0.40)",
     gray2: "#51535D",
     gray3: "#D2D2D2",
+    gray4: "#DAD7D7",
     text: "#fff",
   },
 };

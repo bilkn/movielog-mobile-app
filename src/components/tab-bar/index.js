@@ -6,13 +6,8 @@ import { Home, Search, List, Profile } from "../../screens";
 import { styles } from "./styles";
 import { Ionicons, Feather, FontAwesome } from "@expo/vector-icons";
 import { Text } from "react-native";
+import { Header } from "..";
 const Tab = createBottomTabNavigator();
-
-const getIconColor = {};
-
-const CustomTitle = () => {
-  return <Text>Testing one one</Text>;
-};
 
 const TabBar = () => {
   const { colors } = useTheme();
@@ -25,6 +20,11 @@ const TabBar = () => {
           backgroundColor: colors.primary,
           borderColor: colors.primaryBorder,
         },
+        headerStyle: {
+          ...styles.header,
+          backgroundColor: colors.primary,
+          borderColor: colors.primaryBorder,
+        },
         tabBarActiveTintColor: colors.ternary,
         tabBarInactiveTintColor: colors.text,
         tabBarShowLabel: false,
@@ -33,12 +33,14 @@ const TabBar = () => {
       <Tab.Screen
         name={SCREENS.HOME}
         component={Home}
-        options={{
-          tabBarLabel: "Home",
-          tabBarIcon: ({ color }) => (
-            <Ionicons name="ios-home" size={27} color={color} />
-          ),
-          headerTitle: (props) => <CustomTitle />,
+        options={({ navigation }) => {
+          return {
+            tabBarLabel: "Home",
+            tabBarIcon: ({ color }) => (
+              <Ionicons name="ios-home" size={27} color={color} />
+            ),
+            headerTitle: () => <Header navigation={navigation} />,
+          };
         }}
       />
       <Tab.Screen

@@ -12,6 +12,11 @@ const getFontByVariant = {
     fontSize: 24,
     fontWeight: "500",
   },
+  titleLight: {
+    fontFamily: "Roboto_300Light",
+    fontSize: 24,
+    fontWeight: "300",
+  },
   subtitle: {
     fontSize: 20,
   },
