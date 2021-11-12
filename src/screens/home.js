@@ -1,6 +1,12 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
-import { Category, Form, MainLayout, Typography } from "../components";
+import {
+  Category,
+  FeaturedList,
+  Form,
+  MainLayout,
+  Typography,
+} from "../components";
 
 const commonHeadingStyle = {
   flexDirection: "row",
@@ -43,6 +49,7 @@ const Home = () => {
         <Typography variant="title">Featured </Typography>
         <Typography {...lightTitleProps}>Movies</Typography>
       </View>
+      <FeaturedList />
     </MainLayout>
   );
 };

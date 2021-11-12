@@ -4,3 +4,4 @@ export { default as TabBar } from "./tab-bar";
 export { default as Category } from "./category";
 export { default as Header } from "./header";
 export { default as Form } from "./form";
+export { default as FeaturedList } from "./featured-list";
