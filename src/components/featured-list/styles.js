@@ -5,7 +5,7 @@ export const styles = StyleSheet.create({
     alignItems: "flex-start",
     flex: 1,
     justifyContent: "flex-start",
-    paddingTop: -25
+    paddingTop: -25,
   },
   cardButton: {
     height: 250,

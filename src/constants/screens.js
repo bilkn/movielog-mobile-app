@@ -3,4 +3,5 @@ export const SCREENS = {
   SEARCH: "SEARCH",
   LIST: "LIST",
   PROFILE: "PROFILE",
+  MOVIE_DETAIL: "MOVIE_DETAIL",
 };

@@ -2,11 +2,10 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { useTheme } from "@react-navigation/native";
 import React from "react";
 import { SCREENS } from "../../constants/screens";
-import { Home, Search, List, Profile } from "../../screens";
+import { Home, Search, List, Profile, MovieDetail } from "../../screens";
 import { styles } from "./styles";
 import { Ionicons, Feather, FontAwesome } from "@expo/vector-icons";
-import { Text } from "react-native";
-import { Header } from "..";
+import HomeStackScreen from "../../screens/stacks/home-stack-screen";
 const Tab = createBottomTabNavigator();
 
 const TabBar = () => {
@@ -21,9 +20,9 @@ const TabBar = () => {
           borderColor: colors.primaryBorder,
         },
         headerStyle: {
-          ...styles.header,
           backgroundColor: colors.primary,
           borderColor: colors.primaryBorder,
+          borderBottomWidth: 1,
         },
         tabBarActiveTintColor: colors.ternary,
         tabBarInactiveTintColor: colors.text,
@@ -32,15 +31,13 @@ const TabBar = () => {
     >
       <Tab.Screen
         name={SCREENS.HOME}
-        component={Home}
-        options={({ navigation }) => {
-          return {
-            tabBarLabel: "Home",
-            tabBarIcon: ({ color }) => (
-              <Ionicons name="ios-home" size={27} color={color} />
-            ),
-            headerTitle: () => <Header navigation={navigation} />,
-          };
+        component={HomeStackScreen}
+        options={{
+          tabBarLabel: "Home",
+          tabBarIcon: ({ color }) => (
+            <Ionicons name="ios-home" size={27} color={color} />
+          ),
+          headerShown: false,
         }}
       />
       <Tab.Screen

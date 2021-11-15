@@ -13,27 +13,16 @@ import Poster3 from "../../assets/mock/poster-3.jpg";
 import Carousel from "react-native-snap-carousel";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { styles } from "./styles";
+import { SCREENS } from "../../constants/screens";
 
 const { width: screenWidth } = Dimensions.get("window");
 
-const movies = [
-  {
-    id: 0,
-    poster: Poster1,
-  },
-  {
-    id: 1,
-    poster: Poster2,
-  },
-  {
-    id: 2,
-    poster: Poster3,
-  },
-];
-
 const Card = ({ item }) => {
+  const handleCardPress = () => {
+    item.navigation.navigate(SCREENS.MOVIE_DETAIL);
+  };
   return (
-    <Pressable style={styles.cardButton}>
+    <Pressable onPress={handleCardPress} style={styles.cardButton}>
       <ImageBackground
         source={item.poster}
         resizeMode="contain"
@@ -44,7 +33,28 @@ const Card = ({ item }) => {
   );
 };
 
-const FeaturedList = () => {
+const FeaturedList = ({ navigation }) => {
+  const movies = [
+    {
+      poster: Poster1,
+    },
+    {
+      poster: Poster2,
+    },
+    {
+      poster: Poster3,
+    },
+    {
+      poster: Poster3,
+    },
+    {
+      poster: Poster3,
+    },
+    {
+      poster: Poster3,
+    },
+  ].map((item) => ({ ...item, navigation }));
+
   const carouselRef = useRef(null);
   return (
     <SafeAreaView style={styles.container}>

@@ -12,6 +12,7 @@ import React from "react";
 import { Text } from "react-native";
 import { TabBar } from "./src/components";
 import { MainTheme } from "./src/global-styles/main-theme";
+import StackNavigator from "./src/components/stack-navigator";
 
 const Stack = createNativeStackNavigator();
 
@@ -28,12 +29,8 @@ export default function App() {
     return <Text> "its loading"</Text>;
   }
   return (
-    /*    <NavigationContainer theme={MainTheme}>
-      <Stack.Navigator>
-      </Stack.Navigator>
-    </NavigationContainer> */
     <>
-      <StatusBar style='light'/>
+      <StatusBar style="light" />
       <NavigationContainer theme={MainTheme}>
         <TabBar />
       </NavigationContainer>

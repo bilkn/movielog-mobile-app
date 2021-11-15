@@ -60,7 +60,7 @@ const Card = ({ item, i }) => {
       <LinearGradient
         start={{ x: 0, y: 0 }}
         end={{ x: 360, y: 360 }}
-        colors={["rgba(255, 255, 255, 0.49)", "rgba(255, 255, 255, 0.21)"]}
+        colors={["rgba(255, 255, 255, 0.20)", "rgba(255, 255, 255, 0.21)"]}
         style={styles.card}
       >
         <Icon name={iconName} size={36} color={colors.text} />
