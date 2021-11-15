@@ -12,9 +12,6 @@ import React from "react";
 import { Text } from "react-native";
 import { TabBar } from "./src/components";
 import { MainTheme } from "./src/global-styles/main-theme";
-import StackNavigator from "./src/components/stack-navigator";
-
-const Stack = createNativeStackNavigator();
 
 export default function App() {
   const [fontsLoaded] = useFonts({

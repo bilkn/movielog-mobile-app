@@ -24,6 +24,7 @@ const TabBar = () => {
           borderColor: colors.primaryBorder,
           borderBottomWidth: 1,
         },
+        headerTintColor: colors.text,
         tabBarActiveTintColor: colors.ternary,
         tabBarInactiveTintColor: colors.text,
         tabBarShowLabel: false,

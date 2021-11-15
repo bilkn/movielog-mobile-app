@@ -9,7 +9,7 @@ const HomeStack = createStackNavigator();
 
 function HomeStackScreen() {
   const { colors } = useTheme();
-  
+
   return (
     <HomeStack.Navigator
       screenOptions={{
@@ -27,7 +27,11 @@ function HomeStackScreen() {
           return { headerTitle: () => <Header navigation={navigation} /> };
         }}
       />
-      <HomeStack.Screen name={SCREENS.MOVIE_DETAIL} component={MovieDetail} />
+      <HomeStack.Screen
+        options={{ title: "Movie Detail" }}
+        name={SCREENS.MOVIE_DETAIL}
+        component={MovieDetail}
+      />
     </HomeStack.Navigator>
   );
 }

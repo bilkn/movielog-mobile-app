@@ -7,7 +7,6 @@ import {
   MainLayout,
   Typography,
 } from "../components";
-import StackNavigator from "../components/stack-navigator";
 
 const commonHeadingStyle = {
   flexDirection: "row",

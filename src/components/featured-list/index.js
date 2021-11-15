@@ -1,12 +1,5 @@
 import React, { useRef } from "react";
-import {
-  View,
-  Text,
-  Image,
-  Dimensions,
-  Pressable,
-  ImageBackground,
-} from "react-native";
+import { Dimensions, Pressable, ImageBackground } from "react-native";
 import Poster1 from "../../assets/mock/poster-1.jpg";
 import Poster2 from "../../assets/mock/poster-2.jpg";
 import Poster3 from "../../assets/mock/poster-3.jpg";
@@ -59,6 +52,10 @@ const FeaturedList = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.container}>
       <Carousel
+        loop
+        autoplay
+        autoplayDelay={5000}
+        autoplayInterval={5000}
         ref={carouselRef}
         data={movies}
         renderItem={Card}

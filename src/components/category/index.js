@@ -5,6 +5,7 @@ import { styles } from "./styles";
 import { createIconSetFromIcoMoon } from "@expo/vector-icons";
 import { useTheme } from "@react-navigation/native";
 import { Typography } from "..";
+import { Icon } from "../../assets/icon";
 
 const categoryList = [
   {
@@ -43,12 +44,8 @@ const categoryList = [
 
 const Card = ({ item, i }) => {
   const { colors } = useTheme();
-  const Icon = createIconSetFromIcoMoon(
-    require("../../assets/font-icons/selection.json"),
-    "IcoMoon",
-    "icomoon.ttf"
-  );
   const { genre, iconName } = item;
+  
   return (
     <View
       style={{
@@ -72,7 +69,7 @@ const Card = ({ item, i }) => {
 const Category = () => {
   return (
     <View style={styles.container}>
-      <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+      <ScrollView horizontal showsHorizontalScrollIndicator={false}>
         {categoryList.map((item, i) => (
           <Card key={item.genre} item={item} i={i} />
         ))}

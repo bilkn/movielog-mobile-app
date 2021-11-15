@@ -2,12 +2,18 @@ import { useTheme } from "@react-navigation/native";
 import React from "react";
 import { View, StyleSheet } from "react-native";
 
-const MainLayout = ({ children }) => {
+const MainLayout = (props) => {
+  const { children, style, noMargin } = props;
   const { colors } = useTheme();
 
   return (
     <View
-      style={{ ...styles.container, backgroundColor: colors.backgroundColor }}
+      style={{
+        ...styles.container,
+        backgroundColor: colors.backgroundColor,
+        marginTop: noMargin ? 0 : 30,
+        ...style,
+      }}
     >
       {children}
     </View>
@@ -17,9 +23,7 @@ const MainLayout = ({ children }) => {
 const styles = StyleSheet.create({
   container: {
     alignItems: "center",
-    flex: 1,
     justifyContent: "flex-start",
-    marginTop: 30,
     paddingHorizontal: 20,
   },
 });
