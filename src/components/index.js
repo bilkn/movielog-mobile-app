@@ -11,4 +11,5 @@ export { default as IconButton } from "./button/icon-button";
 
 /* Utils */
 export { default as MovieTitleDetail } from "./utils/movie-title-detail";
+export { default as MovieCardItem } from "./utils/movie-card-item";
 export { default as Rate } from "./utils/rate";
