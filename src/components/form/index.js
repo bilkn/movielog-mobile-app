@@ -21,7 +21,6 @@ const CommonTextInput = (props) => {
         ...styles.inputContainer,
         backgroundColor: colors.gray,
         borderColor: colors.grayBorder,
-        marginTop: 20,
       }}
     >
       {icon}

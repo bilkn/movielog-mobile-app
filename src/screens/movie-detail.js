@@ -42,6 +42,7 @@ const styles = StyleSheet.create({
   },
   castContainer: {
     paddingLeft: 20,
+    marginBottom: 30,
     marginTop: 20,
     maxHeight: 150,
   },
@@ -87,8 +88,8 @@ const ActorCard = (props) => {
 
 const MovieDetail = () => {
   return (
-    <ScrollView showsHorizontalScrollIndicator={false}>
-      <MainLayout>
+    <ScrollView showsVerticalScrollIndicator={false}>
+      <MainLayout style={{ marginBottom: 0 }}>
         <View style={styles.container}>
           <Image style={styles.poster} source={Poster1} />
           <View style={styles.controls}>
@@ -114,7 +115,7 @@ const MovieDetail = () => {
           </View>
           <View
             style={{
-              marginTop: 10,
+              marginTop: 20,
             }}
           >
             <Typography variant="subtitle">Cast</Typography>
@@ -130,7 +131,7 @@ const MovieDetail = () => {
           <ActorCard
             key={actor.name}
             {...actor}
-            style={{ marginLeft: i !== 0 ? 30 : 0 }}
+            style={{ marginLeft: i !== 0 ? 25 : 0 }}
           />
         ))}
       </ScrollView>

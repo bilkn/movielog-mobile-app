@@ -1,22 +1,22 @@
 import { useTheme } from "@react-navigation/native";
 import React from "react";
-import { View, StyleSheet } from "react-native";
+import { StyleSheet, SafeAreaView } from "react-native";
 
 const MainLayout = (props) => {
   const { children, style, noMargin } = props;
   const { colors } = useTheme();
 
   return (
-    <View
+    <SafeAreaView
       style={{
         ...styles.container,
         backgroundColor: colors.backgroundColor,
-        marginTop: noMargin ? 0 : 30,
+        marginVertical: noMargin ? 0 : 30,
         ...style,
       }}
     >
       {children}
-    </View>
+    </SafeAreaView>
   );
 };
 

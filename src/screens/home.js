@@ -1,5 +1,6 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
+import { ScrollView } from "react-native-gesture-handler";
 import {
   Category,
   FeaturedList,
@@ -28,13 +29,15 @@ const lightTitleProps = { style: { fontWeight: "300" }, variant: "titleLight" };
 
 const Home = ({ navigation }) => {
   return (
-    <>
+    <ScrollView>
       <MainLayout>
         <View style={styles.heading}>
           <Typography variant="title">Hello </Typography>
           <Typography {...lightTitleProps}>Bilkan!</Typography>
         </View>
-        <Form.Searchbox />
+        <View style={{ marginTop: 20 }}>
+          <Form.Searchbox />
+        </View>
         <Typography
           style={{
             alignItems: "flex-start",
@@ -52,7 +55,7 @@ const Home = ({ navigation }) => {
         </View>
         <FeaturedList navigation={navigation} />
       </MainLayout>
-    </>
+    </ScrollView>
   );
 };
 

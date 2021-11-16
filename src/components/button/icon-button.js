@@ -4,7 +4,7 @@ import { View, Text, Pressable } from "react-native";
 import { styles } from "./styles";
 
 const IconButton = (props) => {
-  const { icon, onPress: pressHandler, defaultActive, ...rest } = props;
+  const { icon, onPress: pressHandler, defaultActive, style, ...rest } = props;
   const [active, setIsActive] = useState(defaultActive || false);
   const { colors } = useTheme();
 
@@ -16,7 +16,7 @@ const IconButton = (props) => {
   return (
     <Pressable
       onPress={handlePress}
-      style={{ ...styles.iconButton, backgroundColor: colors.gray2 }}
+      style={{ ...styles.iconButton, backgroundColor: colors.gray2, ...style }}
       {...rest}
     >
       {React.cloneElement(icon, {
