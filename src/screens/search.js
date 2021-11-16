@@ -18,10 +18,10 @@ const Search = () => {
               extraComponent={
                 <>
                   <IconButton
-                    icon={<Icon name="movie-open-check" size="22" />}
+                    icon={<Icon name="movie-open-check" size={22} />}
                   />
                   <IconButton
-                    icon={<Icon name="checkbox-plus" size="22" />}
+                    icon={<Icon name="checkbox-plus" size={22} />}
                     style={{ marginLeft: 20 }}
                   />
                 </>

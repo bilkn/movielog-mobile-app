@@ -22,16 +22,17 @@ const List = () => {
         <View style={styles.list}>
           {mockMovies.map((movie, i) => (
             <MovieCardItem
+              key={i}
               movie={movie}
               extraComponent={
                 list.showWatchlist ? (
                   <IconButton
-                    icon={<Icon name="movie-open-check" size="22" />}
+                    icon={<Icon name="movie-open-check" size={22} />}
                   />
                 ) : (
                   <>
                     <IconButton
-                      icon={<Icon name="checkbox-plus" size="22" />}
+                      icon={<Icon name="checkbox-plus" size={22} />}
                     />
                     <View style={{ marginLeft: 10 }}>
                       <Typography style={{ fontSize: 12 }}>

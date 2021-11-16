@@ -29,8 +29,8 @@ const lightTitleProps = { style: { fontWeight: "300" }, variant: "titleLight" };
 
 const Home = ({ navigation }) => {
   return (
-    <ScrollView>
-      <MainLayout>
+    <ScrollView showsVerticalScrollIndicator={false}>
+      <MainLayout style={{ marginBottom: 0 }}>
         <View style={styles.heading}>
           <Typography variant="title">Hello </Typography>
           <Typography {...lightTitleProps}>Bilkan!</Typography>
@@ -48,13 +48,15 @@ const Home = ({ navigation }) => {
         >
           Categories
         </Typography>
-        <Category />
+      </MainLayout>
+      <Category />
+      <View style={{ paddingHorizontal: 20 }}>
         <View style={styles.featuredHeading}>
           <Typography variant="title">Featured </Typography>
           <Typography {...lightTitleProps}>Movies</Typography>
         </View>
-        <FeaturedList navigation={navigation} />
-      </MainLayout>
+      </View>
+      <FeaturedList navigation={navigation} />
     </ScrollView>
   );
 };
