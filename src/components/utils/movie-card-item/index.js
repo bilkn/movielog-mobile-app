@@ -4,10 +4,10 @@ import MovieTitleDetail from "../movie-title-detail";
 import { styles } from "./styles";
 
 const MovieCardItem = (props) => {
-  const { movie, extraComponent } = props;
+  const { movie, extraComponent, style } = props;
   const { title, releaseYear, genres, poster } = movie;
   return (
-    <View style={{ ...styles.container, marginTop: 30 }}>
+    <View style={{ ...styles.container, marginTop: 30, ...style }}>
       <Pressable>
         <Image style={styles.image} source={poster} />
       </Pressable>

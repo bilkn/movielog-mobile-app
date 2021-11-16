@@ -1,47 +1,9 @@
 import React from "react";
-import { View, Text, Image, StyleSheet, Pressable } from "react-native";
-import {
-  Form,
-  IconButton,
-  MainLayout,
-  MovieCardItem,
-} from "../components";
-import Poster from "../assets/mock/poster-1.jpg";
+import { View } from "react-native";
+import { Form, IconButton, MainLayout, MovieCardItem } from "../components";
 import { Icon } from "../assets/icon";
 import { ScrollView } from "react-native-gesture-handler";
-
-const movies = [
-  {
-    title: "Dredd",
-    releaseYear: "2021",
-    genres: ["Action", "Crime"],
-    poster: Poster,
-  },
-  {
-    title: "Dredd",
-    releaseYear: "2021",
-    genres: ["Action", "Crime"],
-    poster: Poster,
-  },
-  {
-    title: "Dredd",
-    releaseYear: "2021",
-    genres: ["Action", "Crime"],
-    poster: Poster,
-  },
-  {
-    title: "Dredd",
-    releaseYear: "2021",
-    genres: ["Action", "Crime"],
-    poster: Poster,
-  },
-  {
-    title: "Dredd",
-    releaseYear: "2021",
-    genres: ["Action", "Crime"],
-    poster: Poster,
-  },
-];
+import { mockMovies } from "../mock/movies";
 
 const Search = () => {
   return (
@@ -49,7 +11,7 @@ const Search = () => {
       <MainLayout>
         <Form.Searchbox />
         <View style={{ width: "100%" }}>
-          {movies.map((movie, i) => (
+          {mockMovies.map((movie, i) => (
             <MovieCardItem
               key={i}
               movie={movie}

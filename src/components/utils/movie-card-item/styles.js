@@ -15,6 +15,7 @@ export const styles = StyleSheet.create({
     marginLeft: 24,
   },
   controlsContainer: {
+    alignItems: 'center',
     flexDirection: "row",
     marginTop: 20,
   },

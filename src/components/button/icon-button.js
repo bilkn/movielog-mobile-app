@@ -1,6 +1,6 @@
 import { useTheme } from "@react-navigation/native";
 import React, { useState } from "react";
-import { View, Text, Pressable } from "react-native";
+import { Pressable } from "react-native";
 import { styles } from "./styles";
 
 const IconButton = (props) => {
