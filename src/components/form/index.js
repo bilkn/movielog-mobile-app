@@ -66,7 +66,7 @@ export const CommonTextInput = (props) => {
 
   return (
     <>
-      <Form.Label label={label} variant={variant} />
+      {label && <Form.Label label={label} variant={variant} />}
       <View
         style={{
           ...styles.inputContainer,

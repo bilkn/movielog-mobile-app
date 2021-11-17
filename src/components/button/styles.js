@@ -16,4 +16,9 @@ export const styles = StyleSheet.create({
     justifyContent: "center",
     width: 40,
   },
+  fullWidthButton: {
+    padding: 16,
+    paddingHorizontal: 20,
+    width: "100%",
+  },
 });
