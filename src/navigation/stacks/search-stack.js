@@ -7,8 +7,12 @@ const Stack = createStackNavigator();
 
 const SearchStack = () => {
   return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name={SCREENS.SEARCH} component={Search} />
+    <Stack.Navigator>
+      <Stack.Screen
+        options={{ headerShown: false }}
+        name={SCREENS.SEARCH}
+        component={Search}
+      />
     </Stack.Navigator>
   );
 };

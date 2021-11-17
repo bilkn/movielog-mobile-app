@@ -7,7 +7,11 @@ const Stack = createStackNavigator();
 const ListStack = () => {
   return (
     <Stack.Navigator>
-      <Stack.Screen name={SCREENS.LIST} component={List} />
+      <Stack.Screen
+        name={SCREENS.LIST}
+        component={List}
+        options={{ headerShown: false }}
+      />
     </Stack.Navigator>
   );
 };

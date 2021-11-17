@@ -7,6 +7,7 @@ export { default as FeaturedList } from "./featured-list";
 
 /* Buttons */
 export { default as IconButton } from "./button/icon-button";
+export { default as CustomButton } from "./button/custom-button";
 
 /* Utils */
 export { default as MovieTitleDetail } from "./utils/movie-title-detail";

@@ -1,48 +1,113 @@
 import { useTheme } from "@react-navigation/native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, TextInput } from "react-native";
 import { styles } from "./styles";
 import { Feather } from "@expo/vector-icons";
 import { Typography } from "..";
 
 const Form = () => {
-  return (
-    <View>
-      <Text></Text>
-    </View>
-  );
+  return null;
 };
+
+const inputFieldVariants = {
+  active: "active",
+  warn: "warn",
+  disabled: "disabled",
+  filled: "filled",
+};
+
+const getContainerStyleByVariant = (colors) => ({
+  active: {
+    borderColor: colors.secondary,
+  },
+  warn: {
+    borderColor: colors.ternary,
+  },
+});
+
+const getLabelStyleByVariant = (colors) => ({
+  warn: {
+    color: colors.ternary,
+  },
+});
 
 export const CommonTextInput = (props) => {
   const { colors } = useTheme();
-  const { style, icon = null } = props;
+  const {
+    style,
+    onBlur: blurHandler,
+    onFocus: focusHandler,
+    inputStyle,
+    icon = null,
+    label,
+    variantProp,
+  } = props;
+  const [variant, setVariant] = useState(variantProp || "");
+  const { active, filled, disabled, warn } = inputFieldVariants;
+
+  useEffect(() => {
+    setVariant(variantProp);
+  }, [variantProp]);
+
+  const handleBlur = (value) => {
+    blurHandler && blurHandler();
+    /*  if (!value) return setVariant(""); */
+    setVariant(filled);
+  };
+
+  const handleFocus = () => {
+    focusHandler && focusHandler();
+    setVariant(active);
+  };
+  useEffect(() => {
+    if (variantProp) return setVariant(variantProp);
+    setVariant("");
+  }, [variantProp, active]);
+
   return (
-    <View
-      style={{
-        ...styles.inputContainer,
-        backgroundColor: colors.gray,
-        borderColor: colors.grayBorder,
-      }}
-    >
-      {icon}
-      <TextInput
-        {...props}
+    <>
+      <Form.Label label={label} variant={variant} />
+      <View
         style={{
-          ...styles.commonTextInput,
+          ...styles.inputContainer,
+          backgroundColor: colors.gray,
+          borderColor: colors.grayBorder,
+          ...getContainerStyleByVariant(colors)[variant],
           ...style,
-          color: colors.text,
         }}
-        placeholderTextColor={colors.gray4}
-      />
-    </View>
+      >
+        {icon}
+        <TextInput
+          {...props}
+          style={{
+            ...styles.commonTextInput,
+            paddingLeft: 15,
+            ...inputStyle,
+            color: colors.text,
+          }}
+          placeholderTextColor={colors.gray4}
+          onFocus={handleFocus}
+          onBlur={handleBlur}
+        />
+      </View>
+    </>
   );
 };
 
 Form.Label = (props) => {
-  const { text } = props;
+  const { colors } = useTheme();
+  const { label, variant, style } = props;
+
   return (
-    <Typography style={styles.label} variant="textSmall">
-      {text}
+    <Typography
+      style={{
+        ...styles.label,
+        ...style,
+        ...getLabelStyleByVariant(colors)[variant],
+      }}
+      variant="textSmall"
+    >
+      {label}
     </Typography>
   );
 };
@@ -64,7 +129,7 @@ Form.Searchbox = (props) => {
       placeholder={isFocused ? "" : "Search"}
       onFocus={toggleIsFocused}
       onBlur={toggleIsFocused}
-      style={{ paddingLeft: 45 }}
+      inputStyle={{ paddingLeft: 45 }}
       icon={
         <View style={styles.iconContainer}>
           <Feather name="search" size={24} color={colors.text} />
