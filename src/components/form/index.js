@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { View, Text, TextInput } from "react-native";
 import { styles } from "./styles";
 import { Feather } from "@expo/vector-icons";
+import { Typography } from "..";
 
 const Form = () => {
   return (
@@ -12,7 +13,7 @@ const Form = () => {
   );
 };
 
-const CommonTextInput = (props) => {
+export const CommonTextInput = (props) => {
   const { colors } = useTheme();
   const { style, icon = null } = props;
   return (
@@ -34,6 +35,15 @@ const CommonTextInput = (props) => {
         placeholderTextColor={colors.gray4}
       />
     </View>
+  );
+};
+
+Form.Label = (props) => {
+  const { text } = props;
+  return (
+    <Typography style={styles.label} variant="textSmall">
+      {text}
+    </Typography>
   );
 };
 

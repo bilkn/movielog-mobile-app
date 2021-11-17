@@ -1,5 +1,4 @@
 import { NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { useFonts } from "expo-font";
 import { Righteous_400Regular } from "@expo-google-fonts/righteous";
 import {
@@ -10,8 +9,8 @@ import {
 import { StatusBar } from "expo-status-bar";
 import React from "react";
 import { Text } from "react-native";
-import { TabBar } from "./src/components";
 import { MainTheme } from "./src/global-styles/main-theme";
+import AppTabs from "./src/navigation/app-tabs";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -29,7 +28,7 @@ export default function App() {
     <>
       <StatusBar style="light" />
       <NavigationContainer theme={MainTheme}>
-        <TabBar />
+        <AppTabs />
       </NavigationContainer>
     </>
   );

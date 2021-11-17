@@ -1,17 +1,17 @@
 import { useTheme } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import React from "react";
-import { Home, MovieDetail } from "../";
 import { Header } from "../../components";
 import { SCREENS } from "../../constants/screens";
+import { Home, MovieDetail } from "../../screens";
 
-const HomeStack = createStackNavigator();
+const Stack = createStackNavigator();
 
-function HomeStackScreen() {
+const HomeStack = () => {
   const { colors } = useTheme();
 
   return (
-    <HomeStack.Navigator
+    <Stack.Navigator
       screenOptions={{
         headerStyle: {
           backgroundColor: colors.primary,
@@ -20,20 +20,20 @@ function HomeStackScreen() {
         },
       }}
     >
-      <HomeStack.Screen
+      <Stack.Screen
         name={SCREENS.HOME}
         component={Home}
         options={({ navigation }) => {
           return { headerTitle: () => <Header navigation={navigation} /> };
         }}
       />
-      <HomeStack.Screen
+      <Stack.Screen
         options={{ title: "Movie Detail" }}
         name={SCREENS.MOVIE_DETAIL}
         component={MovieDetail}
       />
-    </HomeStack.Navigator>
+    </Stack.Navigator>
   );
-}
+};
 
-export default HomeStackScreen;
+export default HomeStack;

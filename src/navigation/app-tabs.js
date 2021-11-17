@@ -1,21 +1,20 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { useTheme } from "@react-navigation/native";
 import React from "react";
-import { SCREENS } from "../../constants/screens";
-import { Home, Search, List, Profile, MovieDetail } from "../../screens";
-import { styles } from "./styles";
+import { SCREENS } from "../constants/screens";
+import { HomeStack, ListStack, ProfileStack, SearchStack } from "../navigation";
 import { Ionicons, Feather, FontAwesome } from "@expo/vector-icons";
-import HomeStackScreen from "../../screens/stacks/home-stack-screen";
+
 const Tab = createBottomTabNavigator();
 
-const TabBar = () => {
+const AppTabs = () => {
   const { colors } = useTheme();
 
   return (
     <Tab.Navigator
       screenOptions={{
         tabBarStyle: {
-          ...styles.navigator,
+          borderTopWidth: 1,
           backgroundColor: colors.primary,
           borderColor: colors.primaryBorder,
         },
@@ -32,7 +31,7 @@ const TabBar = () => {
     >
       <Tab.Screen
         name={SCREENS.HOME}
-        component={HomeStackScreen}
+        component={HomeStack}
         options={{
           tabBarLabel: "Home",
           tabBarIcon: ({ color }) => (
@@ -43,7 +42,7 @@ const TabBar = () => {
       />
       <Tab.Screen
         name={SCREENS.SEARCH}
-        component={Search}
+        component={SearchStack}
         options={{
           tabBarLabel: "Search",
           tabBarIcon: ({ color }) => (
@@ -53,7 +52,7 @@ const TabBar = () => {
       />
       <Tab.Screen
         name={SCREENS.LIST}
-        component={List}
+        component={ListStack}
         options={{
           tabBarLabel: "List",
           tabBarIcon: ({ color }) => (
@@ -63,7 +62,7 @@ const TabBar = () => {
       />
       <Tab.Screen
         name={SCREENS.PROFILE}
-        component={Profile}
+        component={ProfileStack}
         options={{
           tabBarLabel: "Profile",
           tabBarIcon: ({ color }) => (
@@ -75,4 +74,4 @@ const TabBar = () => {
   );
 };
 
-export default TabBar;
+export default AppTabs;
