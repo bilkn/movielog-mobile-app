@@ -8,7 +8,7 @@ const MovieTitleDetail = (props) => {
     <View style={{ alignItems: align || "flex-start", ...style }}>
       <Typography variant="title">{title}</Typography>
       <Typography variant="textSmall" style={{ marginTop: 5, fontWeight: '300' }}>
-        {`${releaseYear} | ${genres.map(
+        {`${releaseYear} | ${genres?.map(
           (genre, i) => `${i !== 0 ? ", " : ""}${genre}`
         )}`}
       </Typography>
