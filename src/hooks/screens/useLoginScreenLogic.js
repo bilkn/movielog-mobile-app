@@ -7,9 +7,16 @@ export function useLoginScreenLogic({ navigation }) {
 
   const handleSignUpPress = () => {
     navigation.navigate(SCREENS.REGISTER);
-    console.log(navigation);
   };
 
-  const handlers = { handleSubmit, handleSignUpPress };
+  const handleForgotPasswordPress = () => {
+    navigation.navigate(SCREENS.FORGOT_PASSWORD);
+  };
+
+  const handlers = {
+    handleSubmit,
+    handleSignUpPress,
+    handleForgotPasswordPress,
+  };
   return { handlers };
 }

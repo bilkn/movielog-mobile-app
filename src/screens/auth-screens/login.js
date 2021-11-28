@@ -9,7 +9,7 @@ import { useLoginScreenLogic } from "../../hooks/screens/useLoginScreenLogic";
 const Login = ({ navigation }) => {
   const { colors } = useTheme();
   const { handlers } = useLoginScreenLogic({ navigation });
-  const { handleSubmit, handleSignUpPress } = handlers;
+  const { handleSubmit, handleSignUpPress,handleForgotPasswordPress } = handlers;
 
   return (
     <MainLayout
@@ -58,7 +58,7 @@ const Login = ({ navigation }) => {
                 >
                   Sign In
                 </CustomButton>
-                <CustomButton variant="text">
+                <CustomButton onPress={handleForgotPasswordPress} variant="text">
                   Forgot your password?
                 </CustomButton>
               </View>
