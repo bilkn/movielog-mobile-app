@@ -6,3 +6,4 @@ export { default as MovieDetail } from './movie-detail';
 
 /* AUTH SCREENS */
 export { default as Login } from './auth-screens/login';
+export { default as Register} from './auth-screens/register';

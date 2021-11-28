@@ -1,18 +1,20 @@
-import { createStackNavigator } from '@react-navigation/stack';
-import React from 'react';
-import { SCREENS } from '../constants/screens';
-import { Login } from '../screens';
+import { createStackNavigator } from "@react-navigation/stack";
+import React from "react";
+import { SCREENS } from "../constants/screens";
+import { Login, Register } from "../screens";
 
 const Stack = createStackNavigator();
 const AuthStack = () => {
-    return (
-        <Stack.Navigator
-            screenOptions={{
-                headerShown: false,
-            }}>
-            <Stack.Screen name={SCREENS.LOGIN} component={Login} />
-        </Stack.Navigator>
-    );
+  return (
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}
+    >
+      <Stack.Screen name={SCREENS.LOGIN} component={Login} />
+      <Stack.Screen name={SCREENS.REGISTER} component={Register} />
+    </Stack.Navigator>
+  );
 };
 
 export default AuthStack;

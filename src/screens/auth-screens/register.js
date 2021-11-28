@@ -4,12 +4,12 @@ import React from "react";
 import { View } from "react-native";
 import { CustomButton, Logo, MainLayout, Typography } from "../../components";
 import { CommonTextInput } from "../../components/form";
-import { useLoginScreenLogic } from "../../hooks/screens/useLoginScreenLogic";
+import { useRegisterScreenLogic } from "../../hooks/screens/useRegisterScreenLogic";
 
-const Login = ({ navigation }) => {
+const Register = ({ navigation }) => {
   const { colors } = useTheme();
-  const { handlers } = useLoginScreenLogic({ navigation });
-  const { handleSubmit, handleSignUpPress } = handlers;
+  const { handlers } = useRegisterScreenLogic({ navigation });
+  const { handleSubmit, handleSignInPress } = handlers;
 
   return (
     <MainLayout
@@ -26,6 +26,7 @@ const Login = ({ navigation }) => {
           initialValues={{
             username: "",
             password: "",
+            password_again: "",
           }}
           onSubmit={handleSubmit}
         >
@@ -50,16 +51,20 @@ const Login = ({ navigation }) => {
                   onChangeText={handleChange("password")}
                 />
               </View>
+              <View style={{ marginTop: 15 }}>
+                <CommonTextInput
+                  label="Repeat password"
+                  value={values.password_again}
+                  onChangeText={handleChange("password_again")}
+                />
+              </View>
               <View>
                 <CustomButton
                   onPress={handleSubmit}
                   variant="primary"
                   style={{ marginTop: 30 }}
                 >
-                  Sign In
-                </CustomButton>
-                <CustomButton variant="text">
-                  Forgot your password?
+                  Sign Up
                 </CustomButton>
               </View>
             </View>
@@ -74,18 +79,18 @@ const Login = ({ navigation }) => {
         }}
       >
         <Typography variant="textSmall" color={colors.gray3}>
-          New to Movielog?
+          Already a member?
         </Typography>
         <CustomButton
-          onPress={handleSignUpPress}
+          onPress={handleSignInPress}
           variant="text"
           style={{ minWidth: 0 }}
         >
-          Sign up now
+          Sign In
         </CustomButton>
       </View>
     </MainLayout>
   );
 };
 
-export default Login;
+export default Register;
