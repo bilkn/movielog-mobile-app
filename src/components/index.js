@@ -4,6 +4,7 @@ export { default as Category } from "./category";
 export { default as Header } from "./header";
 export { default as Form } from "./form";
 export { default as FeaturedList } from "./featured-list";
+export { default as Logo } from "./logo";
 
 /* Buttons */
 export { default as IconButton } from "./button/icon-button";

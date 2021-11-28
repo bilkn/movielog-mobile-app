@@ -19,15 +19,20 @@ const getTextStyleByVariant = (colors) => ({
   secondary: {
     color: colors.text,
   },
+  text: {
+    color: colors.text,
+    fontSize: 14,
+    padding: 0,
+  },
 });
 
 const CustomButton = (props) => {
-  const { children, variant, style, ...rest } = props;
+  const { children, onPress: handlePress, variant, style, ...rest } = props;
   const { colors } = useTheme();
   return (
     <Pressable
-      onPress={() => console.log("its pressed")}
-      style={({pressed}) => ({
+      onPress={handlePress}
+      style={({ pressed }) => ({
         ...styles.button,
         ...getButtonStyleByVariant(colors)[variant],
         opacity: pressed ? 0.7 : 1,

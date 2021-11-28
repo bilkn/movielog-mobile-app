@@ -2,7 +2,6 @@ import React from "react";
 import { View, Text, ScrollView, Pressable } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { styles } from "./styles";
-import { createIconSetFromIcoMoon } from "@expo/vector-icons";
 import { useTheme } from "@react-navigation/native";
 import { Typography } from "..";
 import { Icon } from "../../assets/icon";

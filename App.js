@@ -11,6 +11,7 @@ import React from "react";
 import { Text } from "react-native";
 import { MainTheme } from "./src/global-styles/main-theme";
 import AppTabs from "./src/navigation/app-tabs";
+import AuthStack from "./src/navigation/auth-stack";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -28,7 +29,8 @@ export default function App() {
     <>
       <StatusBar style="light" />
       <NavigationContainer theme={MainTheme}>
-        <AppTabs />
+        <AuthStack />
+        {/* <AppTabs /> */}
       </NavigationContainer>
     </>
   );
