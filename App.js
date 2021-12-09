@@ -1,5 +1,4 @@
 import { NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { useFonts } from "expo-font";
 import { Righteous_400Regular } from "@expo-google-fonts/righteous";
 import {
@@ -10,10 +9,9 @@ import {
 import { StatusBar } from "expo-status-bar";
 import React from "react";
 import { Text } from "react-native";
-import { TabBar } from "./src/components";
 import { MainTheme } from "./src/global-styles/main-theme";
-
-const Stack = createNativeStackNavigator();
+import AppTabs from "./src/navigation/app-tabs";
+import AuthStack from "./src/navigation/auth-stack";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -28,14 +26,11 @@ export default function App() {
     return <Text> "its loading"</Text>;
   }
   return (
-    /*    <NavigationContainer theme={MainTheme}>
-      <Stack.Navigator>
-      </Stack.Navigator>
-    </NavigationContainer> */
     <>
-      <StatusBar style='light'/>
+      <StatusBar style="light" />
       <NavigationContainer theme={MainTheme}>
-        <TabBar />
+        <AuthStack />
+        {/* <AppTabs /> */}
       </NavigationContainer>
     </>
   );

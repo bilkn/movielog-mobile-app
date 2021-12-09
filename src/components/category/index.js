@@ -1,10 +1,10 @@
 import React from "react";
-import { View, Text, ScrollView } from "react-native";
+import { View, Text, ScrollView, Pressable } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { styles } from "./styles";
-import { createIconSetFromIcoMoon } from "@expo/vector-icons";
 import { useTheme } from "@react-navigation/native";
 import { Typography } from "..";
+import { Icon } from "../../assets/icon";
 
 const categoryList = [
   {
@@ -43,41 +43,40 @@ const categoryList = [
 
 const Card = ({ item, i }) => {
   const { colors } = useTheme();
-  const Icon = createIconSetFromIcoMoon(
-    require("../../assets/font-icons/selection.json"),
-    "IcoMoon",
-    "icomoon.ttf"
-  );
   const { genre, iconName } = item;
+
   return (
-    <View
-      style={{
+    <Pressable
+      style={({ pressed }) => ({
         ...styles.cardContainer,
+        opacity: pressed ? 0.8 : 1,
         marginLeft: i === 0 ? 0 : 15,
-      }}
+      })}
     >
       <Typography variant="textSmall">{genre}</Typography>
       <LinearGradient
         start={{ x: 0, y: 0 }}
         end={{ x: 360, y: 360 }}
-        colors={["rgba(255, 255, 255, 0.49)", "rgba(255, 255, 255, 0.21)"]}
+        colors={["rgba(255, 255, 255, 0.20)", "rgba(255, 255, 255, 0.21)"]}
         style={styles.card}
       >
         <Icon name={iconName} size={36} color={colors.text} />
       </LinearGradient>
-    </View>
+    </Pressable>
   );
 };
 
 const Category = () => {
   return (
-    <View style={styles.container}>
-      <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-        {categoryList.map((item, i) => (
-          <Card key={item.genre} item={item} i={i} />
-        ))}
-      </ScrollView>
-    </View>
+    <ScrollView
+      contentContainerStyle={styles.container}
+      horizontal
+      showsHorizontalScrollIndicator={false}
+    >
+      {categoryList.map((item, i) => (
+        <Card key={item.genre} item={item} i={i} />
+      ))}
+    </ScrollView>
   );
 };
 

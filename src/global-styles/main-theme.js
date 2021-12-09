@@ -3,7 +3,7 @@ export const MainTheme = {
   colors: {
     primary: "#1A1E2B",
     primaryBorder: "rgba(142, 142, 142, 0.2)",
-    secondary: "#F9BF29",
+    secondary: "#F9BF29", 
     ternary: "#FF3B30",
     background: "#151823",
     gray: "#22232D",

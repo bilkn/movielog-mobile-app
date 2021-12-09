@@ -21,4 +21,7 @@ export const styles = StyleSheet.create({
     position: "absolute",
     top: 0,
   },
+  label: {
+    marginBottom: 10,
+  },
 });

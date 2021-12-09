@@ -1,25 +1,29 @@
 import { useTheme } from "@react-navigation/native";
 import React from "react";
-import { View, StyleSheet } from "react-native";
+import { StyleSheet, SafeAreaView } from "react-native";
 
-const MainLayout = ({ children }) => {
+const MainLayout = (props) => {
+  const { children, style, noMargin } = props;
   const { colors } = useTheme();
 
   return (
-    <View
-      style={{ ...styles.container, backgroundColor: colors.backgroundColor }}
+    <SafeAreaView
+      style={{
+        ...styles.container,
+        backgroundColor: colors.backgroundColor,
+        marginVertical: noMargin ? 0 : 30,
+        ...style,
+      }}
     >
       {children}
-    </View>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     alignItems: "center",
-    flex: 1,
     justifyContent: "flex-start",
-    marginTop: 30,
     paddingHorizontal: 20,
   },
 });
