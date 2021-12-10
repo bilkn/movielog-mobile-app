@@ -58,12 +58,16 @@ const HomeTabs = () => {
       <Tab.Screen
         name={SCREENS.LIST}
         component={ListStack}
-        options={{
+        options={({ navigation }) => ({
+          headerTitle: () => <Header navigation={navigation} />,
           tabBarLabel: "List",
           tabBarIcon: ({ color }) => (
             <Feather name="list" size={27} color={color} />
           ),
-        }}
+          headerStyle: {
+            borderBottomWidth: 0,
+          },
+        })}
       />
       <Tab.Screen
         name={SCREENS.PROFILE}
