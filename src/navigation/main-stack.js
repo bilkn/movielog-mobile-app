@@ -1,34 +1,37 @@
 import { useTheme } from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
 import React from "react";
-import { Header } from "../../components";
-import { SCREENS } from "../../constants/screens";
-import { Home, MovieDetail } from "../../screens";
+import { SCREENS } from "../constants/screens";
+import { HomeTabs } from ".";
+import { createStackNavigator } from "@react-navigation/stack";
+import { MovieDetail } from "../screens";
 
 const Stack = createStackNavigator();
 
-const HomeStack = () => {
+const MainStack = () => {
   const { colors } = useTheme();
 
   return (
     <Stack.Navigator
       screenOptions={{
+        headerTintColor: colors.text,
         headerStyle: {
           backgroundColor: colors.primary,
-          borderColor: colors.primaryBorder, 
+          borderColor: colors.primaryBorder,
           borderBottomWidth: 1,
         },
       }}
     >
       <Stack.Screen
         name={SCREENS.HOME}
-        component={Home}
-        options={({ navigation }) => {
-          return { headerTitle: () => <Header navigation={navigation} /> };
+        component={HomeTabs}
+        options={{
+          headerShown: false,
         }}
       />
       <Stack.Screen
-        options={{ title: "Movie Detail" }}
+        options={{
+          title: "Movie Detail",
+        }}
         name={SCREENS.MOVIE_DETAIL}
         component={MovieDetail}
       />
@@ -36,4 +39,4 @@ const HomeStack = () => {
   );
 };
 
-export default HomeStack;
+export default MainStack;
