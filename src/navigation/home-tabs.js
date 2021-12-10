@@ -1,13 +1,15 @@
+import { Feather, FontAwesome, Ionicons } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { useTheme } from "@react-navigation/native";
 import React from "react";
+import { ListStack, ProfileStack, SearchStack } from ".";
+import { Header } from "../components";
 import { SCREENS } from "../constants/screens";
-import { HomeStack, ListStack, ProfileStack, SearchStack } from "../navigation";
-import { Ionicons, Feather, FontAwesome } from "@expo/vector-icons";
+import { Home } from "../screens";
 
 const Tab = createBottomTabNavigator();
 
-const AppTabs = () => {
+const HomeTabs = () => {
   const { colors } = useTheme();
 
   return (
@@ -18,26 +20,29 @@ const AppTabs = () => {
           backgroundColor: colors.primary,
           borderColor: colors.primaryBorder,
         },
+
+        headerTintColor: colors.text,
+        tabBarActiveTintColor: colors.ternary,
+        tabBarInactiveTintColor: colors.text,
+        tabBarShowLabel: false,
         headerStyle: {
           backgroundColor: colors.primary,
           borderColor: colors.primaryBorder,
           borderBottomWidth: 1,
         },
-        headerTintColor: colors.text,
-        tabBarActiveTintColor: colors.ternary,
-        tabBarInactiveTintColor: colors.text,
-        tabBarShowLabel: false,
       }}
     >
       <Tab.Screen
         name={SCREENS.HOME}
-        component={HomeStack}
-        options={{
-          tabBarLabel: "Home",
-          tabBarIcon: ({ color }) => (
-            <Ionicons name="ios-home" size={27} color={color} />
-          ),
-          headerShown: false,
+        component={Home}
+        options={({ navigation }) => {
+          return {
+            headerTitle: () => <Header navigation={navigation} />,
+            tabBarLabel: "Home",
+            tabBarIcon: ({ color }) => (
+              <Ionicons name="ios-home" size={27} color={color} />
+            ),
+          };
         }}
       />
       <Tab.Screen
@@ -74,4 +79,4 @@ const AppTabs = () => {
   );
 };
 
-export default AppTabs;
+export default HomeTabs;

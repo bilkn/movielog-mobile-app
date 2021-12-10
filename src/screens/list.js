@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet, VirtualizedList } from "react-native";
+import { View, Text, StyleSheet, VirtualizedList, Pressable } from "react-native";
 import { Icon } from "../assets/icon";
 import {
   IconButton,
@@ -14,6 +14,17 @@ const getItem = (data, index) => {
     id: index,
     ...data[index],
   };
+};
+
+const ListTabs = (props) => {
+  const { setList } = props;
+
+  return (
+    <View>
+      <Pressable onPress={() => setList("watchlist")}>Watched</Pressable>
+      <Pressable onPress={() => setList("watchedlist")}>Watchlist</Pressable>
+    </View>
+  );
 };
 
 const List = () => {
@@ -48,6 +59,7 @@ const List = () => {
 
   return (
     <MainLayout noMargin>
+      <ListTabs />
       <VirtualizedList
         showsVerticalScrollIndicator={false}
         data={mockMovies}
