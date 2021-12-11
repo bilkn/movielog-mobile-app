@@ -7,12 +7,13 @@ import Carousel from "react-native-snap-carousel";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { styles } from "./styles";
 import { SCREENS } from "../../constants/screens";
+import { mockFeaturedMovies } from "../../mock/movies";
 
 const { width: screenWidth } = Dimensions.get("window");
 
-const Card = ({ item }) => {
+const Card = ({ item, navigation }) => {
   const handleCardPress = () => {
-    item.navigation.navigate(SCREENS.MOVIE_DETAIL);
+    navigation.navigate(SCREENS.MOVIE_DETAIL);
   };
   return (
     <Pressable onPress={handleCardPress} style={styles.cardButton}>
@@ -27,27 +28,6 @@ const Card = ({ item }) => {
 };
 
 const FeaturedList = ({ navigation }) => {
-  const movies = [
-    {
-      poster: Poster1,
-    },
-    {
-      poster: Poster2,
-    },
-    {
-      poster: Poster3,
-    },
-    {
-      poster: Poster3,
-    },
-    {
-      poster: Poster3,
-    },
-    {
-      poster: Poster3,
-    },
-  ].map((item) => ({ ...item, navigation }));
-
   const carouselRef = useRef(null);
   return (
     <SafeAreaView style={styles.container}>
@@ -57,8 +37,8 @@ const FeaturedList = ({ navigation }) => {
         autoplayDelay={5000}
         autoplayInterval={5000}
         ref={carouselRef}
-        data={movies}
-        renderItem={Card}
+        data={mockFeaturedMovies}
+        renderItem={({ item }) => <Card item={item} navigation={navigation} />}
         itemHeight={250}
         sliderWidth={screenWidth}
         itemWidth={170}
