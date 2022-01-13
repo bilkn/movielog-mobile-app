@@ -26,7 +26,6 @@ const getItem = (data, index) => {
 const ListTabs = (props) => {
   const { list, changeTab } = props;
   const { colors } = useTheme();
-
   return (
     <View
       style={{ ...styles.listTabContainer, borderColor: colors.primaryBorder }}
@@ -59,19 +58,19 @@ const initialListValues = {
   showWatchedList: false,
 };
 
-const List = () => {
+const List = ({ navigation }) => {
   const [list, setList] = useState(initialListValues);
-
   const changeTab = (tab) => {
     setList({ showWatchList: false, showWatchedList: false, [tab]: true });
   };
 
   const MovieCardRenderItem = (props) => {
-    const { item: movie, index: i } = props;
+    const { item: movie, index: i, navigation } = props;
     return (
       <MovieCardItem
         key={i}
         movie={movie}
+        navigation={navigation}
         extraComponent={
           list.showWatchList ? (
             <IconButton icon={<Icon name="movie-open-check" size={22} />} />
@@ -99,7 +98,9 @@ const List = () => {
           data={mockMovies}
           initialNumToRender={4}
           style={styles.list}
-          renderItem={MovieCardRenderItem}
+          renderItem={({ item }) => (
+            <MovieCardRenderItem item={item} navigation={navigation} />
+          )}
           keyExtractor={(item) => item.key}
           getItemCount={() => mockMovies.length}
           getItem={getItem}

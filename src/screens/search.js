@@ -13,11 +13,12 @@ const getItem = (data, index) => {
 };
 
 const MovieCardRenderItem = (props) => {
-  const { item: movie, index: i } = props;
+  const { item: movie, index: i, navigation } = props;
   return (
     <MovieCardItem
       key={i}
       movie={movie}
+      navigation={navigation}
       style={{ marginTop: i !== 0 ? 30 : 0 }}
       extraComponent={
         <>
@@ -32,7 +33,7 @@ const MovieCardRenderItem = (props) => {
   );
 };
 
-const Search = () => {
+const Search = ({ navigation }) => {
   return (
     <MainLayout>
       <Form.Searchbox style={{ marginBottom: 30 }} />
@@ -41,7 +42,9 @@ const Search = () => {
         showsVerticalScrollIndicator={false}
         data={mockMovies}
         initialNumToRender={4}
-        renderItem={MovieCardRenderItem}
+        renderItem={({ item }) => (
+          <MovieCardRenderItem item={item} navigation={navigation} />
+        )}
         keyExtractor={(item) => item.key}
         getItemCount={() => mockMovies.length}
         getItem={getItem}
