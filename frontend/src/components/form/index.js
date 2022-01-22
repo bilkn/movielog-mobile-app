@@ -41,6 +41,7 @@ export const CommonTextInput = (props) => {
     icon = null,
     label,
     variantProp,
+    error,
   } = props;
   const [variant, setVariant] = useState(variantProp || "");
   const { active, filled, disabled, warn } = inputFieldVariants;
@@ -90,6 +91,7 @@ export const CommonTextInput = (props) => {
           onBlur={handleBlur}
         />
       </View>
+      {error && <Form.ErrorMessage message={error} />}
     </>
   );
 };
@@ -137,6 +139,16 @@ Form.Searchbox = (props) => {
       }
       {...props}
     />
+  );
+};
+
+Form.ErrorMessage = ({ message }) => {
+  const { colors } = useTheme();
+  console.log(message);
+  return (
+    <View style={styles.errorMessageContainer}>
+      <Typography color={colors.ternary}>{message}</Typography>
+    </View>
   );
 };
 

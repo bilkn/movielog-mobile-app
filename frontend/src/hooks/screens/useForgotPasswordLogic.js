@@ -1,4 +1,4 @@
-export function useForgotPasswordScreenLogic({ navigation }) {
+function useForgotPasswordLogic({ navigation }) {
   const handleSubmit = (values) => {
     console.log(values);
   };
@@ -11,3 +11,5 @@ export function useForgotPasswordScreenLogic({ navigation }) {
   const handlers = { handleSubmit, handleGoBackPress };
   return { handlers };
 }
+
+export default useForgotPasswordLogic;

@@ -1,12 +1,13 @@
+import { useSignUpLogic } from "..";
 import { SCREENS } from "../../constants/screens";
 
-export function useLoginScreenLogic({ navigation }) {
+function useSignInLogic({ navigation }) {
   const handleSubmit = (values) => {
     console.log(values);
   };
 
   const handleSignUpPress = () => {
-    navigation.navigate(SCREENS.REGISTER);
+    navigation.navigate(SCREENS.SIGN_UP);
   };
 
   const handleForgotPasswordPress = () => {
@@ -20,3 +21,5 @@ export function useLoginScreenLogic({ navigation }) {
   };
   return { handlers };
 }
+
+export default useSignInLogic;

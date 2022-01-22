@@ -24,4 +24,7 @@ export const styles = StyleSheet.create({
   label: {
     marginBottom: 10,
   },
+  errorMessageContainer: {
+    marginTop: 5,
+  },
 });

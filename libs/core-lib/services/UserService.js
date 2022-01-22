@@ -1,4 +1,4 @@
-const { UserModel } = require("@core/lib");
+const { UserModel } = require("../models/");
 
 function createUser(userID) {
   return new UserModel({ id: userID }).save();

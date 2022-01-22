@@ -4,12 +4,13 @@ import React from "react";
 import { View } from "react-native";
 import { CustomButton, Logo, MainLayout, Typography } from "../../components";
 import { CommonTextInput } from "../../components/form";
-import { useLoginScreenLogic } from "../../hooks/screens/useLoginScreenLogic";
+import { useSignInLogic } from "../../hooks";
 
-const Login = ({ navigation }) => {
+const SignUp = ({ navigation }) => {
   const { colors } = useTheme();
-  const { handlers } = useLoginScreenLogic({ navigation });
-  const { handleSubmit, handleSignUpPress,handleForgotPasswordPress } = handlers;
+  const { handlers } = useSignInLogic({ navigation });
+  const { handleSubmit, handleSignUpPress, handleForgotPasswordPress } =
+    handlers;
 
   return (
     <MainLayout
@@ -58,7 +59,10 @@ const Login = ({ navigation }) => {
                 >
                   Sign In
                 </CustomButton>
-                <CustomButton onPress={handleForgotPasswordPress} variant="text">
+                <CustomButton
+                  onPress={handleForgotPasswordPress}
+                  variant="text"
+                >
                   Forgot your password?
                 </CustomButton>
               </View>
@@ -88,4 +92,4 @@ const Login = ({ navigation }) => {
   );
 };
 
-export default Login;
+export default SignUp;

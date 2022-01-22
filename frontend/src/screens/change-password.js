@@ -1,15 +1,15 @@
-import { useTheme } from "@react-navigation/native";
-import { Formik } from "formik";
+import { View, Text } from "react-native";
 import React from "react";
-import { View } from "react-native";
-import { CustomButton, Logo, MainLayout, Typography } from "../../components";
-import { CommonTextInput } from "../../components/form";
-import { useRegisterScreenLogic } from "../../hooks/screens/useRegisterScreenLogic";
+import { useTheme } from "@react-navigation/native";
+import { CustomButton, MainLayout, Typography } from "../components";
+import { Formik } from "formik";
+import { CommonTextInput } from "../components/form";
+import {useChangePasswordLogic} from "../hooks/";
 
-const Register = ({ navigation }) => {
+const ChangePassword = () => {
+  const { handlers } = useChangePasswordLogic();
+  const { handleSubmit } = handlers;
   const { colors } = useTheme();
-  const { handlers } = useRegisterScreenLogic({ navigation });
-  const { handleSubmit, handleSignInPress } = handlers;
 
   return (
     <MainLayout
@@ -18,15 +18,12 @@ const Register = ({ navigation }) => {
         justifyContent: "space-between",
       }}
     >
-      <View style={{ marginTop: 50 }}>
-        <Logo large />
-      </View>
       <View style={{ alignItems: "center" }}>
         <Formik
           initialValues={{
-            username: "",
             password: "",
-            password_again: "",
+            newPassword: "",
+            newPasswordConfirm: "",
           }}
           onSubmit={handleSubmit}
         >
@@ -40,22 +37,22 @@ const Register = ({ navigation }) => {
               <View>
                 <CommonTextInput
                   label="Username"
-                  value={values.username}
-                  onChangeText={handleChange("username")}
-                />
-              </View>
-              <View style={{ marginTop: 15 }}>
-                <CommonTextInput
-                  label="Password"
                   value={values.password}
                   onChangeText={handleChange("password")}
                 />
               </View>
               <View style={{ marginTop: 15 }}>
                 <CommonTextInput
+                  label="Password"
+                  value={values.newPassword}
+                  onChangeText={handleChange("newPassword")}
+                />
+              </View>
+              <View style={{ marginTop: 15 }}>
+                <CommonTextInput
                   label="Repeat password"
-                  value={values.password_again}
-                  onChangeText={handleChange("password_again")}
+                  value={values.newPasswordConfirm}
+                  onChangeText={handleChange("newPasswordConfirm")}
                 />
               </View>
               <View>
@@ -64,33 +61,15 @@ const Register = ({ navigation }) => {
                   variant="primary"
                   style={{ marginTop: 30 }}
                 >
-                  Sign Up
+                  Change Password
                 </CustomButton>
               </View>
             </View>
           )}
         </Formik>
       </View>
-      <View
-        style={{
-          alignItems: "center",
-          flexDirection: "row",
-          paddingBottom: 30,
-        }}
-      >
-        <Typography variant="textSmall" color={colors.gray3}>
-          Already a member?
-        </Typography>
-        <CustomButton
-          onPress={handleSignInPress}
-          variant="text"
-          style={{ minWidth: 0 }}
-        >
-          Sign In
-        </CustomButton>
-      </View>
     </MainLayout>
   );
 };
 
-export default Register;
+export default ChangePassword;
