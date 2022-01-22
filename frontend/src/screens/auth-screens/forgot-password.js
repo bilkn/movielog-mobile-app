@@ -4,7 +4,7 @@ import React from "react";
 import { View } from "react-native";
 import { CustomButton, Logo, MainLayout } from "../../components";
 import { CommonTextInput } from "../../components/form";
-import { useForgotPasswordScreenLogic } from "../../hooks/screens/useForgotPasswordScreenLogic";
+import { useForgotPasswordScreenLogic } from "../../hooks/";
 
 const ForgotPassword = ({ navigation }) => {
   const { colors } = useTheme();

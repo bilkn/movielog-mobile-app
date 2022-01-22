@@ -4,7 +4,7 @@ import { useTheme } from "@react-navigation/native";
 import { CustomButton, MainLayout, Typography } from "../components";
 import { Formik } from "formik";
 import { CommonTextInput } from "../components/form";
-import useChangePasswordLogic from "../hooks/screens/useChangePasswordLogic";
+import {useChangePasswordLogic} from "../hooks/";
 
 const ChangePassword = () => {
   const { handlers } = useChangePasswordLogic();
