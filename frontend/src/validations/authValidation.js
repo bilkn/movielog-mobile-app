@@ -1,4 +1,4 @@
-import * as yup from 'yup'
+import * as yup from "yup";
 
 const sharedPasswordValidaton = yup
   .string()
@@ -28,7 +28,7 @@ const signInSchema = yup.object({
 });
 
 const resetPasswordSchema = yup.object({
-  password: sharedPasswordValidaton,
+  email: sharedEmailValidation,
 });
 
 const deleteAccountSchema = yup.object({
@@ -49,14 +49,17 @@ const changePasswordSchema = yup.object({
 });
 
 const updateProfileSchema = yup.object({
+  password: sharedPasswordValidaton,
   username: yup
     .string()
+    .required("Username field must not be empty!")
     .matches(
       /[a-zA-Z0-9_]/,
       "A username can only contain alphanumeric characters (letters A-Z, numbers 0-9) with the exception of underscores."
     ),
   email: sharedEmailValidation,
 });
+
 
 export {
   signInSchema,

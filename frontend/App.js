@@ -29,8 +29,8 @@ export default function App() {
     <>
       <StatusBar style="light" />
       <NavigationContainer theme={MainTheme}>
-        <AuthStack />
-     {/*    <AppTabs /> */}
+      {/*   <AuthStack /> */}
+        <AppTabs />
       </NavigationContainer>
     </>
   );
