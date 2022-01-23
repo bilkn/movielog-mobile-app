@@ -4,11 +4,12 @@ import React from "react";
 import { View } from "react-native";
 import { CustomButton, Logo, MainLayout } from "../../components";
 import { CommonTextInput } from "../../components/form";
-import { useForgotPasswordScreenLogic } from "../../hooks/";
+import { useForgotPasswordLogic } from "../../hooks/";
+import { resetPasswordSchema } from "../../validations/authValidation";
 
 const ForgotPassword = ({ navigation }) => {
   const { colors } = useTheme();
-  const { handlers } = useForgotPasswordScreenLogic({ navigation });
+  const { handlers } = useForgotPasswordLogic({ navigation });
   const { handleSubmit, handleGoBackPress } = handlers;
 
   return (
@@ -26,8 +27,9 @@ const ForgotPassword = ({ navigation }) => {
             email: "",
           }}
           onSubmit={handleSubmit}
+          validationSchema={resetPasswordSchema}
         >
-          {({ values, handleChange, handleSubmit }) => (
+          {({ values, errors, handleChange, handleSubmit }) => (
             <View
               style={{
                 alignItems: "center",
@@ -39,6 +41,7 @@ const ForgotPassword = ({ navigation }) => {
                   label="Email"
                   value={values.username}
                   onChangeText={handleChange("email")}
+                  error={errors.email}
                 />
               </View>
               <View>

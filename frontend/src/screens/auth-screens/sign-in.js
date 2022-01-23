@@ -5,6 +5,7 @@ import { View } from "react-native";
 import { CustomButton, Logo, MainLayout, Typography } from "../../components";
 import { CommonTextInput } from "../../components/form";
 import { useSignInLogic } from "../../hooks";
+import { signInSchema } from "../../validations/authValidation";
 
 const SignUp = ({ navigation }) => {
   const { colors } = useTheme();
@@ -25,12 +26,13 @@ const SignUp = ({ navigation }) => {
       <View style={{ alignItems: "center" }}>
         <Formik
           initialValues={{
-            username: "",
+            email: "",
             password: "",
           }}
           onSubmit={handleSubmit}
+          validationSchema={signInSchema}
         >
-          {({ values, handleChange, handleSubmit }) => (
+          {({ values, errors, handleChange, handleSubmit }) => (
             <View
               style={{
                 alignItems: "center",
@@ -39,9 +41,10 @@ const SignUp = ({ navigation }) => {
             >
               <View>
                 <CommonTextInput
-                  label="Username"
-                  value={values.username}
-                  onChangeText={handleChange("username")}
+                  label="Email"
+                  value={values.email}
+                  onChangeText={handleChange("email")}
+                  error={errors.email}
                 />
               </View>
               <View style={{ marginTop: 15 }}>
@@ -49,6 +52,7 @@ const SignUp = ({ navigation }) => {
                   label="Password"
                   value={values.password}
                   onChangeText={handleChange("password")}
+                  error={errors.password}
                 />
               </View>
               <View>

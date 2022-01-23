@@ -49,6 +49,7 @@ const changePasswordSchema = yup.object({
 });
 
 const updateProfileSchema = yup.object({
+  password: sharedPasswordValidaton,
   username: yup
     .string()
     .matches(

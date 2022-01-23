@@ -15,7 +15,7 @@
         ".vscode": true,
         ".expo-shared": true,
         ".expo": true,
-        ".env": true
+        ".env": false
     },
     "explorerExclude.backup": null
 }

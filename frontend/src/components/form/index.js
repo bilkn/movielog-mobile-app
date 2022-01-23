@@ -42,6 +42,7 @@ export const CommonTextInput = (props) => {
     label,
     variantProp,
     error,
+    ...rest
   } = props;
   const [variant, setVariant] = useState(variantProp || "");
   const { active, filled, disabled, warn } = inputFieldVariants;
@@ -79,7 +80,7 @@ export const CommonTextInput = (props) => {
       >
         {icon}
         <TextInput
-          {...props}
+          {...rest}
           style={{
             ...styles.commonTextInput,
             paddingLeft: 15,
@@ -144,7 +145,6 @@ Form.Searchbox = (props) => {
 
 Form.ErrorMessage = ({ message }) => {
   const { colors } = useTheme();
-  console.log(message);
   return (
     <View style={styles.errorMessageContainer}>
       <Typography color={colors.ternary}>{message}</Typography>
