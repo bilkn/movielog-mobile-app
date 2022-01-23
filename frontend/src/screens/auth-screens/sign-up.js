@@ -15,7 +15,7 @@ import { signUpSchema } from "../../validations/authValidation";
 
 const SignUp = ({ navigation }) => {
   const { colors } = useTheme();
-  const { handlers } = useSignUpLogic({ navigation });
+  const { handlers, isLoading } = useSignUpLogic({ navigation });
   const { handleSubmit, handleSignInPress } = handlers;
 
   return (
@@ -78,6 +78,7 @@ const SignUp = ({ navigation }) => {
                     onPress={handleSubmit}
                     variant="primary"
                     style={{ marginTop: 30 }}
+                    loading={isLoading}
                   >
                     Sign Up
                   </CustomButton>

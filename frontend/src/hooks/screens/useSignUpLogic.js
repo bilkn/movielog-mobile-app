@@ -9,7 +9,7 @@ function useSignUpLogic({ navigation }) {
     return axiosAuthInstance.post("/signup", data);
   };
 
-  const { mutate: signUp } = useMutation(signUpRequest, {
+  const { mutate: signUp, isLoading } = useMutation(signUpRequest, {
     onError: () => console.log("there is an error!"),
     onSuccess: ({ data }) => setUser(data),
   });
@@ -26,7 +26,7 @@ function useSignUpLogic({ navigation }) {
 
   const handlers = { handleSubmit, handleSignInPress };
 
-  return { handlers };
+  return { handlers, isLoading };
 }
 
 export default useSignUpLogic;
