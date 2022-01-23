@@ -1,15 +1,17 @@
 import { SCREENS } from "../../constants/screens";
 import { useMutation } from "react-query";
 import { axiosAuthInstance } from "../../api/axiosAuth";
+import { useUser } from "..";
 
 function useSignUpLogic({ navigation }) {
+  const { setUser } = useUser();
   const signUpRequest = (data) => {
     return axiosAuthInstance.post("/signup", data);
   };
 
   const { mutate: signUp } = useMutation(signUpRequest, {
     onError: () => console.log("there is an error!"),
-    onSuccess: ({ data }) => console.log("Sign up is successfull!", data.data),
+    onSuccess: ({ data }) => setUser(data),
   });
 
   const handleSubmit = (values) => {

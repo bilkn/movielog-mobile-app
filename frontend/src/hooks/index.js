@@ -1,7 +1,11 @@
+/* COMMON */
+
+export { default as useUser } from "./useUser";
+
 /* UTILS */
 export { default as useMovieCardItemLogic } from "./utils/useMovieCardItemLogic";
 
-/* Screen Hooks */
+/* SCREEN HOOKS */
 
 export { default as useSignInLogic } from "./screens/useSignInLogic";
 export { default as useSignUpLogic } from "./screens/useSignUpLogic";

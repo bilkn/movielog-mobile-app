@@ -10,9 +10,9 @@ import { StatusBar } from "expo-status-bar";
 import React from "react";
 import { Text } from "react-native";
 import { MainTheme } from "./src/global-styles/main-theme";
-import AppTabs from "./src/navigation/main-stack";
-import AuthStack from "./src/navigation/auth-stack";
 import { QueryClient, QueryClientProvider } from "react-query";
+import UserProvider from "./src/providers/UserProvider";
+import { AppScreens } from "./AppScreens";
 
 const client = new QueryClient();
 
@@ -31,12 +31,13 @@ export default function App() {
   return (
     <>
       <StatusBar style="light" />
-      <QueryClientProvider client={client}>
-        <NavigationContainer theme={MainTheme}>
-          <AuthStack />
-          {/*       <AppTabs /> */}
-        </NavigationContainer>
-      </QueryClientProvider>
+      <UserProvider>
+        <QueryClientProvider client={client}>
+          <NavigationContainer theme={MainTheme}>
+            <AppScreens />
+          </NavigationContainer>
+        </QueryClientProvider>
+      </UserProvider>
     </>
   );
 }
