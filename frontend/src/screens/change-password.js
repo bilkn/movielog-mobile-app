@@ -42,7 +42,7 @@ const ChangePassword = () => {
                   value={values.password}
                   onChangeText={handleChange("password")}
                   error={errors.password}
-                  secureTextEntry={true}
+                  secureTextEntry
                 />
               </View>
               <View style={{ marginTop: 15 }}>
@@ -51,7 +51,7 @@ const ChangePassword = () => {
                   value={values.newPassword}
                   onChangeText={handleChange("newPassword")}
                   error={errors.newPassword}
-                  secureTextEntry={true}
+                  secureTextEntry
                 />
               </View>
               <View style={{ marginTop: 15 }}>
@@ -60,7 +60,7 @@ const ChangePassword = () => {
                   value={values.newPasswordConfirm}
                   onChangeText={handleChange("newPasswordConfirm")}
                   error={errors.newPasswordConfirm}
-                  secureTextEntry={true}
+                  secureTextEntry
                 />
               </View>
               <View>

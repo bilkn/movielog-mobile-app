@@ -12,6 +12,9 @@ import { Text } from "react-native";
 import { MainTheme } from "./src/global-styles/main-theme";
 import AppTabs from "./src/navigation/main-stack";
 import AuthStack from "./src/navigation/auth-stack";
+import { QueryClient, QueryClientProvider } from "react-query";
+
+const client = new QueryClient();
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -28,10 +31,12 @@ export default function App() {
   return (
     <>
       <StatusBar style="light" />
-      <NavigationContainer theme={MainTheme}>
-      {/*   <AuthStack /> */}
-        <AppTabs />
-      </NavigationContainer>
+      <QueryClientProvider client={client}>
+        <NavigationContainer theme={MainTheme}>
+          <AuthStack />
+          {/*       <AppTabs /> */}
+        </NavigationContainer>
+      </QueryClientProvider>
     </>
   );
 }

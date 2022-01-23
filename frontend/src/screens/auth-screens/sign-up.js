@@ -61,6 +61,7 @@ const SignUp = ({ navigation }) => {
                     value={values.password}
                     onChangeText={handleChange("password")}
                     error={errors.password}
+                    secureTextEntry
                   />
                 </View>
                 <View style={{ marginTop: 15 }}>
@@ -69,6 +70,7 @@ const SignUp = ({ navigation }) => {
                     value={values.confirmPassword}
                     onChangeText={handleChange("confirmPassword")}
                     error={errors.confirmPassword}
+                    secureTextEntry
                   />
                 </View>
                 <View>
