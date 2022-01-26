@@ -12,16 +12,23 @@ function useSignUpLogic({ navigation }) {
     signUp(values);
   };
 
-  const { values, errors, handleChange, handleSubmit, setFieldError } =
-    useFormik({
-      initialValues: {
-        email: "",
-        password: "",
-        confirmPassword: "",
-      },
-      onSubmit: submitHandler,
-      validationSchema: signUpSchema,
-    });
+  const {
+    values,
+    errors,
+    handleChange,
+    handleSubmit,
+    handleBlur,
+    setFieldError,
+    touched,
+  } = useFormik({
+    initialValues: {
+      email: "",
+      password: "",
+      confirmPassword: "",
+    },
+    onSubmit: submitHandler,
+    validationSchema: signUpSchema,
+  });
 
   const signUpRequest = (data) => {
     return axiosAuthInstance.post("/signup", data);
@@ -49,9 +56,10 @@ function useSignUpLogic({ navigation }) {
     handleSignInPress,
     handleChange,
     handleSubmit,
+    handleBlur,
   };
 
-  return { handlers, isLoading, values, errors };
+  return { handlers, isLoading, values, errors, touched };
 }
 
 export default useSignUpLogic;
