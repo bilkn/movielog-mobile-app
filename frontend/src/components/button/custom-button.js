@@ -2,6 +2,7 @@ import { useTheme } from "@react-navigation/native";
 import React from "react";
 import { Text, Pressable } from "react-native";
 import { styles } from "./styles";
+import { CircleFade } from "react-native-animated-spinkit";
 
 const getButtonStyleByVariant = (colors) => ({
   primary: {
@@ -27,7 +28,14 @@ const getTextStyleByVariant = (colors) => ({
 });
 
 const CustomButton = (props) => {
-  const { children, onPress: handlePress, variant, style, ...rest } = props;
+  const {
+    children,
+    onPress: handlePress,
+    variant,
+    style,
+    loading,
+    ...rest
+  } = props;
   const { colors } = useTheme();
   return (
     <Pressable
@@ -40,9 +48,13 @@ const CustomButton = (props) => {
       })}
       {...rest}
     >
-      <Text style={{ ...getTextStyleByVariant(colors)[variant] }}>
-        {children}
-      </Text>
+      {loading ? (
+        <CircleFade size={24} color="#FFF" />
+      ) : (
+        <Text style={{ ...getTextStyleByVariant(colors)[variant] }}>
+          {children}
+        </Text>
+      )}
     </Pressable>
   );
 };

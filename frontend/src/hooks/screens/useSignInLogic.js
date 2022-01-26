@@ -1,10 +1,39 @@
-import { useSignUpLogic } from "..";
+import { useFormik } from "formik";
+import { useMutation } from "react-query";
+import { useUser } from "..";
+import { axiosAuthInstance } from "../../api/axiosAuth";
 import { SCREENS } from "../../constants/screens";
+import { signInSchema, signUpSchema } from "../../validations/authValidation";
 
 function useSignInLogic({ navigation }) {
-  const handleSubmit = (values) => {
-    console.log(values);
+  const { setUser } = useUser();
+
+  const signInRequest = (data) => {
+    return axiosAuthInstance.post("/signin", data);
   };
+
+  const submitHandler = (values) => {
+    console.log(values);
+    signIn(values);
+  };
+
+  const { values, errors, handleChange, handleSubmit, setFieldError } =
+    useFormik({
+      initialValues: {
+        email: "",
+        password: "",
+      },
+      validationSchema: signInSchema,
+      onSubmit: submitHandler,
+    });
+
+  const { mutate: signIn, isLoading } = useMutation(signInRequest, {
+    onError: ({ response }) => {
+      console.log(response.status);
+      setFieldError("email", response.data.message);
+    },
+    onSuccess: ({ data }) => setUser(data),
+  });
 
   const handleSignUpPress = () => {
     navigation.navigate(SCREENS.SIGN_UP);
@@ -18,8 +47,9 @@ function useSignInLogic({ navigation }) {
     handleSubmit,
     handleSignUpPress,
     handleForgotPasswordPress,
+    handleChange,
   };
-  return { handlers };
+  return { handlers, isLoading, values, errors };
 }
 
 export default useSignInLogic;
