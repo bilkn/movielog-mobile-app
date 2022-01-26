@@ -11,12 +11,13 @@ import {
 } from "../../components";
 import { CommonTextInput } from "../../components/form";
 import { useSignUpLogic } from "../../hooks";
-import { signUpSchema } from "../../validations/authValidation";
 
 const SignUp = ({ navigation }) => {
   const { colors } = useTheme();
-  const { handlers, isLoading } = useSignUpLogic({ navigation });
-  const { handleSubmit, handleSignInPress } = handlers;
+  const { handlers, isLoading, values, errors } = useSignUpLogic({
+    navigation,
+  });
+  const { handleSubmit, handleSignInPress, handleChange } = handlers;
 
   return (
     <MainLayout
@@ -29,63 +30,50 @@ const SignUp = ({ navigation }) => {
         <Logo large />
       </View>
       <View style={{ alignItems: "center" }}>
-        <Formik
-          initialValues={{
-            email: "",
-            password: "",
-            confirmPassword: "",
-          }}
-          onSubmit={handleSubmit}
-          validationSchema={signUpSchema}
-        >
-          {({ values, errors, handleChange, handleSubmit }) => {
-            console.log(errors);
-            return (
-              <View
-                style={{
-                  alignItems: "center",
-                  paddingHorizontal: 20,
-                }}
+        <Formik>
+          <View
+            style={{
+              alignItems: "center",
+              paddingHorizontal: 20,
+            }}
+          >
+            <View>
+              <CommonTextInput
+                label="Email"
+                value={values.email}
+                onChangeText={handleChange("email")}
+                error={errors.email}
+              />
+            </View>
+            <View style={{ marginTop: 15 }}>
+              <CommonTextInput
+                label="Password"
+                value={values.password}
+                onChangeText={handleChange("password")}
+                error={errors.password}
+                secureTextEntry
+              />
+            </View>
+            <View style={{ marginTop: 15 }}>
+              <CommonTextInput
+                label="Confirm password"
+                value={values.confirmPassword}
+                onChangeText={handleChange("confirmPassword")}
+                error={errors.confirmPassword}
+                secureTextEntry
+              />
+            </View>
+            <View>
+              <CustomButton
+                onPress={handleSubmit}
+                variant="primary"
+                style={{ marginTop: 30 }}
+                loading={isLoading}
               >
-                <View>
-                  <CommonTextInput
-                    label="Email"
-                    value={values.email}
-                    onChangeText={handleChange("email")}
-                    error={errors.email}
-                  />
-                </View>
-                <View style={{ marginTop: 15 }}>
-                  <CommonTextInput
-                    label="Password"
-                    value={values.password}
-                    onChangeText={handleChange("password")}
-                    error={errors.password}
-                    secureTextEntry
-                  />
-                </View>
-                <View style={{ marginTop: 15 }}>
-                  <CommonTextInput
-                    label="Confirm password"
-                    value={values.confirmPassword}
-                    onChangeText={handleChange("confirmPassword")}
-                    error={errors.confirmPassword}
-                    secureTextEntry
-                  />
-                </View>
-                <View>
-                  <CustomButton
-                    onPress={handleSubmit}
-                    variant="primary"
-                    style={{ marginTop: 30 }}
-                    loading={isLoading}
-                  >
-                    Sign Up
-                  </CustomButton>
-                </View>
-              </View>
-            );
-          }}
+                Sign Up
+              </CustomButton>
+            </View>
+          </View>
         </Formik>
       </View>
       <View

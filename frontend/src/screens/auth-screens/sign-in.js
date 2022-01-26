@@ -1,17 +1,23 @@
 import { useTheme } from "@react-navigation/native";
-import { Formik } from "formik";
+import { Formik, useFormik } from "formik";
 import React from "react";
 import { View } from "react-native";
 import { CustomButton, Logo, MainLayout, Typography } from "../../components";
 import { CommonTextInput } from "../../components/form";
 import { useSignInLogic } from "../../hooks";
-import { signInSchema } from "../../validations/authValidation";
 
 const SignUp = ({ navigation }) => {
   const { colors } = useTheme();
-  const { handlers } = useSignInLogic({ navigation });
-  const { handleSubmit, handleSignUpPress, handleForgotPasswordPress } =
-    handlers;
+  const { handlers, isLoading, values, errors } = useSignInLogic({
+    navigation,
+  });
+
+  const {
+    handleSignUpPress,
+    handleForgotPasswordPress,
+    handleSubmit,
+    handleChange,
+  } = handlers;
 
   return (
     <MainLayout
@@ -24,54 +30,43 @@ const SignUp = ({ navigation }) => {
         <Logo large />
       </View>
       <View style={{ alignItems: "center" }}>
-        <Formik
-          initialValues={{
-            email: "",
-            password: "",
-          }}
-          onSubmit={handleSubmit}
-          validationSchema={signInSchema}
-        >
-          {({ values, errors, handleChange, handleSubmit }) => (
-            <View
-              style={{
-                alignItems: "center",
-                paddingHorizontal: 20,
-              }}
-            >
-              <View>
-                <CommonTextInput
-                  label="Email"
-                  value={values.email}
-                  onChangeText={handleChange("email")}
-                  error={errors.email}
-                />
-              </View>
-              <View style={{ marginTop: 15 }}>
-                <CommonTextInput
-                  label="Password"
-                  value={values.password}
-                  onChangeText={handleChange("password")}
-                  error={errors.password}
-                />
-              </View>
-              <View>
-                <CustomButton
-                  onPress={handleSubmit}
-                  variant="primary"
-                  style={{ marginTop: 30 }}
-                >
-                  Sign In
-                </CustomButton>
-                <CustomButton
-                  onPress={handleForgotPasswordPress}
-                  variant="text"
-                >
-                  Forgot your password?
-                </CustomButton>
-              </View>
+        <Formik>
+          <View
+            style={{
+              alignItems: "center",
+              paddingHorizontal: 20,
+            }}
+          >
+            <View>
+              <CommonTextInput
+                label="Email"
+                value={values.email}
+                onChangeText={handleChange("email")}
+                error={errors.email}
+              />
             </View>
-          )}
+            <View style={{ marginTop: 15 }}>
+              <CommonTextInput
+                label="Password"
+                value={values.password}
+                onChangeText={handleChange("password")}
+                error={errors.password}
+              />
+            </View>
+            <View>
+              <CustomButton
+                onPress={handleSubmit}
+                variant="primary"
+                style={{ marginTop: 30 }}
+                loading={isLoading}
+              >
+                Sign In
+              </CustomButton>
+              <CustomButton onPress={handleForgotPasswordPress} variant="text">
+                Forgot your password?
+              </CustomButton>
+            </View>
+          </View>
         </Formik>
       </View>
       <View

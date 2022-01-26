@@ -15,7 +15,7 @@ async function validateCredentials(req, res, next) {
     if (!compareSync(password, user.password)) {
       return res
         .status(401)
-        .send({ success: false, message: "Wrong password, please try again!" });
+        .send({ password: "Wrong password, please try again!" });
     }
     req.user = user;
     next();
