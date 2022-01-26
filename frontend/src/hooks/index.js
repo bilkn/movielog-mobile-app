@@ -1,6 +1,7 @@
 /* COMMON */
 
 export { default as useUser } from "./useUser";
+export { default as useAuthAxios } from "./useAuthAxios";
 
 /* UTILS */
 export { default as useMovieCardItemLogic } from "./utils/useMovieCardItemLogic";

@@ -1,12 +1,12 @@
 import { SCREENS } from "../../constants/screens";
 import { useMutation } from "react-query";
-import { axiosAuthInstance } from "../../api/axiosAuth";
-import { useUser } from "..";
+import { useAuthAxios, useUser } from "..";
 import { useFormik } from "formik";
 import { signUpSchema } from "../../validations/authValidation";
 
 function useSignUpLogic({ navigation }) {
   const { setUser } = useUser();
+  const { axiosAuthInstance } = useAuthAxios();
 
   const submitHandler = (values) => {
     signUp(values);
@@ -35,10 +35,6 @@ function useSignUpLogic({ navigation }) {
     onSuccess: ({ data }) => setUser(data),
     onError: ({ response }) => {
       const { data } = response;
-      const { email, password, confirmPassword } = data || {};
-
-      if (!email && !password && !confirmPassword) return;
-
       Object.entries(data).forEach(([key, value]) => {
         if (value) setFieldError(key, value);
       });
