@@ -1,61 +1,74 @@
 import { SCREENS } from "../../constants/screens";
 import { useMutation } from "react-query";
-import { axiosAuthInstance } from "../../api/axiosAuth";
-import { useUser } from "..";
+import { useAuthAxios, useUser } from "..";
 import { useFormik } from "formik";
 import { signUpSchema } from "../../validations/authValidation";
 
 function useSignUpLogic({ navigation }) {
   const { setUser } = useUser();
+  const { axiosAuthInstance } = useAuthAxios();
 
   const submitHandler = (values) => {
     signUp(values);
   };
 
-  const { values, errors, handleChange, handleSubmit, setFieldError } =
-    useFormik({
-      initialValues: {
-        email: "",
-        password: "",
-        confirmPassword: "",
-      },
-      onSubmit: submitHandler,
-      validationSchema: signUpSchema,
-    });
+  const {
+    values,
+    errors,
+    handleChange,
+    handleSubmit,
+    handleBlur,
+    setFieldError,
+    touched,
+    setTouched,
+  } = useFormik({
+    initialValues: {
+      email: "",
+      password: "",
+      confirmPassword: "",
+    },
+    onSubmit: submitHandler,
+    validationSchema: signUpSchema,
+  });
 
   const signUpRequest = (data) => {
     return axiosAuthInstance.post("/signup", data);
   };
 
-  const {
-    mutate: signUp,
-    isLoading,
-    data,
-  } = useMutation(signUpRequest, {
+  const { mutate: signUp, isLoading, } = useMutation(signUpRequest, {
     onSuccess: ({ data }) => setUser(data),
-    onError: ({ response }) => {
+    onError: (error) => {
+      console.log("error", error);
+      const { response } = error;
       const { data } = response;
-      const { email, password, confirmPassword } = data || {};
-
-      if (!email && !password && !confirmPassword) return;
-
       Object.entries(data).forEach(([key, value]) => {
         if (value) setFieldError(key, value);
       });
     },
   });
 
+
   const handleSignInPress = () => {
     navigation.navigate(SCREENS.SIGN_IN);
+  };
+
+  const handleSignUpPress = () => {
+    handleSubmit();
+    setTouched({
+      email: true,
+      password: true,
+      confirmPassword: true,
+    });
   };
 
   const handlers = {
     handleSignInPress,
     handleChange,
-    handleSubmit,
+    handleBlur,
+    handleSignUpPress,
   };
 
-  return { handlers, isLoading, values, errors };
+  return { handlers, isLoading, values, errors, touched };
 }
 
 export default useSignUpLogic;

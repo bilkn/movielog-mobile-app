@@ -7,6 +7,7 @@ let headers = {};
   headers.Authorization = `Bearer ${localStorage.accessToken}`;
 } */
 
-export const axiosAuthInstance = axios.create({
+export const kaxiosAuthInstance = axios.create({
   baseURL,
+  timeout: 5000,
 });

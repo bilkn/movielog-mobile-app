@@ -42,6 +42,8 @@ export const CommonTextInput = (props) => {
     label,
     variantProp,
     error,
+    touched,
+    autoCapitalize = "none",
     ...rest
   } = props;
   const [variant, setVariant] = useState(variantProp || "");
@@ -51,8 +53,8 @@ export const CommonTextInput = (props) => {
     setVariant(variantProp);
   }, [variantProp]);
 
-  const handleBlur = (value) => {
-    blurHandler && blurHandler();
+  const handleBlur = (e) => {
+    blurHandler && blurHandler(e);
     /*  if (!value) return setVariant(""); */
     setVariant(filled);
   };
@@ -90,9 +92,10 @@ export const CommonTextInput = (props) => {
           placeholderTextColor={colors.gray4}
           onFocus={handleFocus}
           onBlur={handleBlur}
+          autoCapitalize={autoCapitalize}
         />
       </View>
-      {error && <Form.ErrorMessage message={error} />}
+      {error && !!touched && <Form.ErrorMessage message={error} />}
     </>
   );
 };

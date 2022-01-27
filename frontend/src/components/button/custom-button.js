@@ -46,6 +46,7 @@ const CustomButton = (props) => {
         opacity: pressed ? 0.7 : 1,
         ...style,
       })}
+      disabled={loading}
       {...rest}
     >
       {loading ? (
