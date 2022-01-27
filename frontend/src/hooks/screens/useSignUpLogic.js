@@ -20,6 +20,7 @@ function useSignUpLogic({ navigation }) {
     handleBlur,
     setFieldError,
     touched,
+    setTouched,
   } = useFormik({
     initialValues: {
       email: "",
@@ -34,13 +35,11 @@ function useSignUpLogic({ navigation }) {
     return axiosAuthInstance.post("/signup", data);
   };
 
-  const {
-    mutate: signUp,
-    isLoading,
-    data,
-  } = useMutation(signUpRequest, {
+  const { mutate: signUp, isLoading, } = useMutation(signUpRequest, {
     onSuccess: ({ data }) => setUser(data),
-    onError: ({ response }) => {
+    onError: (error) => {
+      console.log("error", error);
+      const { response } = error;
       const { data } = response;
       Object.entries(data).forEach(([key, value]) => {
         if (value) setFieldError(key, value);
@@ -48,15 +47,25 @@ function useSignUpLogic({ navigation }) {
     },
   });
 
+
   const handleSignInPress = () => {
     navigation.navigate(SCREENS.SIGN_IN);
+  };
+
+  const handleSignUpPress = () => {
+    handleSubmit();
+    setTouched({
+      email: true,
+      password: true,
+      confirmPassword: true,
+    });
   };
 
   const handlers = {
     handleSignInPress,
     handleChange,
-    handleSubmit,
     handleBlur,
+    handleSignUpPress,
   };
 
   return { handlers, isLoading, values, errors, touched };

@@ -11,7 +11,7 @@ const SignUp = ({ navigation }) => {
   const { handlers, isLoading, values, errors, touched } = useSignUpLogic({
     navigation,
   });
-  const { handleSubmit, handleSignInPress, handleChange, handleBlur } =
+  const { handleSignInPress, handleChange, handleBlur, handleSignUpPress } =
     handlers;
 
   return (
@@ -73,7 +73,7 @@ const SignUp = ({ navigation }) => {
               </View>
               <View>
                 <CustomButton
-                  onPress={handleSubmit}
+                  onPress={handleSignUpPress}
                   variant="primary"
                   style={{ marginTop: 30 }}
                   loading={isLoading}

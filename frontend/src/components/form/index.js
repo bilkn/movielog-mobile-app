@@ -43,6 +43,7 @@ export const CommonTextInput = (props) => {
     variantProp,
     error,
     touched,
+    autoCapitalize = "none",
     ...rest
   } = props;
   const [variant, setVariant] = useState(variantProp || "");
@@ -91,6 +92,7 @@ export const CommonTextInput = (props) => {
           placeholderTextColor={colors.gray4}
           onFocus={handleFocus}
           onBlur={handleBlur}
+          autoCapitalize={autoCapitalize}
         />
       </View>
       {error && !!touched && <Form.ErrorMessage message={error} />}
