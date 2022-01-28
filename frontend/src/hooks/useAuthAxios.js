@@ -1,18 +1,31 @@
-import React from "react";
 import { axiosAuthInstance } from "../api/axiosAuth";
 
 function useAuthAxios() {
   axiosAuthInstance.interceptors.response.use(
-    function (response) {
-      return response;
-    },
-    function (error) {
-      const { status } = error?.response;
+    (response) => response,
+    (error) => {
+      const { response, request } = error;
 
-      if (!status) return Promise.reject(error);
+      if (error?.code === "ECONNABORTED") {
+        // TODO: If timeout show timeout error.
+        console.log("TIMEOUT");
+      }
 
-      if (status === "403") console.log("Token is expired."); // TODO: Send refresh token request.
-      if (error) return Promise.reject(error);
+      if (response) {
+        const { status } = response;
+
+        // TODO: Send refresh token request.
+        if (status == "403") console.log("Token is expired");
+
+        // TODO: If timeout show timeout error.
+        if (status == "408") console.log("TIMEOUT");
+      }
+
+      if (request) {
+        console.log("request", request);
+      }
+
+      return Promise.reject(error);
     }
   );
   return { axiosAuthInstance };

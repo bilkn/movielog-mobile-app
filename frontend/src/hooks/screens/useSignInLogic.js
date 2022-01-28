@@ -28,9 +28,12 @@ function useSignInLogic({ navigation }) {
     });
 
   const { mutate: signIn, isLoading } = useMutation(signInRequest, {
-    onError: ({ response }) => {
-      console.log(response.status);
-      setFieldError("email", response.data.message);
+    onError: (error) => {
+      const { response } = error;
+
+      if (response?.data) {
+        setFieldError("email", response.data.message);
+      }
     },
     onSuccess: ({ data }) => setUser(data),
   });

@@ -35,10 +35,10 @@ function useSignUpLogic({ navigation }) {
     return axiosAuthInstance.post("/signup", data);
   };
 
-  const { mutate: signUp, isLoading, } = useMutation(signUpRequest, {
-    onSuccess: ({ data }) => setUser(data),
+  const { mutate: signUp, isLoading } = useMutation(signUpRequest, {
+    onSuccess: (data) => data && setUser(data.data),
     onError: (error) => {
-      console.log("error", error);
+      console.log("error ----", error);
       const { response } = error;
       const { data } = response;
       Object.entries(data).forEach(([key, value]) => {
@@ -46,7 +46,6 @@ function useSignUpLogic({ navigation }) {
       });
     },
   });
-
 
   const handleSignInPress = () => {
     navigation.navigate(SCREENS.SIGN_IN);
