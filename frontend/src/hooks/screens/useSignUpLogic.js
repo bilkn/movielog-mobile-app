@@ -38,7 +38,6 @@ function useSignUpLogic({ navigation }) {
 
   const { mutate: signUp, isLoading } = useMutation(signUpRequest, {
     onSuccess: (data) => {
-      console.log("Success");
       data && setUser(data.data);
     },
     onError: (error) => {
