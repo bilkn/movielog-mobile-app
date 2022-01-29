@@ -9,3 +9,4 @@ export { default as ChangePassword } from "./change-password";
 export { default as SignIn } from "./auth-screens/sign-in";
 export { default as SignUp } from "./auth-screens/sign-up";
 export { default as ForgotPassword } from "./auth-screens/forgot-password";
+export { default as ResetPassword } from "./auth-screens/reset-password";

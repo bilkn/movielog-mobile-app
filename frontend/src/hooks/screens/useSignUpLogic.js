@@ -26,7 +26,7 @@ function useSignUpLogic({ navigation }) {
     initialValues: {
       email: "afsdsdf@asdf.com",
       password: "123456",
-      confirmPassword: "123456",
+      passwordConfirm: "123456",
     },
     onSubmit: submitHandler,
     validationSchema: signUpSchema,
@@ -54,7 +54,7 @@ function useSignUpLogic({ navigation }) {
     setTouched({
       email: true,
       password: true,
-      confirmPassword: true,
+      passwordConfirm: true,
     });
   };
 
