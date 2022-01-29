@@ -1,12 +1,13 @@
 import { SCREENS } from "../../constants/screens";
 import { useMutation } from "react-query";
-import { useAuthAxios, useUser } from "..";
+import { useUser } from "..";
 import { useFormik } from "formik";
 import { signUpSchema } from "../../validations/authValidation";
+import { populateFieldErrors } from "../../helpers";
+import axiosAuthInstance from "../../api/axiosAuth";
 
 function useSignUpLogic({ navigation }) {
   const { setUser } = useUser();
-  const { axiosAuthInstance } = useAuthAxios();
 
   const submitHandler = (values) => {
     signUp(values);
@@ -23,9 +24,9 @@ function useSignUpLogic({ navigation }) {
     setTouched,
   } = useFormik({
     initialValues: {
-      email: "",
-      password: "",
-      confirmPassword: "",
+      email: "afsdsdf@asdf.com",
+      password: "123456",
+      confirmPassword: "123456",
     },
     onSubmit: submitHandler,
     validationSchema: signUpSchema,
@@ -36,14 +37,11 @@ function useSignUpLogic({ navigation }) {
   };
 
   const { mutate: signUp, isLoading } = useMutation(signUpRequest, {
-    onSuccess: (data) => data && setUser(data.data),
+    onSuccess: (data) => {
+      data && setUser(data.data);
+    },
     onError: (error) => {
-      console.log("error ----", error);
-      const { response } = error;
-      const { data } = response;
-      Object.entries(data).forEach(([key, value]) => {
-        if (value) setFieldError(key, value);
-      });
+      populateFieldErrors(error, setFieldError);
     },
   });
 

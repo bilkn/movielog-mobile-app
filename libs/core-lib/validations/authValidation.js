@@ -59,6 +59,10 @@ const updateProfileSchema = yup.object({
   email: sharedEmailValidation,
 });
 
+const forgotPasswordSchema = yup.object({
+  email: sharedEmailValidation,
+});
+
 module.exports = {
   signInSchema,
   signUpSchema,
@@ -67,4 +71,5 @@ module.exports = {
   deleteUserDataSchema,
   changePasswordSchema,
   updateProfileSchema,
+  forgotPasswordSchema
 };

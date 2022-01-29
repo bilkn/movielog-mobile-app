@@ -8,7 +8,7 @@ import { useSignInLogic } from "../../hooks";
 
 const SignUp = ({ navigation }) => {
   const { colors } = useTheme();
-  const { handlers, isLoading, values, errors } = useSignInLogic({
+  const { handlers, isLoading, values, errors, touched } = useSignInLogic({
     navigation,
   });
 
@@ -17,6 +17,7 @@ const SignUp = ({ navigation }) => {
     handleForgotPasswordPress,
     handleSubmit,
     handleChange,
+    handleBlur
   } = handlers;
 
   return (
@@ -43,14 +44,19 @@ const SignUp = ({ navigation }) => {
                 value={values.email}
                 onChangeText={handleChange("email")}
                 error={errors.email}
+                touched={touched.email}
+                onBlur={handleBlur("email")}
               />
             </View>
             <View style={{ marginTop: 15 }}>
               <CommonTextInput
                 label="Password"
+                secureTextEntry
                 value={values.password}
                 onChangeText={handleChange("password")}
                 error={errors.password}
+                touched={touched.password}
+                onBlur={handleBlur("password")}
               />
             </View>
             <View>
