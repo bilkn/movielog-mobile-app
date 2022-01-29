@@ -14,7 +14,6 @@ function useSignInLogic({ navigation }) {
   };
 
   const submitHandler = (values) => {
-    console.log(values);
     signIn(values);
   };
 

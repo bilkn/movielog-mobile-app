@@ -28,6 +28,11 @@ const signInSchema = yup.object({
 });
 
 const resetPasswordSchema = yup.object({
+  password: sharedPasswordValidaton,
+  confirmPassword: sharedConfirmPasswordValidation,
+});
+
+const forgotPasswordSchema = yup.object({
   email: sharedEmailValidation,
 });
 
@@ -60,7 +65,6 @@ const updateProfileSchema = yup.object({
   email: sharedEmailValidation,
 });
 
-
 export {
   signInSchema,
   signUpSchema,
@@ -69,4 +73,5 @@ export {
   deleteUserDataSchema,
   changePasswordSchema,
   updateProfileSchema,
+  forgotPasswordSchema,
 };
