@@ -3,7 +3,7 @@ import { useMutation } from "react-query";
 import { useUser } from "..";
 import axiosAuthInstance from "../../api/axiosAuth";
 import { SCREENS } from "../../constants/screens";
-import { populateFieldErrors } from "../../helpers";
+import { populateFieldErrors, secureStore } from "../../helpers";
 import { signInSchema } from "../../validations/authValidation";
 
 function useSignInLogic({ navigation }) {
@@ -27,15 +27,31 @@ function useSignInLogic({ navigation }) {
     setFieldError,
   } = useFormik({
     initialValues: {
-      email: "",
-      password: "",
+      email: "enes.konus@hotmail.com",
+      password: "123456",
     },
     validationSchema: signInSchema,
     onSubmit: submitHandler,
   });
 
+  const storeTokens = async (tokens) => {
+    try {
+      await secureStore.save("tokens", tokens);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   const { mutate: signIn, isLoading } = useMutation(signInRequest, {
-    onSuccess: (data) => data && setUser(data.data),
+    onSuccess: (res) => {
+      if (res?.data) {
+        const { accessToken, refreshToken } = res.data;
+        if (accessToken && refreshToken) {
+          setUser(res.data);
+          storeTokens(res.data);
+        }
+      }
+    },
     onError: (error) => {
       console.log(error);
       populateFieldErrors(error, setFieldError);
@@ -55,7 +71,7 @@ function useSignInLogic({ navigation }) {
     handleSignUpPress,
     handleForgotPasswordPress,
     handleChange,
-    handleBlur
+    handleBlur,
   };
   return { handlers, isLoading, values, errors, touched };
 }

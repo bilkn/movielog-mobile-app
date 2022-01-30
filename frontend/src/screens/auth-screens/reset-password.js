@@ -1,25 +1,26 @@
-import { View } from "react-native";
-import React from "react";
-import { useTheme } from "@react-navigation/native";
-import { CustomButton, MainLayout } from "../components";
 import { Formik } from "formik";
-import { CommonTextInput } from "../components/form";
-import { useChangePasswordLogic } from "../hooks/";
+import React from "react";
+import { View } from "react-native";
+import { CustomButton, Logo, MainLayout, Typography } from "../../components";
+import { CommonTextInput } from "../../components/form";
+import { useResetPasswordLogic } from "../../hooks";
 
-const ChangePassword = () => {
+function ResetPassword() {
   const { handlers, values, errors, touched, isLoading } =
-    useChangePasswordLogic();
-  const { handleSubmit, handleChange, handleBlur } = handlers;
-  const { colors } = useTheme();
+    useResetPasswordLogic();
+  const { handleBlur, handleChange, handleSubmit, handleBackToSignInPress } =
+    handlers;
 
   return (
     <MainLayout
       style={{
         flex: 1,
-        justifyContent: "space-between",
       }}
     >
-      <View style={{ alignItems: "center" }}>
+      <View style={{ marginTop: 50 }}>
+        <Logo large />
+      </View>
+      <View style={{ alignItems: "center", marginTop: 106 }}>
         <Formik>
           <View
             style={{
@@ -29,35 +30,24 @@ const ChangePassword = () => {
           >
             <View>
               <CommonTextInput
-                label="Current Password"
-                value={values.password}
-                onChangeText={handleChange("password")}
-                error={errors.password}
-                touched={touched.password}
-                onBlur={handleBlur}
-                secureTextEntry
-              />
-            </View>
-            <View style={{ marginTop: 15 }}>
-              <CommonTextInput
                 label="New Password"
+                secureTextEntry
                 value={values.newPassword}
                 onChangeText={handleChange("newPassword")}
                 error={errors.newPassword}
                 touched={touched.newPassword}
-                onBlur={handleBlur}
-                secureTextEntry
+                onBlur={handleBlur("newPassword")}
               />
             </View>
             <View style={{ marginTop: 15 }}>
               <CommonTextInput
                 label="Confirm New Password"
+                secureTextEntry
                 value={values.newPasswordConfirm}
                 onChangeText={handleChange("newPasswordConfirm")}
                 error={errors.newPasswordConfirm}
                 touched={touched.newPasswordConfirm}
-                onBlur={handleBlur}
-                secureTextEntry
+                onBlur={handleBlur("newPasswordConfirm")}
               />
             </View>
             <View>
@@ -69,12 +59,15 @@ const ChangePassword = () => {
               >
                 Change Password
               </CustomButton>
+              <CustomButton onPress={handleBackToSignInPress} variant="text">
+                Back To Sign In
+              </CustomButton>
             </View>
           </View>
         </Formik>
       </View>
     </MainLayout>
   );
-};
+}
 
-export default ChangePassword;
+export default ResetPassword;

@@ -6,9 +6,10 @@ import { CommonTextInput } from "../../components/form";
 import { useForgotPasswordLogic } from "../../hooks/";
 
 const ForgotPassword = ({ navigation }) => {
-  const { handlers, values, errors, touched,isLoading } = useForgotPasswordLogic({
-    navigation,
-  });
+  const { handlers, values, errors, touched, isLoading } =
+    useForgotPasswordLogic({
+      navigation,
+    });
   const { handleSubmit, handleChange, handleBlur, handleGoBackPress } =
     handlers;
 
@@ -46,7 +47,7 @@ const ForgotPassword = ({ navigation }) => {
                 style={{ marginTop: 30 }}
                 loading={isLoading}
               >
-                Reset Password
+                Request Reset Link
               </CustomButton>
               <CustomButton onPress={handleGoBackPress} variant="text">
                 Go back

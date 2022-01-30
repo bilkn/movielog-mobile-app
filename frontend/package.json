@@ -34,7 +34,8 @@
     "react-native-web": "0.17.1",
     "react-query": "^3.34.11",
     "react-redux": "^7.2.6",
-    "yup": "^0.32.11"
+    "yup": "^0.32.11",
+    "expo-secure-store": "~11.0.3"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9"

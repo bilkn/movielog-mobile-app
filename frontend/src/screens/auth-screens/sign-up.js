@@ -62,13 +62,13 @@ const SignUp = ({ navigation }) => {
               </View>
               <View style={{ marginTop: 15 }}>
                 <CommonTextInput
-                  label="Confirm password"
-                  value={values.confirmPassword}
-                  onChangeText={handleChange("confirmPassword")}
-                  error={errors.confirmPassword}
+                  label="Confirm Password"
+                  value={values.passwordConfirm}
+                  onChangeText={handleChange("passwordConfirm")}
+                  error={errors.passwordConfirm}
                   secureTextEntry
-                  touched={touched.confirmPassword}
-                  onBlur={handleBlur("confirmPassword")}
+                  touched={touched.passwordConfirm}
+                  onBlur={handleBlur("passwordConfirm")}
                 />
               </View>
               <View>
