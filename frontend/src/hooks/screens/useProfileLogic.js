@@ -1,19 +1,19 @@
 import { useFormik } from "formik";
 import { Alert } from "react-native";
-import { useMutation, useQuery } from "react-query";
-import { useUser } from "..";
-import axiosAuthInstance from "../../api/axiosAuth";
+import { useMutation } from "react-query";
+import { useAxios, useUser } from "..";
 import { populateFieldErrors } from "../../helpers";
 import { updateProfileSchema } from "../../validations/authValidation";
 
 function useProfileLogic() {
-  const { signOut } = useUser();
+  const { signOut, setUser } = useUser();
+  const { axiosInstance } = useAxios();
   const updateProfileRequest = (data) => {
-    return axiosAuthInstance.patch("/update-profile", data);
+    return axiosInstance.patch("/update-profile", data);
   };
 
   /*   const getUserInfoRequest = (data) => {
-    return axiosAuthInstance;
+    return axiosInstance;
   }; */
 
   const updateProfileHandler = (values) => {

@@ -1,14 +1,13 @@
 import { SCREENS } from "../../constants/screens";
 import { useMutation } from "react-query";
-import { useUser } from "..";
+import { useAxios, useUser } from "..";
 import { useFormik } from "formik";
 import { signUpSchema } from "../../validations/authValidation";
 import { populateFieldErrors } from "../../helpers";
-import axiosAuthInstance from "../../api/axiosAuth";
 
 function useSignUpLogic({ navigation }) {
   const { setUser } = useUser();
-
+  const { axiosInstance } = useAxios({ base: "auth" });
   const submitHandler = (values) => {
     signUp(values);
   };
@@ -33,7 +32,7 @@ function useSignUpLogic({ navigation }) {
   });
 
   const signUpRequest = (data) => {
-    return axiosAuthInstance.post("/signup", data);
+    return axiosInstance.post("/signup", data);
   };
 
   const storeTokens = async (tokens) => {

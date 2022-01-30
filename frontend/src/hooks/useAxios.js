@@ -1,23 +1,30 @@
 import axios from "axios";
+import { useMemo } from "react";
 import { useSecureStore, useUser } from ".";
 
-const baseURL = process.env.REACT_APP_AUTH_BASE_URL;
+const apiBaseURL = process.env.REACT_APP_API_BASE_URL;
+const authBaseURL = process.env.REACT_APP_AUTH_BASE_URL;
 
-const axiosAuthInstance = axios.create({
-  baseURL,
-  timeout: 10000,
-});
-
-function useAuthAxios() {
+function useAxios(options) {
+  const { base } = options || {};
   const { signOut, setUser } = useUser();
   const secureStore = useSecureStore();
+
+  const axiosInstance = useMemo(
+    () =>
+      axios.create({
+        baseURL: base === "auth" ? authBaseURL : apiBaseURL,
+        timeout: 10000,
+      }),
+    [base]
+  );
 
   const refreshTokens = async () => {
     const { refreshToken } = secureStore.getValueFor("tokens");
 
     if (refreshToken) {
       try {
-        const data = await axiosAuthInstance.post("/token", { refreshToken });
+        const data = await axiosInstance.post("/token", { refreshToken });
         console.log(data);
         await secureStore.save();
         setUser(data);
@@ -33,13 +40,13 @@ function useAuthAxios() {
     try {
       const { accessToken } = await refreshTokens();
       config.headers.authorization = `Bearer ${accessToken}`;
-      axiosAuthInstance.request(config);
+      axiosInstance.request(config);
     } catch (err) {
       console.log(e);
     }
   };
 
-  axiosAuthInstance.interceptors.response.use(
+  axiosInstance.interceptors.response.use(
     (response) => response,
     (error) => {
       const { response, request } = error;
@@ -72,7 +79,7 @@ function useAuthAxios() {
     }
   );
 
-  return { axiosAuthInstance };
+  return { axiosInstance };
 }
 
-export default useAuthAxios;
+export default useAxios;

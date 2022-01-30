@@ -31,8 +31,8 @@ function findUserByEmail(email) {
   return UserAuthModel.findOne({ email });
 }
 
-function findUserByUsername(username) {
-  return UserAuthModel.findOne({ username });
+function findUserByUsername(username, options) {
+  return UserAuthModel.findOne({ username }, options);
 }
 
 function updateProfile(id, newEmail, newUsername) {
