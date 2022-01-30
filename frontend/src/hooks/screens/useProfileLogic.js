@@ -1,8 +1,57 @@
-import React from "react";
+import { useFormik } from "formik";
 import { Alert } from "react-native";
+import { useMutation, useQuery } from "react-query";
+import { useUser } from "..";
+import axiosAuthInstance from "../../api/axiosAuth";
+import { populateFieldErrors } from "../../helpers";
+import { updateProfileSchema } from "../../validations/authValidation";
 
-function useProfileLogic(props) {
-  const { values, errors, validateField } = props;
+function useProfileLogic() {
+  const { signOut } = useUser();
+  const updateProfileRequest = (data) => {
+    return axiosAuthInstance.patch("/update-profile", data);
+  };
+
+  /*   const getUserInfoRequest = (data) => {
+    return axiosAuthInstance;
+  }; */
+
+  const updateProfileHandler = (values) => {
+    updateProfile(values);
+  };
+
+  const {
+    handleChange,
+    handleSubmit,
+    handleBlur,
+    validateField,
+    values,
+    errors,
+    touched,
+  } = useFormik({
+    initialValues: { username: "", email: "", password: "" },
+    onSubmit: updateProfileHandler,
+    validationSchema: updateProfileSchema,
+  });
+
+  const { mutate: updateProfile, isLoading } = useMutation(
+    updateProfileRequest,
+    {
+      onSuccess: (res) => {
+        if (res?.data) {
+          const { accessToken, refreshToken } = res.data;
+          if (accessToken && refreshToken) {
+            setUser(res.data);
+            storeTokens(res.data);
+          }
+        }
+      },
+      onError: (error) => {
+        console.log(error);
+        populateFieldErrors(error, setFieldError);
+      },
+    }
+  );
 
   const showDeleteDataAlert = () => {
     Alert.alert(
@@ -57,12 +106,20 @@ function useProfileLogic(props) {
     showDeleteAccountAlert();
   };
 
+  const handleSignOut = () => {
+    signOut();
+  };
+
   const handlers = {
     handleDeleteData,
     handleDeleteAccount,
+    handleSignOut,
+    handleChange,
+    handleSubmit,
+    handleBlur,
   };
 
-  return { handlers };
+  return { handlers, values, errors, touched, isLoading };
 }
 
 export default useProfileLogic;

@@ -12,7 +12,7 @@ const axiosAuthInstance = axios.create({
   timeout: 10000,
 });
 
-axiosAuthInstance.interceptors.response.use(
+/* axiosAuthInstance.interceptors.response.use(
   (response) => response,
   (error) => {
     const { response, request } = error;
@@ -38,6 +38,6 @@ axiosAuthInstance.interceptors.response.use(
     console.log("reject it");
     return Promise.reject(error);
   }
-);
+); */
 
 export default axiosAuthInstance;
