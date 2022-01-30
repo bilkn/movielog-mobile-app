@@ -36,9 +36,23 @@ function useSignUpLogic({ navigation }) {
     return axiosAuthInstance.post("/signup", data);
   };
 
+  const storeTokens = async (tokens) => {
+    try {
+      await secureStore.save("tokens", tokens);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   const { mutate: signUp, isLoading } = useMutation(signUpRequest, {
-    onSuccess: (data) => {
-      data && setUser(data.data);
+    onSuccess: (res) => {
+      if (res?.data) {
+        const { accessToken, refreshToken } = res.data;
+        if (accessToken && refreshToken) {
+          setUser(res.data);
+          storeTokens(res.data);
+        }
+      }
     },
     onError: (error) => {
       populateFieldErrors(error, setFieldError);

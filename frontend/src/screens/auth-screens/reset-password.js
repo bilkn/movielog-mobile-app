@@ -57,7 +57,7 @@ function ResetPassword() {
                 style={{ marginTop: 30 }}
                 loading={isLoading}
               >
-                Reset Password
+                Change Password
               </CustomButton>
               <CustomButton onPress={handleBackToSignInPress} variant="text">
                 Back To Sign In

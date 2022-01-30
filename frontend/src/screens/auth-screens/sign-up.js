@@ -62,7 +62,7 @@ const SignUp = ({ navigation }) => {
               </View>
               <View style={{ marginTop: 15 }}>
                 <CommonTextInput
-                  label="Confirm password"
+                  label="Confirm Password"
                   value={values.passwordConfirm}
                   onChangeText={handleChange("passwordConfirm")}
                   error={errors.passwordConfirm}

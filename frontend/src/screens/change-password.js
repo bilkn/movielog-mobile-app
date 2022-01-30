@@ -1,15 +1,15 @@
-import { View, Text } from "react-native";
+import { View } from "react-native";
 import React from "react";
 import { useTheme } from "@react-navigation/native";
-import { CustomButton, MainLayout, Typography } from "../components";
+import { CustomButton, MainLayout } from "../components";
 import { Formik } from "formik";
 import { CommonTextInput } from "../components/form";
 import { useChangePasswordLogic } from "../hooks/";
-import { changePasswordSchema } from "../validations/authValidation";
 
 const ChangePassword = () => {
-  const { handlers } = useChangePasswordLogic();
-  const { handleSubmit } = handlers;
+  const { handlers, values, errors, touched, isLoading } =
+    useChangePasswordLogic();
+  const { handleSubmit, handleChange, handleBlur } = handlers;
   const { colors } = useTheme();
 
   return (
@@ -20,60 +20,57 @@ const ChangePassword = () => {
       }}
     >
       <View style={{ alignItems: "center" }}>
-        <Formik
-          initialValues={{
-            password: "",
-            newPassword: "",
-            newPasswordConfirm: "",
-          }}
-          onSubmit={handleSubmit}
-          validationSchema={changePasswordSchema}
-        >
-          {({ values, errors, handleChange, handleSubmit }) => (
-            <View
-              style={{
-                alignItems: "center",
-                paddingHorizontal: 20,
-              }}
-            >
-              <View>
-                <CommonTextInput
-                  label="Password"
-                  value={values.password}
-                  onChangeText={handleChange("password")}
-                  error={errors.password}
-                  secureTextEntry
-                />
-              </View>
-              <View style={{ marginTop: 15 }}>
-                <CommonTextInput
-                  label="New password"
-                  value={values.newPassword}
-                  onChangeText={handleChange("newPassword")}
-                  error={errors.newPassword}
-                  secureTextEntry
-                />
-              </View>
-              <View style={{ marginTop: 15 }}>
-                <CommonTextInput
-                  label="Confirm new password"
-                  value={values.newPasswordConfirm}
-                  onChangeText={handleChange("newPasswordConfirm")}
-                  error={errors.newPasswordConfirm}
-                  secureTextEntry
-                />
-              </View>
-              <View>
-                <CustomButton
-                  onPress={handleSubmit}
-                  variant="primary"
-                  style={{ marginTop: 30 }}
-                >
-                  Change Password
-                </CustomButton>
-              </View>
+        <Formik>
+          <View
+            style={{
+              alignItems: "center",
+              paddingHorizontal: 20,
+            }}
+          >
+            <View>
+              <CommonTextInput
+                label="Current Password"
+                value={values.password}
+                onChangeText={handleChange("password")}
+                error={errors.password}
+                touched={touched.password}
+                onBlur={handleBlur}
+                secureTextEntry
+              />
             </View>
-          )}
+            <View style={{ marginTop: 15 }}>
+              <CommonTextInput
+                label="New Password"
+                value={values.newPassword}
+                onChangeText={handleChange("newPassword")}
+                error={errors.newPassword}
+                touched={touched.newPassword}
+                onBlur={handleBlur}
+                secureTextEntry
+              />
+            </View>
+            <View style={{ marginTop: 15 }}>
+              <CommonTextInput
+                label="Confirm New Password"
+                value={values.newPasswordConfirm}
+                onChangeText={handleChange("newPasswordConfirm")}
+                error={errors.newPasswordConfirm}
+                touched={touched.newPasswordConfirm}
+                onBlur={handleBlur}
+                secureTextEntry
+              />
+            </View>
+            <View>
+              <CustomButton
+                onPress={handleSubmit}
+                variant="primary"
+                style={{ marginTop: 30 }}
+                loading={isLoading}
+              >
+                Change Password
+              </CustomButton>
+            </View>
+          </View>
         </Formik>
       </View>
     </MainLayout>

@@ -10,7 +10,7 @@ function useResetPasswordLogic() {
   const navigate = useNavigation();
 
   const resetPasswordRequest = (data) => {
-    return axiosAuthInstance.post("/reset", data);
+    return axiosAuthInstance.patch("/reset", data);
   };
 
   const submitHandler = (values) => {
