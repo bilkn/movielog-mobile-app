@@ -34,7 +34,7 @@ const ChangePassword = () => {
                 onChangeText={handleChange("password")}
                 error={errors.password}
                 touched={touched.password}
-                onBlur={handleBlur}
+                onBlur={handleBlur('password')}
                 secureTextEntry
               />
             </View>
@@ -45,7 +45,7 @@ const ChangePassword = () => {
                 onChangeText={handleChange("newPassword")}
                 error={errors.newPassword}
                 touched={touched.newPassword}
-                onBlur={handleBlur}
+                onBlur={handleBlur('newPassword')}
                 secureTextEntry
               />
             </View>
@@ -56,7 +56,7 @@ const ChangePassword = () => {
                 onChangeText={handleChange("newPasswordConfirm")}
                 error={errors.newPasswordConfirm}
                 touched={touched.newPasswordConfirm}
-                onBlur={handleBlur}
+                onBlur={handleBlur('newPasswordConfirm')}
                 secureTextEntry
               />
             </View>

@@ -1,16 +1,17 @@
 import { useFormik } from "formik";
 import { useMutation } from "react-query";
-import { useUser } from "..";
-import axiosAuthInstance from "../../api/axiosAuth";
+import { useAxios, useSecureStore, useUser } from "..";
 import { SCREENS } from "../../constants/screens";
-import { populateFieldErrors, secureStore } from "../../helpers";
+import { populateFieldErrors } from "../../helpers";
 import { signInSchema } from "../../validations/authValidation";
 
 function useSignInLogic({ navigation }) {
+  const secureStore = useSecureStore();
+  const { axiosInstance } = useAxios({ base: "auth" });
   const { setUser } = useUser();
 
   const signInRequest = (data) => {
-    return axiosAuthInstance.post("/signin", data);
+    return axiosInstance.post("/signin", data);
   };
 
   const submitHandler = (values) => {

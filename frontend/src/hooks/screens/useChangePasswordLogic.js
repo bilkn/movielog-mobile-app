@@ -1,20 +1,19 @@
 import { useFormik } from "formik";
 import { useMutation } from "react-query";
-import { useUser } from "..";
-import axiosAuthInstance from "../../api/axiosAuth";
+import { useAxios, useUser } from "..";
 import { populateFieldErrors } from "../../helpers";
 import { changePasswordSchema } from "../../validations/authValidation";
 
 function useChangePasswordLogic() {
   const { user } = useUser();
-
+  const { axiosInstance } = useAxios({ base: "auth" });
   // TODO: Handle access token expiration.
 
   const changePasswordRequest = (data) => {
-    console.log(user.accessToken)
-    return axiosAuthInstance.patch("/change-password", data, {
+    console.log(user.accessToken);
+    return axiosInstance.patch("/change-password", data, {
       headers: {
-        // BACKLOG: If access token is expired, user.accessToken won't be refreshed. 
+        // BACKLOG: If access token is expired, user.accessToken won't be refreshed.
         Authorization: `Bearer ${user.accessToken}`,
       },
     });

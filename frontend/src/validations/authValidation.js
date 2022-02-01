@@ -54,7 +54,6 @@ const changePasswordSchema = yup.object({
 });
 
 const updateProfileSchema = yup.object({
-  password: sharedPasswordValidaton,
   username: yup
     .string()
     .required("Username field must not be empty!")
@@ -63,6 +62,7 @@ const updateProfileSchema = yup.object({
       "A username can only contain alphanumeric characters (letters A-Z, numbers 0-9) with the exception of underscores."
     ),
   email: sharedEmailValidation,
+  password: sharedPasswordValidaton,
 });
 
 export {

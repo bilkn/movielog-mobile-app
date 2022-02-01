@@ -1,16 +1,17 @@
 import { useNavigation } from "@react-navigation/native";
 import { useFormik } from "formik";
 import { useMutation } from "react-query";
-import axiosAuthInstance from "../../api/axiosAuth";
+import { useAxios } from "..";
 import { SCREENS } from "../../constants/screens";
 import { populateFieldErrors } from "../../helpers";
 import { resetPasswordSchema } from "../../validations/authValidation";
 
 function useResetPasswordLogic() {
+  const { axiosInstance } = useAxios();
   const navigate = useNavigation();
 
   const resetPasswordRequest = (data) => {
-    return axiosAuthInstance.patch("/reset", data);
+    return axiosInstance.patch("/reset", data);
   };
 
   const submitHandler = (values) => {

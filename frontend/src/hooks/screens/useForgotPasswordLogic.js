@@ -1,10 +1,12 @@
 import { useFormik } from "formik";
 import { useMutation } from "react-query";
-import axiosAuthInstance from "../../api/axiosAuth";
+import { useAxios } from "..";
 import { populateFieldErrors } from "../../helpers";
 import { forgotPasswordSchema } from "../../validations/authValidation";
 
 function useForgotPasswordLogic({ navigation }) {
+  const { axiosInstance } = useAxios({ base: "auth" });
+
   const submitHandler = (values) => {
     sendResetEmail(values);
   };
@@ -26,7 +28,7 @@ function useForgotPasswordLogic({ navigation }) {
   });
 
   const forgotPasswordRequest = (data) => {
-    return axiosAuthInstance.post("/forgot-password", data);
+    return axiosInstance.post("/forgot-password", data);
   };
 
   const { mutate: sendResetEmail, isLoading } = useMutation(

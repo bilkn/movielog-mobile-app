@@ -1,12 +1,6 @@
 import { useTheme } from "@react-navigation/native";
 import React, { useState } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  VirtualizedList,
-  Pressable,
-} from "react-native";
+import { View, StyleSheet, VirtualizedList, Pressable } from "react-native";
 import { Icon } from "../assets/icon";
 import {
   IconButton,
@@ -35,7 +29,7 @@ const ListTabs = (props) => {
           color={list.showWatchList ? colors.ternary : colors.text}
           variant="subtitle"
         >
-          Watched
+          Watch List
         </Typography>
       </Pressable>
       <Pressable
@@ -46,7 +40,7 @@ const ListTabs = (props) => {
           color={list.showWatchedList ? colors.ternary : colors.text}
           variant="subtitle"
         >
-          Watchlist
+          Watched List
         </Typography>
       </Pressable>
     </View>

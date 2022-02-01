@@ -6,18 +6,20 @@ import { Formik, useFormik } from "formik";
 import FullWidthButton from "../components/button/full-width-button";
 import { ScrollView } from "react-native-gesture-handler";
 import { SCREENS } from "../constants/screens";
-import { updateProfileSchema } from "../validations/authValidation";
 import { useProfileLogic } from "../hooks";
 
 const Profile = ({ navigation }) => {
-  const { handleChange, handleSubmit, validateField, values, errors } =
-    useFormik({
-      initialValues: { username: "", email: "", password: "" },
-      onSubmit: (values) => console.log(values),
-      validationSchema: updateProfileSchema,
-    });
-  const { handlers } = useProfileLogic({ values, errors, validateField });
-  const { handleDeleteAccount, handleDeleteData } = handlers;
+  const { handlers, values, errors, touched, isLoading, userInfo } =
+    useProfileLogic();
+
+  const {
+    handleDeleteAccount,
+    handleDeleteData,
+    handleSignOut,
+    handleChange,
+    handleBlur,
+    handleSubmit,
+  } = handlers;
 
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
@@ -28,17 +30,21 @@ const Profile = ({ navigation }) => {
               <View>
                 <CommonTextInput
                   onChangeText={handleChange("username")}
-                  value={values.username}
+                  value={values.username || userInfo?.username}
                   label="Username"
                   error={errors.username}
+                  touched={touched.username}
+                  onBlur={handleBlur("username")}
                 />
               </View>
               <View style={{ marginTop: 15 }}>
                 <CommonTextInput
                   onChangeText={handleChange("email")}
-                  value={values.email}
+                  value={values.email || userInfo?.email}
                   label="Email"
                   error={errors.email}
+                  touched={touched.email}
+                  onBlur={handleBlur("email")}
                 />
               </View>
               <View style={{ marginTop: 15 }}>
@@ -47,12 +53,15 @@ const Profile = ({ navigation }) => {
                   value={values.password}
                   label="Password"
                   error={errors.password}
+                  touched={touched.password}
+                  onBlur={handleBlur("password")}
                 />
               </View>
               <CustomButton
                 style={{ marginTop: 25 }}
                 variant="secondary"
                 onPress={handleSubmit}
+                loading={isLoading}
               >
                 Save changes
               </CustomButton>
@@ -72,8 +81,11 @@ const Profile = ({ navigation }) => {
         <FullWidthButton variant="important" onPress={handleDeleteAccount}>
           Delete my account
         </FullWidthButton>
-        <FullWidthButton style={{ borderBottomWidth: 0 }}>
-          Logout
+        <FullWidthButton
+          onPress={handleSignOut}
+          style={{ borderBottomWidth: 0 }}
+        >
+          Sign out
         </FullWidthButton>
       </View>
     </ScrollView>
