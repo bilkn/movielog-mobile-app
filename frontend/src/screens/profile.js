@@ -9,7 +9,8 @@ import { SCREENS } from "../constants/screens";
 import { useProfileLogic } from "../hooks";
 
 const Profile = ({ navigation }) => {
-  const { handlers, values, errors, touched, isLoading } = useProfileLogic();
+  const { handlers, values, errors, touched, isLoading, userInfo } =
+    useProfileLogic();
 
   const {
     handleDeleteAccount,
@@ -29,7 +30,7 @@ const Profile = ({ navigation }) => {
               <View>
                 <CommonTextInput
                   onChangeText={handleChange("username")}
-                  value={values.username}
+                  value={values.username || userInfo?.username}
                   label="Username"
                   error={errors.username}
                   touched={touched.username}
@@ -39,7 +40,7 @@ const Profile = ({ navigation }) => {
               <View style={{ marginTop: 15 }}>
                 <CommonTextInput
                   onChangeText={handleChange("email")}
-                  value={values.email}
+                  value={values.email || userInfo?.email}
                   label="Email"
                   error={errors.email}
                   touched={touched.email}

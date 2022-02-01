@@ -1,6 +1,6 @@
 import { useFormik } from "formik";
 import { Alert } from "react-native";
-import { useMutation } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import { useAxios, useUser } from "..";
 import { populateFieldErrors } from "../../helpers";
 import { updateProfileSchema } from "../../validations/authValidation";
@@ -8,17 +8,29 @@ import { updateProfileSchema } from "../../validations/authValidation";
 function useProfileLogic() {
   const { signOut, setUser } = useUser();
   const { axiosInstance } = useAxios();
+
   const updateProfileRequest = (data) => {
     return axiosInstance.patch("/update-profile", data);
   };
 
-  /*   const getUserInfoRequest = (data) => {
-    return axiosInstance;
-  }; */
+  const getUserInfoRequest = () => {
+    return axiosInstance.get("/user?include=email");
+  };
 
   const updateProfileHandler = (values) => {
     updateProfile(values);
   };
+
+  const { data } = useQuery("userInfo", getUserInfoRequest, {
+    onError: () => {
+      // TODO: Add error handling.
+    },
+    onSettled: () => {
+      console.log("settled");
+    },
+    retry: false,
+  });
+  const { data: userInfo } = data || {};
 
   const {
     handleChange,
@@ -29,7 +41,12 @@ function useProfileLogic() {
     errors,
     touched,
   } = useFormik({
-    initialValues: { username: "", email: "", password: "" },
+    enableReinitialize: true,
+    initialValues: {
+      username: userInfo?.username || "",
+      email: userInfo?.email || "",
+      password: "",
+    },
     onSubmit: updateProfileHandler,
     validationSchema: updateProfileSchema,
   });
@@ -119,7 +136,7 @@ function useProfileLogic() {
     handleBlur,
   };
 
-  return { handlers, values, errors, touched, isLoading };
+  return { handlers, values, errors, touched, isLoading, userInfo };
 }
 
 export default useProfileLogic;
