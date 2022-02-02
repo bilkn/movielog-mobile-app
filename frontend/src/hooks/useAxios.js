@@ -22,15 +22,21 @@ function useAxios(options) {
   const refreshTokens = useCallback(async () => {
     try {
       const { refreshToken } = await secureStore.getValueFor("tokens");
+
       if (!refreshToken) return;
-      const data = await axiosInstance.post("/token", {
-        token: refreshToken,
-      });
-      await secureStore.save();
+      const { data } = await axiosInstance.post(
+        "/token",
+        {
+          token: refreshToken,
+        },
+        { baseURL: authBaseURL }
+      );
+      if (!data) return;
+
+      await secureStore.save("tokens", data);
       setUser(data);
       return data;
     } catch (err) {}
-    // TODO: Store new tokens into the secureStore and userState.
   }, []);
 
   const retryRequestByFreshTokens = useCallback(async (config) => {
@@ -39,11 +45,13 @@ function useAxios(options) {
       if (!accessToken) return;
 
       config.headers.authorization = `Bearer ${accessToken}`;
-      return axiosInstance.request(config);
+      return axios.request(config);
     } catch (err) {
       console.log(e);
     }
   }, []);
+
+  // TODO: Add connection interceptor to prevent unnecessary requests.
 
   axiosInstance.interceptors.response.use(
     (response) => {
@@ -61,18 +69,16 @@ function useAxios(options) {
 
       if (response) {
         const { status } = response;
-
-        // TODO: Send refresh token request.
-
         if (response?.data.expired) {
           console.log("EXPIRED");
-          /*    const { config } = error;
+          const { config } = error;
           try {
             const data = config && (await retryRequestByFreshTokens(config));
-            if (data?.data) return data.data;
+            console.log("DATA BABY", data?.data);
+            if (data?.data) return data;
           } catch (err) {
             console.log(err);
-          } */
+          }
         }
 
         // TODO: If timeout show timeout error.
