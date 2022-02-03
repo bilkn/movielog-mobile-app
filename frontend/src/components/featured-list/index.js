@@ -18,7 +18,9 @@ const Card = ({ item, navigation }) => {
   return (
     <Pressable onPress={handleCardPress} style={styles.cardButton}>
       <ImageBackground
-        source={item.poster}
+        source={{
+          uri: `${process.env.REACT_APP_POSTER_API_URL}/w300${item.poster}`,
+        }}
         resizeMode="contain"
         style={styles.cardBackground}
         imageStyle={styles.cardImage}
@@ -27,8 +29,10 @@ const Card = ({ item, navigation }) => {
   );
 };
 
-const FeaturedList = ({ navigation }) => {
+const FeaturedList = (props) => {
+  const { featuredMovies, navigation } = props;
   const carouselRef = useRef(null);
+
   return (
     <SafeAreaView style={styles.container}>
       <Carousel
@@ -37,7 +41,7 @@ const FeaturedList = ({ navigation }) => {
         autoplayDelay={5000}
         autoplayInterval={5000}
         ref={carouselRef}
-        data={mockFeaturedMovies}
+        data={featuredMovies}
         renderItem={({ item }) => <Card item={item} navigation={navigation} />}
         itemHeight={250}
         sliderWidth={screenWidth}

@@ -8,6 +8,7 @@ import {
   MainLayout,
   Typography,
 } from "../components";
+import useHomeLogic from "../hooks/screens/useHomeLogic";
 
 const commonHeadingStyle = {
   flexDirection: "row",
@@ -28,6 +29,9 @@ const styles = StyleSheet.create({
 const lightTitleProps = { style: { fontWeight: "300" }, variant: "titleLight" };
 
 const Home = ({ navigation }) => {
+  const { featuredMovies } = useHomeLogic();
+  console.log(featuredMovies);
+
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
       <MainLayout style={{ marginBottom: 0 }}>
@@ -56,7 +60,7 @@ const Home = ({ navigation }) => {
           <Typography {...lightTitleProps}>Movies</Typography>
         </View>
       </View>
-      <FeaturedList navigation={navigation} />
+      <FeaturedList featuredMovies={featuredMovies} navigation={navigation} />
     </ScrollView>
   );
 };
