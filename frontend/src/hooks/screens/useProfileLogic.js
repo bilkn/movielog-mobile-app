@@ -20,7 +20,7 @@ function useProfileLogic() {
 
   const { data } = useQuery(
     "userInfo",
-    async () => api.getUserInfoRequest(axiosInstance, ["email",'password']),
+    () => api.getUserInfoRequest(axiosInstance, ["email",'password']),
     {
       onError: () => {
         // TODO: Add error handling.

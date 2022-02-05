@@ -1,6 +1,7 @@
 import React from "react";
 import { useQuery } from "react-query";
 import { useAxios } from "..";
+import api from "../../api";
 
 function useHomeLogic() {
   const { axiosInstance } = useAxios();
@@ -14,9 +15,11 @@ function useHomeLogic() {
     getFeaturedMoviesRequest
   );
 
+  const { data: { data: { username } = {} } = {} } = useQuery("user", () =>
+    api.getUserInfoRequest(axiosInstance)
+  );
 
-
-  return { featuredMovies, isLoading };
+  return { featuredMovies, isLoading,username };
 }
 
 export default useHomeLogic;
