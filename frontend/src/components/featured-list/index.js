@@ -9,9 +9,9 @@ const { width: screenWidth } = Dimensions.get("window");
 
 const Card = ({ item, navigation }) => {
   const handleCardPress = () => {
-    navigation.navigate(SCREENS.MOVIE_DETAIL);
+    navigation.navigate(SCREENS.MOVIE_DETAIL, { movieID: item.id });
   };
-/*   const [isImageLoading, setIsImageLoading] = useState(true); */
+  /*   const [isImageLoading, setIsImageLoading] = useState(true); */
 
   return (
     <Pressable onPress={handleCardPress} style={styles.cardButton}>

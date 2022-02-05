@@ -4,7 +4,7 @@ import { Pressable } from "react-native";
 import { styles } from "./styles";
 
 const IconButton = (props) => {
-  const { icon, onPress: pressHandler, defaultActive, style, ...rest } = props;
+  const { icon, onPress: pressHandler, defaultActive, style={}, ...rest } = props;
   const [active, setIsActive] = useState(defaultActive || false);
   const { colors } = useTheme();
 

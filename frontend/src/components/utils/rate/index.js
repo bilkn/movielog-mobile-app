@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, Pressable } from "react-native";
+import { View, Pressable } from "react-native";
 import { Entypo } from "@expo/vector-icons";
 import { useTheme } from "@react-navigation/native";
 import { styles } from "./styles";

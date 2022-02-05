@@ -27,6 +27,20 @@ function getList(id, listName) {
   return UserModel.findOne({ id }, { _id: 0, [listName]: 1 });
 }
 
+/* function getItemFromList(userID, itemID, listName) {
+  return UserModel.exists({
+    id: userID,
+    [listName]: { $elemMatch: { id: itemID } },
+  });
+} */
+
+function checkIfItemExistsInList(userID, itemID, listName) {
+  return UserModel.exists({
+    id: userID,
+    [listName]: { $elemMatch: { id: itemID } },
+  });
+}
+
 function deleteItemFromList(userID, listName, itemID) {
   return UserModel.updateOne(
     { id: userID },
@@ -42,4 +56,5 @@ module.exports = {
   getList,
   resetUserData,
   deleteItemFromList,
+  checkIfItemExistsInList
 };

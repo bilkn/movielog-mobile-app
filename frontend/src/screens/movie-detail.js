@@ -7,10 +7,7 @@ import {
   MovieTitleDetail,
   Typography,
 } from "../components";
-import Poster1 from "../assets/mock/poster-1.jpg";
-import Cast1 from "../assets/mock/cast-1.jpg";
-import Cast2 from "../assets/mock/cast-2.jpg";
-import Cast3 from "../assets/mock/cast-3.jpg";
+import useMovieDetailLogic from "../hooks/screens/useMovieDetailLogic";
 
 const styles = StyleSheet.create({
   container: {
@@ -26,6 +23,7 @@ const styles = StyleSheet.create({
   },
   titleDetail: {
     marginHorizontal: 40,
+    flexBasis: "70%",
   },
   poster: {
     borderRadius: 20,
@@ -48,28 +46,15 @@ const styles = StyleSheet.create({
   },
 });
 
-const actors = [
-  {
-    name: "Louis village",
-    img: Cast1,
-  },
-  {
-    name: "Louis villagez",
-    img: Cast2,
-  },
-  {
-    name: "Louis villagee",
-    img: Cast3,
-  },
-];
-
 const ActorCard = (props) => {
-  const { img, name, style } = props;
+  const { profile, name, style } = props;
 
   return (
     <View style={{ ...styles.smallCard, ...style, backgroundColor: "#22232D" }}>
       <Image
-        source={img}
+        source={{
+          uri: `${process.env.REACT_APP_POSTER_API_URL}/w200${profile}`,
+        }}
         style={{ height: "75%", resizeMode: "cover", width: "100%" }}
         progressiveRenderingEnabled
       />
@@ -80,37 +65,64 @@ const ActorCard = (props) => {
           justifyContent: "center",
         }}
       >
-        <Typography variant="textSmall">{name}</Typography>
+        <Typography variant="textSmall" style={{ textAlign: "center" }}>
+          {name}
+        </Typography>
       </View>
     </View>
   );
 };
 
-const MovieDetail = () => {
+const MovieDetail = ({ route }) => {
+  const { movieDetail, isLoading } = useMovieDetailLogic({ route });
+  // TODO: Add skeleton if data is loading.
+  if (isLoading) return <Typography>Loading...</Typography>;
+
+  const { cast, overview, title, releaseYear, genres, poster, rating } =
+    movieDetail;
+
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
       <MainLayout style={{ marginBottom: 0 }}>
         <View style={styles.container}>
-          <Image style={styles.poster} source={Poster1} />
+          <Image
+            style={styles.poster}
+            source={{
+              uri: `${process.env.REACT_APP_POSTER_API_URL}/w300${poster}`,
+            }}
+          />
           <View style={styles.controls}>
-            <IconButton icon={<Icon name="movie-open-check" size={22} />} />
+            <View
+              style={{
+                position: "relative",
+                left: 30,
+              }}
+            >
+              <IconButton icon={<Icon name="movie-open-check" size={22} />} />
+            </View>
             <MovieTitleDetail
               align="center"
-              title="Dredd"
-              releaseYear="2021"
-              genres={["Action", "Crime"]}
+              title={title}
+              releaseYear={releaseYear}
+              genres={genres}
+              rating={rating}
               style={styles.titleDetail}
             />
-            <IconButton icon={<Icon name="checkbox-plus" size={22} />} />
+            <View
+              style={{
+                position: "relative",
+                right: 30,
+              }}
+            >
+              <IconButton icon={<Icon name="checkbox-plus" size={22} />} />
+            </View>
           </View>
         </View>
         <View style={styles.contentContainer}>
           <View>
             <Typography variant="subtitle">Description</Typography>
             <Typography variant="body" style={{ marginTop: 10 }}>
-              In a violent, futuristic city where the police have the authority
-              to act as judge, jury and executioner, a cop teams with a trainee
-              to take down a gang that deals the reality-altering drug, SLO-MO.
+              {overview}
             </Typography>
           </View>
           <View
@@ -127,7 +139,7 @@ const MovieDetail = () => {
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={styles.castContainer}
       >
-        {actors.map((actor, i) => (
+        {cast.map((actor, i) => (
           <ActorCard
             key={actor.name}
             {...actor}
