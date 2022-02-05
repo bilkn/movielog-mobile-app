@@ -34,7 +34,7 @@ function useAxios(options) {
       if (!data) return;
 
       await secureStore.save("tokens", data);
-      setUser(data);
+      setUser((prev) => ({ ...prev, tokens: data }));
       return data;
     } catch (err) {}
   }, []);
@@ -74,7 +74,7 @@ function useAxios(options) {
           const { config } = error;
           try {
             const data = config && (await retryRequestByFreshTokens(config));
-            console.log("DATA BABY", data?.data);
+            console.log("DATA", data?.data);
             if (data?.data) return data;
           } catch (err) {
             console.log(err);
@@ -93,7 +93,7 @@ function useAxios(options) {
   );
 
   axiosInstance.interceptors.request.use((config) => {
-    const { accessToken } = user || {};
+    const { accessToken } = user?.tokens || {};
 
     if (accessToken) {
       config.headers.authorization = `Bearer ${accessToken}`;

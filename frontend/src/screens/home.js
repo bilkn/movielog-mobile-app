@@ -29,15 +29,14 @@ const styles = StyleSheet.create({
 const lightTitleProps = { style: { fontWeight: "300" }, variant: "titleLight" };
 
 const Home = ({ navigation }) => {
-  const { featuredMovies } = useHomeLogic();
-  console.log(featuredMovies);
+  const { featuredMovies, isLoading, username } = useHomeLogic();
 
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
       <MainLayout style={{ marginBottom: 0 }}>
         <View style={styles.heading}>
           <Typography variant="title">Hello </Typography>
-          <Typography {...lightTitleProps}>Bilkan!</Typography>
+          <Typography {...lightTitleProps}>{username}!</Typography>
         </View>
         <View style={{ marginTop: 20 }}>
           <Form.Searchbox />
@@ -60,7 +59,11 @@ const Home = ({ navigation }) => {
           <Typography {...lightTitleProps}>Movies</Typography>
         </View>
       </View>
-      <FeaturedList featuredMovies={featuredMovies} navigation={navigation} />
+      <FeaturedList
+        featuredMovies={featuredMovies}
+        navigation={navigation}
+        isLoading={isLoading}
+      />
     </ScrollView>
   );
 };

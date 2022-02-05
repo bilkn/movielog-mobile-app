@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
+import { useQuery } from "react-query";
 import { UserContext } from "../context";
-import { useSecureStore } from "../hooks";
+import { useAxios, useSecureStore } from "../hooks";
 
 function UserProvider(props) {
   const { children } = props;
@@ -11,7 +12,7 @@ function UserProvider(props) {
     const initUser = () => {
       secureStore
         .getValueFor("tokens")
-        .then((data) => setUser(data))
+        .then((data) => setUser({ tokens: data }))
         .catch((err) => console.log(err));
     };
 

@@ -4,6 +4,7 @@ import { useMutation, useQuery } from "react-query";
 import { useAxios, useUser } from "..";
 import { populateFieldErrors } from "../../helpers";
 import { updateProfileSchema } from "../../validations/authValidation";
+import api from "../../api";
 
 function useProfileLogic() {
   const { signOut, setUser } = useUser();
@@ -13,23 +14,23 @@ function useProfileLogic() {
     return axiosInstance.patch("/update-profile", data);
   };
 
-  const getUserInfoRequest = () => {
-    return axiosInstance.get("/user?include=email");
-  };
-
   const updateProfileHandler = (values) => {
     updateProfile(values);
   };
 
-  const { data } = useQuery("userInfo", getUserInfoRequest, {
-    onError: () => {
-      // TODO: Add error handling.
-    },
-    onSettled: () => {
-      console.log("settled");
-    },
-    retry: false,
-  });
+  const { data } = useQuery(
+    "userInfo",
+    () => api.getUserInfoRequest(axiosInstance, ["email",'password']),
+    {
+      onError: () => {
+        // TODO: Add error handling.
+      },
+      onSettled: () => {
+        console.log("settled");
+      },
+      retry: false,
+    }
+  );
   const { data: userInfo } = data || {};
 
   const {
@@ -58,7 +59,7 @@ function useProfileLogic() {
         if (res?.data) {
           const { accessToken, refreshToken } = res.data;
           if (accessToken && refreshToken) {
-            setUser(res.data);
+            setUser((prev) => ({ ...prev, tokens: res.data }));
             storeTokens(res.data);
           }
         }
