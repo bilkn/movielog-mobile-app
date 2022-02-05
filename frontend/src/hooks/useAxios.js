@@ -34,7 +34,7 @@ function useAxios(options) {
       if (!data) return;
 
       await secureStore.save("tokens", data);
-      setUser(data);
+      setUser((prev) => ({ ...prev, tokens: data }));
       return data;
     } catch (err) {}
   }, []);
@@ -93,7 +93,7 @@ function useAxios(options) {
   );
 
   axiosInstance.interceptors.request.use((config) => {
-    const { accessToken } = user || {};
+    const { accessToken } = user?.tokens || {};
 
     if (accessToken) {
       config.headers.authorization = `Bearer ${accessToken}`;

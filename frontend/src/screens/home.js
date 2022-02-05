@@ -29,8 +29,7 @@ const styles = StyleSheet.create({
 const lightTitleProps = { style: { fontWeight: "300" }, variant: "titleLight" };
 
 const Home = ({ navigation }) => {
-  const { featuredMovies } = useHomeLogic();
-  console.log(featuredMovies);
+  const { featuredMovies, isLoading } = useHomeLogic();
 
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
@@ -60,7 +59,11 @@ const Home = ({ navigation }) => {
           <Typography {...lightTitleProps}>Movies</Typography>
         </View>
       </View>
-      <FeaturedList featuredMovies={featuredMovies} navigation={navigation} />
+      <FeaturedList
+        featuredMovies={featuredMovies}
+        navigation={navigation}
+        isLoading={isLoading}
+      />
     </ScrollView>
   );
 };

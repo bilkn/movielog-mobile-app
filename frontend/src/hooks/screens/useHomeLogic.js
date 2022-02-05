@@ -14,6 +14,8 @@ function useHomeLogic() {
     getFeaturedMoviesRequest
   );
 
+
+
   return { featuredMovies, isLoading };
 }
 

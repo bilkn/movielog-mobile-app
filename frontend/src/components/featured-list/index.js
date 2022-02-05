@@ -1,13 +1,9 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { Dimensions, Pressable, ImageBackground } from "react-native";
-import Poster1 from "../../assets/mock/poster-1.jpg";
-import Poster2 from "../../assets/mock/poster-2.jpg";
-import Poster3 from "../../assets/mock/poster-3.jpg";
 import Carousel from "react-native-snap-carousel";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { styles } from "./styles";
 import { SCREENS } from "../../constants/screens";
-import { mockFeaturedMovies } from "../../mock/movies";
 
 const { width: screenWidth } = Dimensions.get("window");
 
@@ -15,6 +11,8 @@ const Card = ({ item, navigation }) => {
   const handleCardPress = () => {
     navigation.navigate(SCREENS.MOVIE_DETAIL);
   };
+/*   const [isImageLoading, setIsImageLoading] = useState(true); */
+
   return (
     <Pressable onPress={handleCardPress} style={styles.cardButton}>
       <ImageBackground

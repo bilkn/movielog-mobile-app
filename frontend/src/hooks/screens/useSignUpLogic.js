@@ -48,7 +48,7 @@ function useSignUpLogic({ navigation }) {
       if (res?.data) {
         const { accessToken, refreshToken } = res.data;
         if (accessToken && refreshToken) {
-          setUser(res.data);
+          setUser((prev) => ({ ...prev, tokens: res.data }));
           storeTokens(res.data);
         }
       }
