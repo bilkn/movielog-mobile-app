@@ -3,7 +3,15 @@ import { View, Text } from "react-native";
 import { Rate, Typography } from "..";
 
 const MovieTitleDetail = (props) => {
-  const { align, title, releaseYear, genres, rating, style, textAlign='left' } = props;
+  const {
+    align,
+    title,
+    releaseYear,
+    genres,
+    rating,
+    style,
+    textAlign = "left",
+  } = props;
   return (
     <View
       style={{
@@ -20,10 +28,14 @@ const MovieTitleDetail = (props) => {
       >
         {releaseYear}
         {" | "}
-        {genres?.map(
-          (genre, i, arr) =>
-            `${genre.name}${arr.length > 1 && i !== arr.length - 1 ? ", " : ""}`
-        )}
+        {genres
+          ? genres?.map(
+              (genre, i, arr) =>
+                `${genre.name}${
+                  arr.length > 1 && i !== arr.length - 1 ? ", " : ""
+                }`
+            )
+          : "Unknown genre"}
       </Typography>
       <Rate value={rating / 2} readonly />
     </View>

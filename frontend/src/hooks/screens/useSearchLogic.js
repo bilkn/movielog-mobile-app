@@ -1,6 +1,6 @@
 import { useFormik } from "formik";
 import React, { useEffect } from "react";
-import { useQuery } from "react-query";
+import { useInfiniteQuery } from "react-query";
 import { useAxios } from "..";
 import { useDebounce } from "use-debounce";
 
@@ -15,21 +15,25 @@ function useSearchLogic() {
   const [debouncedSearchQuery] = useDebounce(values.searchQuery, 1000);
 
   const getMoviesBySearchQueryRequest = (query) => {
-    const { queryKey } = query;
+    const { queryKey, pageParam = 1 } = query;
     const [_, { searchQuery }] = queryKey;
-    const page = 1;
-    return axiosInstance.get(`/search/?q=${searchQuery}&page=${page}`);
+    return axiosInstance.get(`/search/?q=${searchQuery}&page=${pageParam}`);
   };
 
   const {
-    data: { data: movies } = {},
+    data: { pages } = {},
     isLoading,
     refetch: getMoviesBySearchQuery,
-  } = useQuery(
-    ["searchMovieList", { searchQuery: values.searchQuery }],
+    fetchNextPage,
+  } = useInfiniteQuery(
+    ["movieList", { searchQuery: values.searchQuery }],
     getMoviesBySearchQueryRequest,
     {
-      enabled: false,
+      getNextPageParam: (lastPage) => {
+        const { total_pages = 1, page } = lastPage?.data || {};
+        console.log("TOTAL PAGES", total_pages, "CURRENT PAGE", page);
+        return page < total_pages ? page + 1 : undefined;
+      },
     }
   );
 
@@ -37,19 +41,27 @@ function useSearchLogic() {
     return handleChange("searchQuery")(value);
   };
 
+  const handleReachList = () => {
+    console.log("End of the list");
+    fetchNextPage();
+  };
+
   const handlers = {
     handleSearchQueryChange,
+    handleReachList,
   };
 
   useEffect(() => {
     if (debouncedSearchQuery) {
-      getMoviesBySearchQuery();
+      getMoviesBySearchQuery({ refetchPage: (page, index) => index === 0 });
     }
   }, [debouncedSearchQuery]);
 
   const formikValues = { searchQuery: values.searchQuery };
 
-  return { handlers, formikValues, movies,isLoading };
+  const movies = pages?.map((group) => group.data.list).flat();
+
+  return { handlers, formikValues, isLoading, movies };
 }
 
 export default useSearchLogic;

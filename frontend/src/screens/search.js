@@ -33,8 +33,8 @@ const MovieCardRenderItem = (props) => {
 
 const Search = ({ navigation }) => {
   const { handlers, formikValues, movies, isLoading } = useSearchLogic();
-  const { handleSearchQueryChange } = handlers;
-  console.log(movies);
+  const { handleSearchQueryChange, handleReachList } = handlers;
+
   return (
     <MainLayout>
       <Form.Searchbox
@@ -42,7 +42,7 @@ const Search = ({ navigation }) => {
         onChangeText={(value) => handleSearchQueryChange(value)}
         style={{ marginBottom: 30 }}
       />
-      {isLoading || !movies?.length ? (
+      {isLoading ? (
         <Typography>Loading...</Typography>
       ) : (
         <FlatList
@@ -54,6 +54,7 @@ const Search = ({ navigation }) => {
             <MovieCardRenderItem item={item} navigation={navigation} />
           )}
           contentInset={{ bottom: 60 }}
+          onEndReached={handleReachList}
         />
       )}
     </MainLayout>
