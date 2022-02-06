@@ -3,7 +3,7 @@ import { View, Text } from "react-native";
 import { Rate, Typography } from "..";
 
 const MovieTitleDetail = (props) => {
-  const { align, title, releaseYear, genres, rating, style } = props;
+  const { align, title, releaseYear, genres, rating, style, textAlign='left' } = props;
   return (
     <View
       style={{
@@ -11,12 +11,12 @@ const MovieTitleDetail = (props) => {
         ...style,
       }}
     >
-      <Typography style={{ textAlign: "center" }} variant="title">
+      <Typography style={{ textAlign }} variant="title">
         {title}
       </Typography>
       <Typography
         variant="textSmall"
-        style={{ marginTop: 5, fontWeight: "300", textAlign: "center" }}
+        style={{ marginTop: 5, fontWeight: "300", textAlign }}
       >
         {releaseYear}
         {" | "}

@@ -119,19 +119,15 @@ Form.Label = (props) => {
 };
 
 Form.Searchbox = (props) => {
-  const [value, setValue] = useState("");
   const { colors } = useTheme();
   const [isFocused, setIsFocused] = useState(false);
 
-  const handleTextChange = (value) => setValue(value);
   const toggleIsFocused = () => {
     setIsFocused(!isFocused);
   };
 
   return (
     <CommonTextInput
-      onChangeText={handleTextChange}
-      value={value}
       placeholder={isFocused ? "" : "Search"}
       onFocus={toggleIsFocused}
       onBlur={toggleIsFocused}
