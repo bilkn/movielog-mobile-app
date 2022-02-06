@@ -32,7 +32,8 @@ const MovieCardRenderItem = (props) => {
 };
 
 const Search = ({ navigation }) => {
-  const { handlers, formikValues, movies, isLoading } = useSearchLogic();
+  const { handlers, formikValues, movies, featuredMovies, isLoading } =
+    useSearchLogic();
   const { handleSearchQueryChange, handleReachList } = handlers;
 
   return (
@@ -48,7 +49,7 @@ const Search = ({ navigation }) => {
         <FlatList
           style={{ width: "100%" }}
           showsVerticalScrollIndicator={false}
-          data={movies}
+          data={movies || featuredMovies}
           initialNumToRender={4}
           renderItem={({ item }) => (
             <MovieCardRenderItem item={item} navigation={navigation} />

@@ -13,6 +13,11 @@ const getUserInfoRequest = (instance, includes) => {
   return instance.get(`/user?${includedFields}`);
 };
 
+const getFeaturedMoviesRequest = (instance) => {
+  return instance.get("/featured");
+};
+
 export default api = {
   getUserInfoRequest,
+  getFeaturedMoviesRequest
 };

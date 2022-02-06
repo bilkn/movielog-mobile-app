@@ -26,6 +26,7 @@ const MovieCardItem = (props) => {
           releaseYear={releaseYear}
           genres={genres}
           rating={rating}
+          titleProps={{ numberOfLines: 2 }}
         />
         {extraComponent ? (
           <View style={styles.controlsContainer}>{extraComponent}</View>

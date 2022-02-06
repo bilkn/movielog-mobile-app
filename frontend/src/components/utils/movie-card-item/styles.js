@@ -13,9 +13,10 @@ export const styles = StyleSheet.create({
   },
   content: {
     marginLeft: 24,
+    flex: 1,
   },
   controlsContainer: {
-    alignItems: 'center',
+    alignItems: "center",
     flexDirection: "row",
     marginTop: 20,
   },

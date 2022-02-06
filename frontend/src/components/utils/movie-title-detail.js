@@ -11,6 +11,7 @@ const MovieTitleDetail = (props) => {
     rating,
     style,
     textAlign = "left",
+    titleProps = {},
   } = props;
   return (
     <View
@@ -19,24 +20,38 @@ const MovieTitleDetail = (props) => {
         ...style,
       }}
     >
-      <Typography style={{ textAlign }} variant="title">
-        {title}
-      </Typography>
-      <Typography
-        variant="textSmall"
-        style={{ marginTop: 5, fontWeight: "300", textAlign }}
-      >
-        {releaseYear}
-        {" | "}
-        {genres
-          ? genres?.map(
-              (genre, i, arr) =>
-                `${genre.name}${
-                  arr.length > 1 && i !== arr.length - 1 ? ", " : ""
-                }`
-            )
-          : "Unknown genre"}
-      </Typography>
+      <View style={{ flexDirection: "row" }}>
+        <Typography
+          style={{ flex: 1, flexWrap: "wrap", textAlign }}
+          variant="title"
+          {...titleProps}
+        >
+          {title}
+        </Typography>
+      </View>
+      <View style={{ flexDirection: "row" }}>
+        <Typography
+          variant="textSmall"
+          style={{
+            flex: 1,
+            flexWrap: "wrap",
+            marginTop: 5,
+            fontWeight: "300",
+            textAlign,
+          }}
+        >
+          {releaseYear}
+          {" | "}
+          {genres
+            ? genres?.map(
+                (genre, i, arr) =>
+                  `${genre.name}${
+                    arr.length > 1 && i !== arr.length - 1 ? ", " : ""
+                  }`
+              )
+            : "Unknown genre"}
+        </Typography>
+      </View>
       <Rate value={rating / 2} readonly />
     </View>
   );

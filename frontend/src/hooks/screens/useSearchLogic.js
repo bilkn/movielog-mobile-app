@@ -1,8 +1,9 @@
 import { useFormik } from "formik";
 import React, { useEffect } from "react";
-import { useInfiniteQuery } from "react-query";
+import { useInfiniteQuery, useQuery } from "react-query";
 import { useAxios } from "..";
 import { useDebounce } from "use-debounce";
+import api from "../../api";
 
 function useSearchLogic() {
   const { axiosInstance } = useAxios();
@@ -15,6 +16,7 @@ function useSearchLogic() {
   const [debouncedSearchQuery] = useDebounce(values.searchQuery, 1000);
 
   const getMoviesBySearchQueryRequest = (query) => {
+    console.log("request");
     const { queryKey, pageParam = 1 } = query;
     const [_, { searchQuery }] = queryKey;
     return axiosInstance.get(`/search/?q=${searchQuery}&page=${pageParam}`);
@@ -34,7 +36,15 @@ function useSearchLogic() {
         console.log("TOTAL PAGES", total_pages, "CURRENT PAGE", page);
         return page < total_pages ? page + 1 : undefined;
       },
+      enabled: false,
     }
+  );
+
+  const {
+    data: { data: featuredMovies } = {},
+    isLoading: isLoadingFeaturedMovies,
+  } = useQuery("featuredMovies", () =>
+    api.getFeaturedMoviesRequest(axiosInstance)
   );
 
   const handleSearchQueryChange = (value) => {
@@ -43,7 +53,9 @@ function useSearchLogic() {
 
   const handleReachList = () => {
     console.log("End of the list");
-    fetchNextPage();
+    if (debouncedSearchQuery) {
+      fetchNextPage();
+    }
   };
 
   const handlers = {
@@ -61,7 +73,13 @@ function useSearchLogic() {
 
   const movies = pages?.map((group) => group.data.list).flat();
 
-  return { handlers, formikValues, isLoading, movies };
+  return {
+    handlers,
+    formikValues,
+    isLoading: isLoading || isLoadingFeaturedMovies,
+    movies,
+    featuredMovies,
+  };
 }
 
 export default useSearchLogic;

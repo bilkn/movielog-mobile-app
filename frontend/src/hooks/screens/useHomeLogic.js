@@ -7,21 +7,16 @@ function useHomeLogic() {
   const { axiosInstance } = useAxios();
   const navigation = useNavigation();
 
-
-  const getFeaturedMoviesRequest = () => {
-    return axiosInstance.get("/featured");
-  };
-
-  const { data: { data: featuredMovies } = [], isLoading } = useQuery(
+  const { data: { data: featuredMovies } = {}, isLoading } = useQuery(
     "featuredMovies",
-    getFeaturedMoviesRequest
+    () => api.getFeaturedMoviesRequest(axiosInstance)
   );
 
   const { data: { data: { username } = {} } = {} } = useQuery("user", () =>
     api.getUserInfoRequest(axiosInstance)
   );
 
-/*   const handleSearchQueryChange = (value, handleChange) => {
+  /*   const handleSearchQueryChange = (value, handleChange) => {
     console.log(value);
 
     if (value) {

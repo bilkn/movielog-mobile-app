@@ -29,7 +29,7 @@ const getFontByVariant = {
 };
 
 const Typography = (props) => {
-  const { children, variant, color, style = {} } = props;
+  const { children, variant, color, style = {}, ...rest } = props;
   return (
     <Text
       style={{
@@ -40,6 +40,7 @@ const Typography = (props) => {
         color: color || "white",
         ...style,
       }}
+      {...rest}
     >
       {children}
     </Text>
