@@ -1,3 +1,4 @@
+import { Formik } from "formik";
 import React from "react";
 import { StyleSheet, View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
@@ -39,7 +40,11 @@ const Home = ({ navigation }) => {
           <Typography {...lightTitleProps}>{username}!</Typography>
         </View>
         <View style={{ marginTop: 20 }}>
-          <Form.Searchbox />
+          <Formik initialValues={{ searchQuery: "" }}>
+            {({ values, handleChange }) => (
+              <Form.Searchbox value={values.searchQuery} />
+            )}
+          </Formik>
         </View>
         <Typography
           style={{

@@ -1,16 +1,14 @@
 import React from "react";
-import { View, VirtualizedList } from "react-native";
-import { Form, IconButton, MainLayout, MovieCardItem } from "../components";
+import { FlatList } from "react-native";
+import {
+  Form,
+  IconButton,
+  MainLayout,
+  MovieCardItem,
+  Typography,
+} from "../components";
 import { Icon } from "../assets/icon";
-import { ScrollView } from "react-native-gesture-handler";
-import { mockMovies } from "../mock/movies";
-
-const getItem = (data, index) => {
-  return {
-    id: index,
-    ...data[index],
-  };
-};
+import useSearchLogic from "../hooks/screens/useSearchLogic";
 
 const MovieCardRenderItem = (props) => {
   const { item: movie, index: i, navigation } = props;
@@ -34,22 +32,32 @@ const MovieCardRenderItem = (props) => {
 };
 
 const Search = ({ navigation }) => {
+  const { handlers, formikValues, movies, featuredMovies, isLoading } =
+    useSearchLogic();
+  const { handleSearchQueryChange, handleReachList } = handlers;
+
   return (
     <MainLayout>
-      <Form.Searchbox style={{ marginBottom: 30 }} />
-      <VirtualizedList
-        style={{ width: "100%" }}
-        showsVerticalScrollIndicator={false}
-        data={mockMovies}
-        initialNumToRender={4}
-        renderItem={({ item }) => (
-          <MovieCardRenderItem item={item} navigation={navigation} />
-        )}
-        keyExtractor={(item) => item.key}
-        getItemCount={() => mockMovies.length}
-        getItem={getItem}
-        contentInset={{ bottom: 60 }}
+      <Form.Searchbox
+        value={formikValues.searchQuery}
+        onChangeText={(value) => handleSearchQueryChange(value)}
+        style={{ marginBottom: 30 }}
       />
+      {isLoading ? (
+        <Typography>Loading...</Typography>
+      ) : (
+        <FlatList
+          style={{ width: "100%" }}
+          showsVerticalScrollIndicator={false}
+          data={movies || featuredMovies}
+          initialNumToRender={4}
+          renderItem={({ item }) => (
+            <MovieCardRenderItem item={item} navigation={navigation} />
+          )}
+          contentInset={{ bottom: 60 }}
+          onEndReached={handleReachList}
+        />
+      )}
     </MainLayout>
   );
 };

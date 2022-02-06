@@ -107,6 +107,7 @@ const MovieDetail = ({ route }) => {
               genres={genres}
               rating={rating}
               style={styles.titleDetail}
+              textAlign='center'
             />
             <View
               style={{

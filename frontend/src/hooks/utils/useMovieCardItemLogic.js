@@ -3,8 +3,8 @@ import { SCREENS } from "../../constants/screens";
 const useMovieCardItemLogic = (props) => {
   const { navigation } = props;
 
-  const handleCardPress = () => {
-    navigation.navigate(`${SCREENS.MOVIE_DETAIL}`);
+  const handleCardPress = (movieID) => {
+    navigation.navigate(SCREENS.MOVIE_DETAIL, { movieID });
   };
 
   const handlers = {
