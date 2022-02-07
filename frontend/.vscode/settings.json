@@ -8,7 +8,7 @@
         "**/Thumbs.db": true,
         "package.json": false,
         "package-lock.json": true,
-        "babel.config.js": true,
+        "babel.config.js": false,
         "app.json": true,
         ".gitignore": true,
         "node_modules": true,

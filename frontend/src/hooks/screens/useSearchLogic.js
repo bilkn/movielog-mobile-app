@@ -1,5 +1,5 @@
 import { useFormik } from "formik";
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect, useMemo } from "react";
 import { useInfiniteQuery, useQuery } from "react-query";
 import { useAxios } from "..";
 import { useDebounce } from "use-debounce";
@@ -18,6 +18,7 @@ function useSearchLogic() {
   const getMoviesBySearchQueryRequest = (query) => {
     console.log("request");
     const { queryKey, pageParam = 1 } = query;
+    console.log("PAGE PARAM", pageParam);
     const [_, { searchQuery }] = queryKey;
     return axiosInstance.get(`/search/?q=${searchQuery}&page=${pageParam}`);
   };
@@ -27,6 +28,7 @@ function useSearchLogic() {
     isLoading,
     refetch: getMoviesBySearchQuery,
     fetchNextPage,
+    isFetchingNextPage,
   } = useInfiniteQuery(
     ["movieList", { searchQuery: values.searchQuery }],
     getMoviesBySearchQueryRequest,
@@ -37,6 +39,7 @@ function useSearchLogic() {
         return page < total_pages ? page + 1 : undefined;
       },
       enabled: false,
+      retry: false,
     }
   );
 
@@ -71,7 +74,22 @@ function useSearchLogic() {
 
   const formikValues = { searchQuery: values.searchQuery };
 
-  const movies = pages?.map((group) => group.data.list).flat();
+  // Filters duplicated items caused by the third party API (tmdb).
+  // Might be refactored in the future.
+  const filterDuplicatedItems = useCallback(
+    (items) =>
+      [...new Set([...items.map((item) => JSON.stringify(item))])].map((item) =>
+        JSON.parse(item)
+      ),
+    []
+  );
+
+  const movies = useMemo(
+    () =>
+      pages?.length &&
+      filterDuplicatedItems(pages.map((group) => group.data.list).flat()),
+    [pages]
+  );
 
   return {
     handlers,
@@ -79,6 +97,7 @@ function useSearchLogic() {
     isLoading: isLoading || isLoadingFeaturedMovies,
     movies,
     featuredMovies,
+    isFetchingNextPage,
   };
 }
 
