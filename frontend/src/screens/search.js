@@ -1,20 +1,36 @@
 import React from "react";
-import { FlatList } from "react-native";
+import { FlatList, ScrollView, View } from "react-native";
 import {
   Form,
   IconButton,
   MainLayout,
   MovieCardItem,
-  Typography,
+  MovieCardItemSkeleton,
 } from "../components";
 import { Icon } from "../assets/icon";
 import useSearchLogic from "../hooks/screens/useSearchLogic";
+import { CircleFade } from "react-native-animated-spinkit";
+
+const MovieCardSkeletonList = () => {
+  return (
+    <ScrollView
+      style={{ paddingHorizontal: 20, width: "100%" }}
+      contentInset={{ bottom: 60 }}
+    >
+      {Array.from(new Array(5)).map((_, i) => (
+        <View key={i} style={{ marginTop: i !== 0 ? 30 : 0 }}>
+          <MovieCardItemSkeleton />
+        </View>
+      ))}
+    </ScrollView>
+  );
+};
 
 const MovieCardRenderItem = (props) => {
   const { item: movie, index: i, navigation } = props;
+
   return (
     <MovieCardItem
-      key={i}
       movie={movie}
       navigation={navigation}
       style={{ marginTop: i !== 0 ? 30 : 0 }}
@@ -32,33 +48,51 @@ const MovieCardRenderItem = (props) => {
 };
 
 const Search = ({ navigation }) => {
-  const { handlers, formikValues, movies, featuredMovies, isLoading } =
-    useSearchLogic();
+  const {
+    handlers,
+    formikValues,
+    movies,
+    featuredMovies,
+    isLoading,
+    isFetchingNextPage,
+  } = useSearchLogic();
   const { handleSearchQueryChange, handleReachList } = handlers;
 
   return (
-    <MainLayout>
-      <Form.Searchbox
-        value={formikValues.searchQuery}
-        onChangeText={(value) => handleSearchQueryChange(value)}
-        style={{ marginBottom: 30 }}
-      />
+    <>
+      <MainLayout style={{ marginBottom: 0 }}>
+        <Form.Searchbox
+          value={formikValues.searchQuery}
+          onChangeText={(value) => handleSearchQueryChange(value)}
+          style={{ marginBottom: 30 }}
+        />
+      </MainLayout>
       {isLoading ? (
-        <Typography>Loading...</Typography>
+        <MovieCardSkeletonList />
       ) : (
         <FlatList
-          style={{ width: "100%" }}
+          keyExtractor={({ id }) => id}
+          style={{ paddingHorizontal: 20, width: "100%" }}
           showsVerticalScrollIndicator={false}
           data={movies || featuredMovies}
           initialNumToRender={4}
-          renderItem={({ item }) => (
-            <MovieCardRenderItem item={item} navigation={navigation} />
+          renderItem={({ item, index }) => (
+            <MovieCardRenderItem
+              item={item}
+              index={index}
+              navigation={navigation}
+            />
           )}
           contentInset={{ bottom: 60 }}
           onEndReached={handleReachList}
         />
       )}
-    </MainLayout>
+      {isFetchingNextPage && (
+        <View style={{ alignItems: "center", paddingVertical: 10 }}>
+          <CircleFade color="white" size={30} />
+        </View>
+      )}
+    </>
   );
 };
 
