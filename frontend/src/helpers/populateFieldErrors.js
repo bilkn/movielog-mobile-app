@@ -1,5 +1,5 @@
-function populateFieldErrors(error,setFieldError) {
-  const { response } = error;
+function populateFieldErrors(error, setFieldError) {
+  const { response } = error || {};
   if (!response?.data) return;
 
   const { data } = response;

@@ -85,8 +85,7 @@ function useAxios(options) {
         if (status == "408") console.log("TIMEOUT");
       }
 
-      if (request) {
-      }
+
       console.log("reject it");
       return Promise.reject(error);
     }

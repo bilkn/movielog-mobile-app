@@ -1,17 +1,19 @@
 import { useFormik } from "formik";
 import { Alert } from "react-native";
-import { useMutation, useQuery } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useAxios, useUser } from "..";
 import { populateFieldErrors } from "../../helpers";
 import { updateProfileSchema } from "../../validations/authValidation";
 import api from "../../api";
 
 function useProfileLogic() {
+  const queryClient = useQueryClient();
   const { signOut, setUser } = useUser();
   const { axiosInstance } = useAxios();
+  const { axiosInstance: axiosAuthInstance } = useAxios({ base: "auth" });
 
   const updateProfileRequest = (data) => {
-    return axiosInstance.patch("/update-profile", data);
+    return axiosAuthInstance.patch("/update-profile", data);
   };
 
   const updateProfileHandler = (values) => {
@@ -20,15 +22,15 @@ function useProfileLogic() {
 
   const { data } = useQuery(
     "userInfo",
-    () => api.getUserInfoRequest(axiosInstance, ["email",'password']),
+    () => api.getUserInfoRequest(axiosInstance, ["email", "password"]),
     {
-      onError: () => {
+      onError: (error) => {
+        console.log(error);
         // TODO: Add error handling.
       },
       onSettled: () => {
         console.log("settled");
       },
-      retry: false,
     }
   );
   const { data: userInfo } = data || {};
@@ -38,6 +40,7 @@ function useProfileLogic() {
     handleSubmit,
     handleBlur,
     validateField,
+    setFieldError,
     values,
     errors,
     touched,
@@ -55,21 +58,19 @@ function useProfileLogic() {
   const { mutate: updateProfile, isLoading } = useMutation(
     updateProfileRequest,
     {
-      onSuccess: (res) => {
-        if (res?.data) {
-          const { accessToken, refreshToken } = res.data;
-          if (accessToken && refreshToken) {
-            setUser((prev) => ({ ...prev, tokens: res.data }));
-            storeTokens(res.data);
-          }
-        }
+      onSuccess: ({ data: { data } }) => {
+        console.log("result data", data);
+
+        queryClient.setQueryData("userInfo", { data });
       },
       onError: (error) => {
-        console.log(error);
+        console.log("ERROR!!");
         populateFieldErrors(error, setFieldError);
       },
     }
   );
+
+  console.log({ userInfo });
 
   const showDeleteDataAlert = () => {
     Alert.alert(
