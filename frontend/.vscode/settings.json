@@ -11,7 +11,7 @@
         "babel.config.js": false,
         "app.json": true,
         ".gitignore": true,
-        "node_modules": true,
+        "node_modules": false,
         ".vscode": true,
         ".expo-shared": true,
         ".expo": true,

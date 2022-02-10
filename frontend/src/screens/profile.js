@@ -20,7 +20,7 @@ const Profile = ({ navigation }) => {
     handleBlur,
     handleSubmit,
   } = handlers;
-
+  
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
       <MainLayout>

@@ -28,16 +28,17 @@ export default function App() {
   if (!fontsLoaded) {
     return <Text> "its loading"</Text>;
   }
+  console.log('Is stable?');
   return (
     <>
       <StatusBar style="light" />
-      <UserProvider>
-        <QueryClientProvider client={client}>
+      <QueryClientProvider client={client}>
+        <UserProvider>
           <NavigationContainer theme={MainTheme}>
             <AppScreens />
           </NavigationContainer>
-        </QueryClientProvider>
-      </UserProvider>
+        </UserProvider>
+      </QueryClientProvider>
     </>
   );
 }

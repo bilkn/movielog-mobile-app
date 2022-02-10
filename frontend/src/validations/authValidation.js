@@ -60,7 +60,10 @@ const updateProfileSchema = yup.object({
     .matches(
       /[a-zA-Z0-9_]/,
       "A username can only contain alphanumeric characters (letters A-Z, numbers 0-9) with the exception of underscores."
-    ),
+    )
+    .min(3, "Username must be at least 3 character.")
+    .max(40, "Username cannot exceed 40 character."),
+
   email: sharedEmailValidation,
   password: sharedPasswordValidaton,
 });
