@@ -114,6 +114,7 @@ const MovieDetail = ({ route }) => {
                 icon={<Icon name="movie-open-check" size={22} />}
                 onPress={handleWatchListButtonPress}
                 loading={isOperationLoading}
+                disabled={isOperationLoading}
               />
             </View>
             <MovieTitleDetail
@@ -136,6 +137,7 @@ const MovieDetail = ({ route }) => {
                 icon={<Icon name="checkbox-plus" size={22} />}
                 onPress={handleWatchedListButtonPress}
                 loading={isOperationLoading}
+                disabled={isOperationLoading}
               />
             </View>
           </View>

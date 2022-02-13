@@ -3,6 +3,7 @@ import { useQuery } from "react-query";
 import { useAxios } from "..";
 import api from "../../api";
 import { SCREENS } from "../../constants/screens";
+
 function useHomeLogic() {
   const { axiosInstance } = useAxios();
   const navigation = useNavigation();

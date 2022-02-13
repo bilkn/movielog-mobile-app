@@ -18,7 +18,7 @@ function useMovieDetailLogic({ route }) {
     getMovieDetailRequest
   );
 
-  const { loading: addMovieLoading, mutate: addMovieToTheList } = useMutation(
+  const { isLoading: addMovieLoading, mutate: addMovieToTheList } = useMutation(
     (list) => api.addMovieToTheList(axiosInstance, list, movieID),
     {
       onSuccess: ({ data: { data: booleanWatch } = {} }) => {
@@ -34,7 +34,7 @@ function useMovieDetailLogic({ route }) {
     }
   );
 
-  const { loading: removeMovieLoading, mutate: removeMovieFromTheList } =
+  const { isLoading: removeMovieLoading, mutate: removeMovieFromTheList } =
     useMutation(
       (list) => api.removeMovieFromTheList(axiosInstance, list, movieID),
       {
