@@ -2,7 +2,7 @@ import React from "react";
 import { View } from "react-native";
 import { CustomButton, MainLayout } from "../components";
 import { CommonTextInput } from "../components/form";
-import { Formik, useFormik } from "formik";
+import { Formik } from "formik";
 import FullWidthButton from "../components/button/full-width-button";
 import { ScrollView } from "react-native-gesture-handler";
 import { SCREENS } from "../constants/screens";

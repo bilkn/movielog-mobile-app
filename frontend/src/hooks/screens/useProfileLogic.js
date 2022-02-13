@@ -1,7 +1,7 @@
 import { useFormik } from "formik";
 import { Alert } from "react-native";
 import { useMutation, useQuery, useQueryClient } from "react-query";
-import { useAxios, useUser } from "..";
+import { useAxios, useSecureStore, useUser } from "..";
 import { populateFieldErrors } from "../../helpers";
 import { updateProfileSchema } from "../../validations/authValidation";
 import api from "../../api";
@@ -10,6 +10,7 @@ function useProfileLogic() {
   const queryClient = useQueryClient();
   const { signOut, setUser } = useUser();
   const { axiosInstance } = useAxios();
+  const secureStore = useSecureStore();
   const { axiosInstance: axiosAuthInstance } = useAxios({ base: "auth" });
 
   const updateProfileRequest = (data) => {
@@ -58,10 +59,12 @@ function useProfileLogic() {
   const { mutate: updateProfile, isLoading } = useMutation(
     updateProfileRequest,
     {
-      onSuccess: ({ data: { data } }) => {
-        console.log("result data", data);
-
-        queryClient.setQueryData("userInfo", { data });
+      onSuccess: async ({ data: { data } }) => {
+        const { email, username } = data;
+        const { tokens } = data;
+        await secureStore.save("tokens", tokens);
+        queryClient.setQueryData("userInfo", { data: { email, username } });
+        queryClient.setQueryData("user", { data: { username } });
       },
       onError: (error) => {
         console.log("ERROR!!");
@@ -69,8 +72,6 @@ function useProfileLogic() {
       },
     }
   );
-
-  console.log({ userInfo });
 
   const showDeleteDataAlert = () => {
     Alert.alert(
