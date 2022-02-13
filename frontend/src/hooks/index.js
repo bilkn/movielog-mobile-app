@@ -15,3 +15,8 @@ export { default as useChangePasswordLogic } from "./screens/useChangePasswordLo
 export { default as useForgotPasswordLogic } from "./screens/useForgotPasswordLogic";
 export { default as useProfileLogic } from "./screens/useProfileLogic";
 export { default as useResetPasswordLogic } from "./screens/useResetPasswordLogic";
+
+/* MUTATIONS */
+
+export { default as useAddMovieToTheList } from "./mutations/useAddMovieToTheList";
+export { default as useRemoveMovieFromTheList } from "./mutations/useRemoveMovieFromTheList";

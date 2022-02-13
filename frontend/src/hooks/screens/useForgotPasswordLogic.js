@@ -44,7 +44,6 @@ function useForgotPasswordLogic({ navigation }) {
 
   const handleGoBackPress = () => {
     navigation.goBack();
-    console.log(navigation);
   };
 
   const handlers = {

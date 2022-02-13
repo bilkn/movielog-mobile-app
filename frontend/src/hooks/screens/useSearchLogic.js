@@ -16,9 +16,7 @@ function useSearchLogic() {
   const [debouncedSearchQuery] = useDebounce(values.searchQuery, 1000);
 
   const getMoviesBySearchQueryRequest = (query) => {
-    console.log("request");
     const { queryKey, pageParam = 1 } = query;
-    console.log("PAGE PARAM", pageParam);
     const [_, { searchQuery }] = queryKey;
     return axiosInstance.get(`/search/?q=${searchQuery}&page=${pageParam}`);
   };
@@ -35,11 +33,9 @@ function useSearchLogic() {
     {
       getNextPageParam: (lastPage) => {
         const { total_pages = 1, page } = lastPage?.data || {};
-        console.log("TOTAL PAGES", total_pages, "CURRENT PAGE", page);
         return page < total_pages ? page + 1 : undefined;
       },
       enabled: false,
-      retry: false,
     }
   );
 
@@ -55,7 +51,6 @@ function useSearchLogic() {
   };
 
   const handleReachList = () => {
-    console.log("End of the list");
     if (debouncedSearchQuery) {
       fetchNextPage();
     }

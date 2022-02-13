@@ -74,7 +74,6 @@ function useAxios(options) {
           const { config } = error;
           try {
             const data = config && (await retryRequestByFreshTokens(config));
-            console.log("DATA", data?.data);
             if (data?.data) return data;
           } catch (err) {
             console.log(err);

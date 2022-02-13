@@ -74,23 +74,27 @@ const ActorCard = (props) => {
 };
 
 const MovieDetail = ({ route }) => {
-  const {
-    movieDetail,
-    handlers,
-    isLoading,
-    isOperationLoading,
-    watched,
-    willWatch,
-  } = useMovieDetailLogic({
-    route,
-  });
+  const { movieDetail, handlers, isLoading, isOperationLoading } =
+    useMovieDetailLogic({
+      route,
+    });
   // TODO: Add skeleton if data is loading.
   if (isLoading) return <Typography>Loading...</Typography>;
 
-  const { handleWatchListButtonPress, handleWatchedListButtonPress } = handlers;
+  const { addMovieToTheList, removeMovieFromTheList } = handlers;
 
-  const { cast, overview, title, releaseYear, genres, poster, rating } =
-    movieDetail;
+  const {
+    id,
+    cast,
+    overview,
+    title,
+    releaseYear,
+    genres,
+    poster,
+    rating,
+    willWatch,
+    watched,
+  } = movieDetail;
 
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
@@ -112,7 +116,11 @@ const MovieDetail = ({ route }) => {
               <IconButton
                 active={willWatch}
                 icon={<Icon name="movie-open-check" size={22} />}
-                onPress={handleWatchListButtonPress}
+                onPress={
+                  willWatch
+                    ? () => removeMovieFromTheList(["watchList", id])
+                    : () => addMovieToTheList(["watchList", id])
+                }
                 loading={isOperationLoading}
                 disabled={isOperationLoading}
               />
@@ -135,7 +143,11 @@ const MovieDetail = ({ route }) => {
               <IconButton
                 active={watched}
                 icon={<Icon name="checkbox-plus" size={22} />}
-                onPress={handleWatchedListButtonPress}
+                onPress={
+                  watched
+                    ? () => removeMovieFromTheList(["watchedList", id])
+                    : () => addMovieToTheList(["watchedList", id])
+                }
                 loading={isOperationLoading}
                 disabled={isOperationLoading}
               />
