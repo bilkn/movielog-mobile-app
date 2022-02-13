@@ -74,9 +74,20 @@ const ActorCard = (props) => {
 };
 
 const MovieDetail = ({ route }) => {
-  const { movieDetail, isLoading } = useMovieDetailLogic({ route });
+  const {
+    movieDetail,
+    handlers,
+    isLoading,
+    isOperationLoading,
+    watched,
+    willWatch,
+  } = useMovieDetailLogic({
+    route,
+  });
   // TODO: Add skeleton if data is loading.
   if (isLoading) return <Typography>Loading...</Typography>;
+
+  const { handleWatchListButtonPress, handleWatchedListButtonPress } = handlers;
 
   const { cast, overview, title, releaseYear, genres, poster, rating } =
     movieDetail;
@@ -98,7 +109,12 @@ const MovieDetail = ({ route }) => {
                 left: 30,
               }}
             >
-              <IconButton icon={<Icon name="movie-open-check" size={22} />} />
+              <IconButton
+                active={willWatch}
+                icon={<Icon name="movie-open-check" size={22} />}
+                onPress={handleWatchListButtonPress}
+                loading={isOperationLoading}
+              />
             </View>
             <MovieTitleDetail
               align="center"
@@ -107,7 +123,7 @@ const MovieDetail = ({ route }) => {
               genres={genres}
               rating={rating}
               style={styles.titleDetail}
-              textAlign='center'
+              textAlign="center"
             />
             <View
               style={{
@@ -115,7 +131,12 @@ const MovieDetail = ({ route }) => {
                 right: 30,
               }}
             >
-              <IconButton icon={<Icon name="checkbox-plus" size={22} />} />
+              <IconButton
+                active={watched}
+                icon={<Icon name="checkbox-plus" size={22} />}
+                onPress={handleWatchedListButtonPress}
+                loading={isOperationLoading}
+              />
             </View>
           </View>
         </View>

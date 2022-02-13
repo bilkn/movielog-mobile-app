@@ -1,17 +1,28 @@
 import { useTheme } from "@react-navigation/native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Pressable } from "react-native";
 import { styles } from "./styles";
 
 const IconButton = (props) => {
-  const { icon, onPress: pressHandler, defaultActive, style={}, ...rest } = props;
+  const {
+    icon,
+    onPress: pressHandler,
+    active: activeProp,
+    defaultActive,
+    style = {},
+    loading,
+    ...rest
+  } = props;
   const [active, setIsActive] = useState(defaultActive || false);
   const { colors } = useTheme();
 
   const handlePress = () => {
     pressHandler && pressHandler();
-    setIsActive(!active);
   };
+
+  useEffect(() => {
+    setIsActive(!!activeProp);
+  }, [activeProp]);
 
   return (
     <Pressable
@@ -19,9 +30,13 @@ const IconButton = (props) => {
       style={{ ...styles.iconButton, backgroundColor: colors.gray2, ...style }}
       {...rest}
     >
-      {React.cloneElement(icon, {
-        color: active ? colors.secondary : "white",
-      })}
+      {loading ? (
+        <CircleFade size={12} color="#FFF" />
+      ) : (
+        React.cloneElement(icon, {
+          color: active ? colors.secondary : "white",
+        })
+      )}
     </Pressable>
   );
 };

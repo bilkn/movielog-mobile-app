@@ -17,7 +17,15 @@ const getFeaturedMoviesRequest = (instance) => {
   return instance.get("/featured");
 };
 
+const addMovieToTheList = (instance, list, movieID) =>
+  instance.put(`/user/list/${list}?movie=${movieID}`);
+
+const removeMovieFromTheList = (instance, list, movieID) =>
+  instance.delete(`/user/list/${list}?movie=${movieID}`);
+
 export default api = {
   getUserInfoRequest,
-  getFeaturedMoviesRequest
+  getFeaturedMoviesRequest,
+  addMovieToTheList,
+  removeMovieFromTheList
 };
