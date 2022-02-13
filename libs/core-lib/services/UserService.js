@@ -37,7 +37,7 @@ function getList(id, listName) {
 function checkIfItemExistsInList(userID, itemID, listName) {
   return UserModel.exists({
     id: userID,
-    [listName]: { $elemMatch: { id: itemID } },
+    [listName]: { $elemMatch: { id: +itemID } },
   });
 }
 
@@ -56,5 +56,5 @@ module.exports = {
   getList,
   resetUserData,
   deleteItemFromList,
-  checkIfItemExistsInList
+  checkIfItemExistsInList,
 };

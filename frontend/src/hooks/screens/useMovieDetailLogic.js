@@ -1,9 +1,13 @@
-import React from "react";
 import { useQuery } from "react-query";
-import { useAxios } from "..";
+import { useAddMovieToTheList, useRemoveMovieFromTheList, useAxios } from "..";
 
 function useMovieDetailLogic({ route }) {
   const { axiosInstance } = useAxios();
+  const { isLoading: addMovieLoading, mutate: addMovieToTheList } =
+    useAddMovieToTheList();
+  const { isLoading: removeMovieLoading, mutate: removeMovieFromTheList } =
+    useRemoveMovieFromTheList();
+
   const { params } = route;
   const { movieID } = params || {};
 
@@ -14,7 +18,17 @@ function useMovieDetailLogic({ route }) {
     getMovieDetailRequest
   );
 
-  return { movieDetail, isLoading };
+  const handlers = {
+    addMovieToTheList,
+    removeMovieFromTheList,
+  };
+
+  return {
+    movieDetail,
+    isLoading,
+    handlers,
+    isOperationLoading: addMovieLoading || removeMovieLoading,
+  };
 }
 
 export default useMovieDetailLogic;

@@ -6,16 +6,16 @@
         "**/CVS": true,
         "**/.DS_Store": true,
         "**/Thumbs.db": true,
-        "package.json": false,
+        "package.json": true,
         "package-lock.json": true,
-        "babel.config.js": false,
+        "babel.config.js": true,
         "app.json": true,
         ".gitignore": true,
-        "node_modules": false,
+        "node_modules": true,
         ".vscode": true,
         ".expo-shared": true,
         ".expo": true,
-        ".env": false
+        ".env": true
     },
     "explorerExclude.backup": null
 }

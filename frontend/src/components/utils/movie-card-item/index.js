@@ -6,7 +6,8 @@ import { styles } from "./styles";
 
 const MovieCardItem = (props) => {
   const { movie, extraComponent, style, navigation } = props;
-  const { title, releaseYear, genres, poster, id, rating } = movie;
+  const { title, releaseYear, genres, poster, id, rating } =
+    movie;
   const { handlers } = useMovieCardItemLogic({ navigation });
   const { handleCardPress } = handlers;
 

@@ -28,6 +28,7 @@ const MovieCardSkeletonList = () => {
 
 const MovieCardRenderItem = (props) => {
   const { item: movie, index: i, navigation } = props;
+  const { watched, willWatch } = movie;
 
   return (
     <MovieCardItem
@@ -36,8 +37,12 @@ const MovieCardRenderItem = (props) => {
       style={{ marginTop: i !== 0 ? 30 : 0 }}
       extraComponent={
         <>
-          <IconButton icon={<Icon name="movie-open-check" size={22} />} />
           <IconButton
+            active={willWatch}
+            icon={<Icon name="movie-open-check" size={22} />}
+          />
+          <IconButton
+            active={watched}
             icon={<Icon name="checkbox-plus" size={22} />}
             style={{ marginLeft: 20 }}
           />

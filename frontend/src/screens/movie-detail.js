@@ -74,12 +74,27 @@ const ActorCard = (props) => {
 };
 
 const MovieDetail = ({ route }) => {
-  const { movieDetail, isLoading } = useMovieDetailLogic({ route });
+  const { movieDetail, handlers, isLoading, isOperationLoading } =
+    useMovieDetailLogic({
+      route,
+    });
   // TODO: Add skeleton if data is loading.
   if (isLoading) return <Typography>Loading...</Typography>;
 
-  const { cast, overview, title, releaseYear, genres, poster, rating } =
-    movieDetail;
+  const { addMovieToTheList, removeMovieFromTheList } = handlers;
+
+  const {
+    id,
+    cast,
+    overview,
+    title,
+    releaseYear,
+    genres,
+    poster,
+    rating,
+    willWatch,
+    watched,
+  } = movieDetail;
 
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
@@ -98,7 +113,17 @@ const MovieDetail = ({ route }) => {
                 left: 30,
               }}
             >
-              <IconButton icon={<Icon name="movie-open-check" size={22} />} />
+              <IconButton
+                active={willWatch}
+                icon={<Icon name="movie-open-check" size={22} />}
+                onPress={
+                  willWatch
+                    ? () => removeMovieFromTheList(["watchList", id])
+                    : () => addMovieToTheList(["watchList", id])
+                }
+                loading={isOperationLoading}
+                disabled={isOperationLoading}
+              />
             </View>
             <MovieTitleDetail
               align="center"
@@ -107,7 +132,7 @@ const MovieDetail = ({ route }) => {
               genres={genres}
               rating={rating}
               style={styles.titleDetail}
-              textAlign='center'
+              textAlign="center"
             />
             <View
               style={{
@@ -115,7 +140,17 @@ const MovieDetail = ({ route }) => {
                 right: 30,
               }}
             >
-              <IconButton icon={<Icon name="checkbox-plus" size={22} />} />
+              <IconButton
+                active={watched}
+                icon={<Icon name="checkbox-plus" size={22} />}
+                onPress={
+                  watched
+                    ? () => removeMovieFromTheList(["watchedList", id])
+                    : () => addMovieToTheList(["watchedList", id])
+                }
+                loading={isOperationLoading}
+                disabled={isOperationLoading}
+              />
             </View>
           </View>
         </View>

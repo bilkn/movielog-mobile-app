@@ -28,7 +28,6 @@ export default function App() {
   if (!fontsLoaded) {
     return <Text> "its loading"</Text>;
   }
-  console.log('Is stable?');
   return (
     <>
       <StatusBar style="light" />
