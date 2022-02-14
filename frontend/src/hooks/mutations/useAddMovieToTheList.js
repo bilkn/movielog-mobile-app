@@ -10,8 +10,11 @@ export const useMovieOperationSuccess = () => {
         data: { ...oldQueryData.data, ...data.data },
       };
     });
+    // TODO: Prevent refetch, use setQueryData.
     queryClient.invalidateQueries("movieList");
     queryClient.invalidateQueries("featuredMovies");
+    queryClient.invalidateQueries("watchList");
+    queryClient.invalidateQueries("watchedList");
   };
 };
 

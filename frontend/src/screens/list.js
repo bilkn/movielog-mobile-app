@@ -1,6 +1,12 @@
 import { useTheme } from "@react-navigation/native";
 import React, { useState } from "react";
-import { View, StyleSheet, VirtualizedList, Pressable } from "react-native";
+import {
+  View,
+  StyleSheet,
+  VirtualizedList,
+  Pressable,
+  FlatList,
+} from "react-native";
 import { Icon } from "../assets/icon";
 import {
   IconButton,
@@ -9,8 +15,11 @@ import {
   Typography,
 } from "../components";
 import { mockMovies } from "../mock/movies";
+import { useListLogic } from "../hooks";
+import { MovieCardSkeletonList } from "./search";
 
 const getItem = (data, index) => {
+  console.log(data, index);
   return {
     id: index,
     ...data[index],
@@ -18,26 +27,24 @@ const getItem = (data, index) => {
 };
 
 const ListTabs = (props) => {
-  const { list, changeTab } = props;
+  const { listTab, onTabChange } = props;
   const { colors } = useTheme();
+
   return (
     <View
       style={{ ...styles.listTabContainer, borderColor: colors.primaryBorder }}
     >
-      <Pressable style={styles.tab} onPress={() => changeTab("showWatchList")}>
+      <Pressable style={styles.tab} onPress={() => onTabChange("watchList")}>
         <Typography
-          color={list.showWatchList ? colors.ternary : colors.text}
+          color={listTab.watchList ? colors.ternary : colors.text}
           variant="subtitle"
         >
           Watch List
         </Typography>
       </Pressable>
-      <Pressable
-        style={styles.tab}
-        onPress={() => changeTab("showWatchedList")}
-      >
+      <Pressable style={styles.tab} onPress={() => onTabChange("watchedList")}>
         <Typography
-          color={list.showWatchedList ? colors.ternary : colors.text}
+          color={listTab.watchedList ? colors.ternary : colors.text}
           variant="subtitle"
         >
           Watched List
@@ -47,16 +54,10 @@ const ListTabs = (props) => {
   );
 };
 
-const initialListValues = {
-  showWatchList: true,
-  showWatchedList: false,
-};
-
 const List = ({ navigation }) => {
-  const [list, setList] = useState(initialListValues);
-  const changeTab = (tab) => {
-    setList({ showWatchList: false, showWatchedList: false, [tab]: true });
-  };
+  const { listTab, watchList, watchedList, handlers, isLoading } =
+    useListLogic();
+  const { handleTabChange, handleReachList } = handlers;
 
   const MovieCardRenderItem = (props) => {
     const { item: movie, index: i, navigation } = props;
@@ -66,11 +67,17 @@ const List = ({ navigation }) => {
         movie={movie}
         navigation={navigation}
         extraComponent={
-          list.showWatchList ? (
-            <IconButton icon={<Icon name="movie-open-check" size={22} />} />
+          listTab.watchList ? (
+            <IconButton
+              active
+              icon={<Icon name="movie-open-check" size={22} />}
+            />
           ) : (
             <>
-              <IconButton icon={<Icon name="checkbox-plus" size={22} />} />
+              <IconButton
+                active
+                icon={<Icon name="checkbox-plus" size={22} />}
+              />
               <View style={{ marginLeft: 10 }}>
                 <Typography style={{ fontSize: 12 }}>Watch date:</Typography>
                 <Typography style={{ fontSize: 12 }}>10/01/2021</Typography>
@@ -85,29 +92,36 @@ const List = ({ navigation }) => {
 
   return (
     <>
-      <ListTabs list={list} changeTab={changeTab} />
-      <MainLayout noMargin>
-        <VirtualizedList
+      <ListTabs listTab={listTab} onTabChange={handleTabChange} />
+      {isLoading ? (
+        <MovieCardSkeletonList />
+      ) : (
+        <FlatList
           showsVerticalScrollIndicator={false}
-          data={mockMovies}
+          data={listTab.watchList ? watchList : watchedList}
           initialNumToRender={4}
-          style={styles.list}
-          renderItem={({ item }) => (
-            <MovieCardRenderItem item={item} navigation={navigation} />
+          style={styles.listTab}
+          renderItem={({ item, index }) => (
+            <MovieCardRenderItem
+              index={index}
+              item={item}
+              navigation={navigation}
+            />
           )}
           keyExtractor={(item) => item.key}
-          getItemCount={() => mockMovies.length}
-          getItem={getItem}
           contentInset={{ bottom: 60 }}
+          onEndReached={handleReachList}
         />
-      </MainLayout>
+      )}
     </>
   );
 };
 
 const styles = StyleSheet.create({
-  list: {
+  listTab: {
     paddingTop: 30,
+    paddingBottom: 60,
+    paddingHorizontal: 20,
     width: "100%",
   },
   listTabContainer: {

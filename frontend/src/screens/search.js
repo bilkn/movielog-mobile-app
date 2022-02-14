@@ -11,7 +11,7 @@ import { Icon } from "../assets/icon";
 import useSearchLogic from "../hooks/screens/useSearchLogic";
 import { CircleFade } from "react-native-animated-spinkit";
 
-const MovieCardSkeletonList = () => {
+export const MovieCardSkeletonList = () => {
   return (
     <ScrollView
       style={{ paddingHorizontal: 20, width: "100%" }}

@@ -28,8 +28,8 @@ function useSignInLogic({ navigation }) {
     setFieldError,
   } = useFormik({
     initialValues: {
-      email: "enes.konus@hotmail.com",
-      password: "123456",
+      email: "",
+      password: "",
     },
     validationSchema: signInSchema,
     onSubmit: submitHandler,

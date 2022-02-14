@@ -14,6 +14,7 @@ function authenticateToken(req, res, next) {
     if (err) {
       console.log(err.name);
       if (err.name === "TokenExpiredError") {
+        console.log('ERROR SENT');
         return res
           .status(401)
           .send({ message: "Failed to get authorization!", expired: true });

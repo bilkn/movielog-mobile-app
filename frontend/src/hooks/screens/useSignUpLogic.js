@@ -23,9 +23,9 @@ function useSignUpLogic({ navigation }) {
     setTouched,
   } = useFormik({
     initialValues: {
-      email: "afsdsdf@asdf.com",
-      password: "123456",
-      passwordConfirm: "123456",
+      email: "",
+      password: "",
+      passwordConfirm: "",
     },
     onSubmit: submitHandler,
     validationSchema: signUpSchema,
