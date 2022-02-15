@@ -14,17 +14,9 @@ import {
   MovieCardItem,
   Typography,
 } from "../components";
-import { mockMovies } from "../mock/movies";
 import { useListLogic } from "../hooks";
 import { MovieCardSkeletonList } from "./search";
-
-const getItem = (data, index) => {
-  console.log(data, index);
-  return {
-    id: index,
-    ...data[index],
-  };
-};
+import Moment from "react-moment";
 
 const ListTabs = (props) => {
   const { listTab, onTabChange } = props;
@@ -80,7 +72,11 @@ const List = ({ navigation }) => {
               />
               <View style={{ marginLeft: 10 }}>
                 <Typography style={{ fontSize: 12 }}>Watch date:</Typography>
-                <Typography style={{ fontSize: 12 }}>10/01/2021</Typography>
+                  <Moment
+                    element={Typography}
+                    date={movie.watchDate}
+                    format="DD/MM/YYYY"
+                  />
               </View>
             </>
           )
