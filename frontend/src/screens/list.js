@@ -8,12 +8,7 @@ import {
   FlatList,
 } from "react-native";
 import { Icon } from "../assets/icon";
-import {
-  IconButton,
-  MainLayout,
-  MovieCardItem,
-  Typography,
-} from "../components";
+import { IconButton, MovieCardItem, Typography } from "../components";
 import { useListLogic } from "../hooks";
 import { MovieCardSkeletonList } from "./search";
 import Moment from "react-moment";
@@ -72,11 +67,11 @@ const List = ({ navigation }) => {
               />
               <View style={{ marginLeft: 10 }}>
                 <Typography style={{ fontSize: 12 }}>Watch date:</Typography>
-                  <Moment
-                    element={Typography}
-                    date={movie.watchDate}
-                    format="DD/MM/YYYY"
-                  />
+                <Moment
+                  element={Typography}
+                  date={movie.watchDate}
+                  format="DD/MM/YYYY"
+                />
               </View>
             </>
           )

@@ -24,7 +24,6 @@ function useListLogic() {
     api.getMovieList(axiosInstance, "watchedList")
   );
 
-  console.log({ watchList });
   const handleTabChange = (tab) => {
     setListTab({ watchList: false, watchedList: false, [tab]: true });
   };
