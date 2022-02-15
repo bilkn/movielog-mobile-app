@@ -15,7 +15,10 @@ function useMovieDetailLogic({ route }) {
 
   const { data: { data: movieDetail } = {}, isLoading } = useQuery(
     "movieDetail",
-    getMovieDetailRequest
+    getMovieDetailRequest,
+    {
+      onSuccess: () => console.log("AGAIN AND AGAIN"),
+    }
   );
 
   const handlers = {
@@ -27,7 +30,7 @@ function useMovieDetailLogic({ route }) {
     movieDetail,
     isLoading,
     handlers,
-    isOperationLoading: addMovieLoading || removeMovieLoading,
+    isOperationLoading: removeMovieLoading || addMovieLoading,
   };
 }
 

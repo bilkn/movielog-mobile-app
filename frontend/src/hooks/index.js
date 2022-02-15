@@ -15,6 +15,7 @@ export { default as useChangePasswordLogic } from "./screens/useChangePasswordLo
 export { default as useForgotPasswordLogic } from "./screens/useForgotPasswordLogic";
 export { default as useProfileLogic } from "./screens/useProfileLogic";
 export { default as useResetPasswordLogic } from "./screens/useResetPasswordLogic";
+export { default as useListLogic } from "./screens/useListLogic";
 
 /* MUTATIONS */
 

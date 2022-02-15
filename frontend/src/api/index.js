@@ -23,9 +23,12 @@ const addMovieToTheList = (instance, list, movieID) =>
 const removeMovieFromTheList = (instance, list, movieID) =>
   instance.delete(`/user/list/${list}?movie=${movieID}`);
 
+const getMovieList = (instance, list) => instance.get(`/user/list/${list}`);
+
 export default api = {
   getUserInfoRequest,
   getFeaturedMoviesRequest,
   addMovieToTheList,
-  removeMovieFromTheList
+  removeMovieFromTheList,
+  getMovieList,
 };

@@ -10,8 +10,9 @@ import {
 import { Icon } from "../assets/icon";
 import useSearchLogic from "../hooks/screens/useSearchLogic";
 import { CircleFade } from "react-native-animated-spinkit";
+import { useAddMovieToTheList, useRemoveMovieFromTheList } from "../hooks";
 
-const MovieCardSkeletonList = () => {
+export const MovieCardSkeletonList = () => {
   return (
     <ScrollView
       style={{ paddingHorizontal: 20, width: "100%" }}
@@ -28,7 +29,13 @@ const MovieCardSkeletonList = () => {
 
 const MovieCardRenderItem = (props) => {
   const { item: movie, index: i, navigation } = props;
-  const { watched, willWatch } = movie;
+  const {id, watched, willWatch } = movie;
+
+  const { isLoading: addMovieLoading, mutate: addMovieToTheList } =
+    useAddMovieToTheList();
+
+  const { isLoading: removeMovieLoading, mutate: removeMovieFromTheList } =
+    useRemoveMovieFromTheList();
 
   return (
     <MovieCardItem
@@ -39,11 +46,31 @@ const MovieCardRenderItem = (props) => {
         <>
           <IconButton
             active={willWatch}
-            icon={<Icon name="movie-open-check" size={22} />}
+            icon={
+              <Icon
+                name="movie-open-check"
+                size={22}
+                onPress={
+                  willWatch
+                    ? () => removeMovieFromTheList(["watchList", id])
+                    : () => addMovieToTheList(["watchList", id])
+                }
+              />
+            }
           />
           <IconButton
             active={watched}
-            icon={<Icon name="checkbox-plus" size={22} />}
+            icon={
+              <Icon
+                name="checkbox-plus"
+                size={22}
+                onPress={
+                  watched
+                    ? () => removeMovieFromTheList(["watchedList", id])
+                    : () => addMovieToTheList(["watchedList", id])
+                }
+              />
+            }
             style={{ marginLeft: 20 }}
           />
         </>

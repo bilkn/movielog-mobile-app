@@ -74,7 +74,7 @@ const ActorCard = (props) => {
 };
 
 const MovieDetail = ({ route }) => {
-  const { movieDetail, handlers, isLoading, isOperationLoading } =
+  const { movieDetail, handlers, isOperationLoading, isLoading } =
     useMovieDetailLogic({
       route,
     });
@@ -121,7 +121,6 @@ const MovieDetail = ({ route }) => {
                     ? () => removeMovieFromTheList(["watchList", id])
                     : () => addMovieToTheList(["watchList", id])
                 }
-                loading={isOperationLoading}
                 disabled={isOperationLoading}
               />
             </View>
@@ -148,7 +147,6 @@ const MovieDetail = ({ route }) => {
                     ? () => removeMovieFromTheList(["watchedList", id])
                     : () => addMovieToTheList(["watchedList", id])
                 }
-                loading={isOperationLoading}
                 disabled={isOperationLoading}
               />
             </View>
