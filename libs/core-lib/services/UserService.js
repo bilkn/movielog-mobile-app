@@ -23,8 +23,28 @@ function addItemToList(id, listName, item) {
   return UserModel.updateOne({ id }, { $addToSet: { [listName]: item } });
 }
 
-function getList(id, listName) {
-  return UserModel.findOne({ id }, { _id: 0, [listName]: 1 });
+function getList(id, listName, skip = 0) {
+  const ITEMS_PER_PAGE = 10;
+  const aggregation = [
+    {
+      $match: {
+        id,
+      },
+    },
+    {
+      $project: {
+        _id: 0,
+        [listName]: {
+          $slice: [`$${listName}`, skip, ITEMS_PER_PAGE],
+        },
+        totalPage: {
+          $ceil: { $divide: [{ $size: `$${listName}` }, ITEMS_PER_PAGE] },
+        },
+      },
+    },
+  ];
+
+  return UserModel.aggregate(aggregation);
 }
 
 /* function getItemFromList(userID, itemID, listName) {
