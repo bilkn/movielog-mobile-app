@@ -37,7 +37,7 @@ function getList(id, listName, skip = 0) {
         [listName]: {
           $slice: [`$${listName}`, skip, ITEMS_PER_PAGE],
         },
-        totalPage: {
+        totalPages: {
           $ceil: { $divide: [{ $size: `$${listName}` }, ITEMS_PER_PAGE] },
         },
       },

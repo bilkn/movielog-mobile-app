@@ -14,6 +14,14 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import UserProvider from "./src/providers/UserProvider";
 import { AppScreens } from "./AppScreens";
 
+import { LogBox } from 'react-native';
+
+// Ignore log notification by message:
+LogBox.ignoreLogs(['Warning: ...']);
+
+// Ignore all log notifications:
+LogBox.ignoreAllLogs();
+
 const client = new QueryClient();
 
 export default function App() {
