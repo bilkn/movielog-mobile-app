@@ -1,35 +1,19 @@
 import React from "react";
-import { FlatList, ScrollView, View } from "react-native";
+import { FlatList } from "react-native";
 import {
   Form,
   IconButton,
   MainLayout,
   MovieCardItem,
-  MovieCardItemSkeleton,
+  Spinner,
 } from "../components";
 import { Icon } from "../assets/icon";
 import useSearchLogic from "../hooks/screens/useSearchLogic";
-import { CircleFade } from "react-native-animated-spinkit";
 import { useAddMovieToTheList, useRemoveMovieFromTheList } from "../hooks";
-
-export const MovieCardSkeletonList = () => {
-  return (
-    <ScrollView
-      style={{ paddingHorizontal: 20, width: "100%" }}
-      contentInset={{ bottom: 60 }}
-    >
-      {Array.from(new Array(5)).map((_, i) => (
-        <View key={i} style={{ marginTop: i !== 0 ? 30 : 0 }}>
-          <MovieCardItemSkeleton />
-        </View>
-      ))}
-    </ScrollView>
-  );
-};
 
 const MovieCardRenderItem = (props) => {
   const { item: movie, index: i, navigation } = props;
-  const {id, watched, willWatch } = movie;
+  const { id, watched, willWatch } = movie;
 
   const { isLoading: addMovieLoading, mutate: addMovieToTheList } =
     useAddMovieToTheList();
@@ -119,11 +103,7 @@ const Search = ({ navigation }) => {
           onEndReached={handleReachList}
         />
       )}
-      {isFetchingNextPage && (
-        <View style={{ alignItems: "center", paddingVertical: 10 }}>
-          <CircleFade color="white" size={30} />
-        </View>
-      )}
+      {isFetchingNextPage && <Spinner />}
     </>
   );
 };
