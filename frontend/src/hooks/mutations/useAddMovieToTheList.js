@@ -62,13 +62,8 @@ const handleSearchMovieListAddMutation = (queryClient, list, movieID) => {
   };
 };
 
-const handleWatchListAddMutation = (queryClient, movieID) => {
-  queryClient.setQueryData("watchList", (oldQueryData) => {
-    console.log(
-      oldQueryData.pages.map(({ data: { items } }) =>
-        items.filter((movie) => movie.id !== movieID)
-      )
-    );
+export const handleUserListMutation = (queryClient, movieID, cacheKey) => {
+  queryClient.setQueryData(cacheKey, (oldQueryData) => {
     return {
       pages: oldQueryData.pages.map(({ data: { items } }) => ({
         data: { items: items.filter((movie) => movie.id !== movieID) },
@@ -95,8 +90,8 @@ export default function useAddMovieToTheList(options) {
         if (cacheKey === "searchMovieList") {
           return handleSearchMovieListAddMutation(queryClient, list, movieID);
         }
-        if (cacheKey === "watchList") {
-          return handleWatchListAddMutation(queryClient, list, movieID);
+        if (cacheKey === "watchList" || cacheKey === "watchedList") {
+          return handleUserListMutation(queryClient, movieID, cacheKey);
         }
       },
       onError: (...errorParams) =>

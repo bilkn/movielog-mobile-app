@@ -5,6 +5,8 @@ import MAPPINGS from "../../constants/mappings";
 import {
   handleMovieMutationError,
   handleMovieMutationSettled,
+  handleUserListMutation,
+  handleWatchListMutation,
 } from "./useAddMovieToTheList";
 
 const handleMovieDetailRemoveMutation = (queryClient, list, movieID) => {
@@ -66,6 +68,9 @@ export default function useRemoveMovieFromTheList(options) {
             list,
             movieID
           );
+        }
+        if (cacheKey === "watchList" || cacheKey === "watchedList") {
+          return handleUserListMutation(queryClient, movieID, cacheKey);
         }
       },
       onError: (...errorParams) =>

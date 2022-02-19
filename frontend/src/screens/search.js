@@ -75,7 +75,7 @@ const Search = ({ navigation }) => {
         />
       </MainLayout>
       {isLoading ? (
-        <MovieCardSkeletonList />
+        <MovieCardSkeletonList style={{ marginTop: 0 }} />
       ) : (
         <CustomFlatList
           items={movies || featuredMovies}

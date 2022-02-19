@@ -40,7 +40,11 @@ const MovieCardRenderItem = (props) => {
           </View>
         ) : (
           <>
-            <IconButton active icon={<Icon name="checkbox-plus" size={22} />} />
+            <IconButton
+              active
+              icon={<Icon name="checkbox-plus" size={22} />}
+              onPress={() => removeMovieFromTheList(["watchedList", movie.id])}
+            />
             <View style={{ marginLeft: 10 }}>
               <Typography style={{ fontSize: 12 }}>Watch date:</Typography>
               <Moment

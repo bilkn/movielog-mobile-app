@@ -2,10 +2,10 @@ import React from "react";
 import { ScrollView, View } from "react-native";
 import { MovieCardItemSkeleton } from "..";
 
-const MovieCardSkeletonList = () => {
+const MovieCardSkeletonList = ({ style }) => {
   return (
     <ScrollView
-      style={{ paddingHorizontal: 20, width: "100%" }}
+      style={{ marginTop: 30, paddingHorizontal: 20, width: "100%", ...style }}
       contentInset={{ bottom: 60 }}
     >
       {Array.from(new Array(5)).map((_, i) => (
