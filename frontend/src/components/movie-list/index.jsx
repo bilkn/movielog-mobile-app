@@ -1,12 +1,21 @@
 import React from "react";
-import { CustomFlatList, Spinner, MovieCardSkeletonList } from "..";
+import { View } from "react-native";
+import { CustomFlatList, Spinner, MovieCardSkeletonList, Typography } from "..";
 import useMovieListLogic from "./useMovieListLogic";
 
 function MovieList(props) {
-  const { listName, navigation } = props;
-  const { movieList, handlers, isFetchingNextPage, isLoading } =
+  const { listName, navigation, emptyListMessage } = props;
+  const { movieList, handlers, isFetchingNextPage, isLoading, isFetched } =
     useMovieListLogic({ listName });
   const { handleReachList } = handlers;
+
+  if (isFetched && !movieList.length) {
+    return (
+      <Typography variant="text" style={{ marginTop: 35, textAlign: "center" }}>
+        {emptyListMessage}
+      </Typography>
+    );
+  }
 
   return (
     <>

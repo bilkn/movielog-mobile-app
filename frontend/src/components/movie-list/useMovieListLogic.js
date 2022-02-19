@@ -11,6 +11,7 @@ function useMovieListLogic(options) {
     fetchNextPage,
     refetch,
     isLoading,
+    isFetched,
     isFetchingNextPage,
   } = useInfiniteQuery(
     listName,
@@ -39,7 +40,7 @@ function useMovieListLogic(options) {
     handleReachList,
   };
 
-  return { handlers, movieList, isLoading, isFetchingNextPage };
+  return { handlers, movieList, isLoading, isFetchingNextPage,isFetched };
 }
 
 export default useMovieListLogic;
