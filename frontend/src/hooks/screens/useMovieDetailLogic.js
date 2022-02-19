@@ -4,14 +4,17 @@ import { useAddMovieToTheList, useRemoveMovieFromTheList, useAxios } from "..";
 function useMovieDetailLogic({ route }) {
   const { axiosInstance } = useAxios();
   const { isLoading: addMovieLoading, mutate: addMovieToTheList } =
-    useAddMovieToTheList();
+    useAddMovieToTheList({ cacheKey: "movieDetail" });
   const { isLoading: removeMovieLoading, mutate: removeMovieFromTheList } =
-    useRemoveMovieFromTheList();
+    useRemoveMovieFromTheList({ cacheKey: "movieDetail" });
 
   const { params } = route;
   const { movieID } = params || {};
 
-  const getMovieDetailRequest = () => axiosInstance.get(`/${movieID}`);
+  const getMovieDetailRequest = () => {
+    console.log("AXIOS INSTANCE",movieID);
+    return axiosInstance.get(`/${movieID}`);
+  };
 
   const { data: { data: movieDetail } = {}, isLoading } = useQuery(
     "movieDetail",

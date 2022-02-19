@@ -28,7 +28,7 @@ function useSearchLogic() {
     fetchNextPage,
     isFetchingNextPage,
   } = useInfiniteQuery(
-    ["movieList", { searchQuery: values.searchQuery }],
+    ["searchMovieList", { searchQuery: values.searchQuery }],
     getMoviesBySearchQueryRequest,
     {
       getNextPageParam: (lastPage) => {
@@ -45,7 +45,7 @@ function useSearchLogic() {
   const {
     data: { data: featuredMovies } = {},
     isLoading: isLoadingFeaturedMovies,
-  } = useQuery("featuredMovies", () =>
+  } = useQuery("searchMovieList", () =>
     api.getFeaturedMoviesRequest(axiosInstance)
   );
 

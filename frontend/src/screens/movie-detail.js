@@ -118,7 +118,8 @@ const MovieDetail = ({ route }) => {
                 icon={<Icon name="movie-open-check" size={22} />}
                 onPress={
                   willWatch
-                    ? () => removeMovieFromTheList(["watchList", id])
+                    ? () =>
+                        removeMovieFromTheList(["watchList", id])
                     : () => addMovieToTheList(["watchList", id])
                 }
                 disabled={isOperationLoading}
@@ -144,8 +145,14 @@ const MovieDetail = ({ route }) => {
                 icon={<Icon name="checkbox-plus" size={22} />}
                 onPress={
                   watched
-                    ? () => removeMovieFromTheList(["watchedList", id])
-                    : () => addMovieToTheList(["watchedList", id])
+                    ? () =>
+                        removeMovieFromTheList([
+                          "watchedList",
+                          id,
+                      ,
+                        ])
+                    : () =>
+                        addMovieToTheList(["watchedList", id])
                 }
                 disabled={isOperationLoading}
               />
