@@ -3,23 +3,33 @@ import { FlatList, StyleSheet } from "react-native";
 import { MovieCardRenderItem } from "..";
 
 function CustomFlatList(props) {
-  const { items, navigation, listName, onEndReached, ...rest } = props;
+  const {
+    items,
+    navigation,
+    listName,
+    onEndReached,
+    renderItem,
+    style,
+    ...rest
+  } = props;
+
+  const renderItemFn = ({ index, item }) => (
+    <MovieCardRenderItem
+      index={index}
+      listName={listName}
+      item={item}
+      navigation={navigation}
+    />
+  );
 
   return (
     <FlatList
       showsVerticalScrollIndicator={false}
       data={items}
       initialNumToRender={4}
-      style={styles.listTab}
+      style={{ ...styles.listTab, ...style }}
       keyExtractor={(item) => item.key}
-      renderItem={({ index, item }) => (
-        <MovieCardRenderItem
-          index={index}
-          listName={listName}
-          item={item}
-          navigation={navigation}
-        />
-      )}
+      renderItem={renderItem || renderItemFn}
       contentInset={{ bottom: 60 }}
       onEndReached={onEndReached}
       {...rest}

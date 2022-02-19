@@ -1,10 +1,11 @@
 import React from "react";
-import { FlatList } from "react-native";
 import {
+  CustomFlatList,
   Form,
   IconButton,
   MainLayout,
   MovieCardItem,
+  MovieCardSkeletonList,
   Spinner,
 } from "../components";
 import { Icon } from "../assets/icon";
@@ -15,11 +16,13 @@ const MovieCardRenderItem = (props) => {
   const { item: movie, index: i, navigation } = props;
   const { id, watched, willWatch } = movie;
 
+  console.log(i);
+
   const { isLoading: addMovieLoading, mutate: addMovieToTheList } =
-    useAddMovieToTheList();
+    useAddMovieToTheList({ cacheKey: "searchMovieList" });
 
   const { isLoading: removeMovieLoading, mutate: removeMovieFromTheList } =
-    useRemoveMovieFromTheList();
+    useRemoveMovieFromTheList({ cacheKey: "searchMovieList" });
 
   return (
     <MovieCardItem
@@ -86,21 +89,17 @@ const Search = ({ navigation }) => {
       {isLoading ? (
         <MovieCardSkeletonList />
       ) : (
-        <FlatList
-          keyExtractor={({ id }) => id}
-          style={{ paddingHorizontal: 20, width: "100%" }}
-          showsVerticalScrollIndicator={false}
-          data={movies || featuredMovies}
-          initialNumToRender={4}
-          renderItem={({ item, index }) => (
+        <CustomFlatList
+          items={movies || featuredMovies}
+          onEndReached={handleReachList}
+          style={{ paddingTop: 0 }}
+          renderItem={({ index, item }) => (
             <MovieCardRenderItem
               item={item}
               index={index}
               navigation={navigation}
             />
           )}
-          contentInset={{ bottom: 60 }}
-          onEndReached={handleReachList}
         />
       )}
       {isFetchingNextPage && <Spinner />}

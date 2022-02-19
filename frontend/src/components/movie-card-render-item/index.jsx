@@ -13,10 +13,20 @@ const MovieCardRenderItem = (props) => {
       navigation={navigation}
       extraComponent={
         listName === "watchList" ? (
-          <IconButton
-            active
-            icon={<Icon name="movie-open-check" size={22} />}
-          />
+          <View
+            style={{
+              flexDirection: "row",
+            }}
+          >
+            <IconButton
+              active
+              icon={<Icon name="movie-open-check" size={22} />}
+            />
+            <IconButton
+              icon={<Icon name="checkbox-plus" size={22} />}
+              style={{ marginLeft: 20 }}
+            />
+          </View>
         ) : (
           <>
             <IconButton active icon={<Icon name="checkbox-plus" size={22} />} />

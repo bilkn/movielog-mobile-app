@@ -1,4 +1,4 @@
-import { useMutation, useQueryClient } from "react-query";
+import { QueryClient, useMutation, useQueryClient } from "react-query";
 import { useAxios } from "..";
 import api from "../../api";
 import MAPPINGS from "../../constants/mappings";
@@ -7,14 +7,15 @@ export const useMovieOperationSuccess = () => {
   const queryClient = useQueryClient();
   return () => {
     // TODO: Prevent refetch, use setQueryData.
-    queryClient.invalidateQueries("movieList");
+    /*     queryClient.invalidateQueries("movieList");
     queryClient.invalidateQueries("featuredMovies");
     queryClient.invalidateQueries("watchList");
-    queryClient.invalidateQueries("watchedList");
+    queryClient.invalidateQueries("watchedList"); */
   };
 };
 
-export default function useAddMovieToTheList() {
+export default function useAddMovieToTheList(options) {
+  const { cacheKey } = options;
   const queryClient = useQueryClient();
   const { axiosInstance } = useAxios();
   const handleMovieOperationSuccess = useMovieOperationSuccess();
@@ -26,10 +27,12 @@ export default function useAddMovieToTheList() {
       onSuccess: ({ data }) => handleMovieOperationSuccess(data),
       onMutate: async ([list, movieID]) => {
         await queryClient.cancelQueries();
-        const { data: previousMovieDetail } =
-          queryClient.getQueryData("movieDetail") || {};
+        if (cacheKey === "movieDetail") {
+          const { data: previousMovieDetail } =
+            queryClient.getQueryData("movieDetail") || {};
+          // TODO: Add operations for other cache keys too.
+          console.log(previousMovieDetail);
 
-        if (previousMovieDetail?.id === movieID) {
           queryClient.setQueryData("movieDetail", (oldQueryData) => {
             return {
               data: {
@@ -39,11 +42,17 @@ export default function useAddMovieToTheList() {
               },
             };
           });
-          return previousMovieDetail;
+          return { prevData: { data: previousMovieDetail } };
         }
       },
       onError: (_err, _var, context) => {
-        queryClient.setQueryData("movie");
+        console.log(cacheKey);
+        queryClient.setQueryData(cacheKey, context.prevData);
+        console.log("ERROR");
+      },
+      onSettled: () => {
+        console.log("SETTLED");
+        queryClient.invalidateQueries(cacheKey);
       },
     }
   );
