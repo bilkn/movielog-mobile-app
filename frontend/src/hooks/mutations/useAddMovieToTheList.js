@@ -1,17 +1,26 @@
-import { QueryClient, useMutation, useQueryClient } from "react-query";
+import { useMutation, useQueryClient } from "react-query";
 import { useAxios } from "..";
 import api from "../../api";
 import MAPPINGS from "../../constants/mappings";
 
-export const useMovieOperationSuccess = () => {
-  const queryClient = useQueryClient();
-  return () => {
-    // TODO: Prevent refetch, use setQueryData.
-    /*     queryClient.invalidateQueries("movieList");
-    queryClient.invalidateQueries("featuredMovies");
+export const handleMovieMutationSettled = (queryClient, cacheKey) => {
+  queryClient.invalidateQueries(cacheKey);
+
+  if (cacheKey !== "watchList" && cacheKey !== "watchedList") {
     queryClient.invalidateQueries("watchList");
-    queryClient.invalidateQueries("watchedList"); */
-  };
+    queryClient.invalidateQueries("watchedList");
+  }
+};
+
+export const handleMovieMutationError = ({
+  errorParams: { 2: context },
+  queryClient,
+  cacheKey,
+}) => {
+  if (context.prevData) {
+    return queryClient.setQueryData(cacheKey, context.prevData);
+  }
+  queryClient.invalidateQueries();
 };
 
 const handleMovieDetailAddMutation = (queryClient, list) => {
@@ -53,17 +62,30 @@ const handleSearchMovieListAddMutation = (queryClient, list, movieID) => {
   };
 };
 
+const handleWatchListAddMutation = (queryClient, movieID) => {
+  queryClient.setQueryData("watchList", (oldQueryData) => {
+    console.log(
+      oldQueryData.pages.map(({ data: { items } }) =>
+        items.filter((movie) => movie.id !== movieID)
+      )
+    );
+    return {
+      pages: oldQueryData.pages.map(({ data: { items } }) => ({
+        data: { items: items.filter((movie) => movie.id !== movieID) },
+      })),
+    };
+  });
+};
+
 export default function useAddMovieToTheList(options) {
   const { cacheKey } = options;
   const queryClient = useQueryClient();
   const { axiosInstance } = useAxios();
-  const handleMovieOperationSuccess = useMovieOperationSuccess();
   return useMutation(
     ([list, movieID]) => {
       return api.addMovieToTheList(axiosInstance, list, movieID);
     },
     {
-      onSuccess: ({ data }) => handleMovieOperationSuccess(data),
       onMutate: async ([list, movieID]) => {
         await queryClient.cancelQueries();
 
@@ -73,19 +95,13 @@ export default function useAddMovieToTheList(options) {
         if (cacheKey === "searchMovieList") {
           return handleSearchMovieListAddMutation(queryClient, list, movieID);
         }
-      },
-      onError: (_err, _var, context) => {
-        queryClient.setQueryData(cacheKey, context.prevData);
-        console.log("ERROR");
-      },
-      onSettled: () => {
-        queryClient.invalidateQueries(cacheKey);
-
-        if (cacheKey !== "watchList" && cacheKey !== "watchedList") {
-          queryClient.invalidateQueries("watchList");
-          queryClient.invalidateQueries("watchedList");
+        if (cacheKey === "watchList") {
+          return handleWatchListAddMutation(queryClient, list, movieID);
         }
       },
+      onError: (...errorParams) =>
+        handleMovieMutationError({ errorParams, queryClient, cacheKey }),
+      onSettled: () => handleMovieMutationSettled(queryClient, cacheKey),
     }
   );
 }

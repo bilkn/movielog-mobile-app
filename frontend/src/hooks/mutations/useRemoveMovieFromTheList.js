@@ -2,7 +2,10 @@ import { useMutation, useQueryClient } from "react-query";
 import { useAxios } from "..";
 import api from "../../api";
 import MAPPINGS from "../../constants/mappings";
-import { useMovieOperationSuccess } from "./useAddMovieToTheList";
+import {
+  handleMovieMutationError,
+  handleMovieMutationSettled,
+} from "./useAddMovieToTheList";
 
 const handleMovieDetailRemoveMutation = (queryClient, list, movieID) => {
   const { data: previousMovieDetail } =
@@ -20,7 +23,7 @@ const handleMovieDetailRemoveMutation = (queryClient, list, movieID) => {
     return { prevData: { data: previousMovieDetail } };
   }
 };
-const handleSearchMovieListAddMutation = (queryClient, list, movieID) => {
+const handleSearchMovieListRemoveMutation = (queryClient, list, movieID) => {
   const { data: previousMovieData } =
     queryClient.getQueryData("searchMovieList") || {};
 
@@ -46,12 +49,10 @@ export default function useRemoveMovieFromTheList(options) {
   const { axiosInstance } = useAxios();
   const queryClient = useQueryClient();
 
-  const handleMovieOperationSuccess = useMovieOperationSuccess();
   return useMutation(
     ([list, movieID]) =>
       api.removeMovieFromTheList(axiosInstance, list, movieID),
     {
-      onSuccess: () => handleMovieOperationSuccess(),
       onMutate: async ([list, movieID]) => {
         await queryClient.cancelQueries();
 
@@ -60,21 +61,16 @@ export default function useRemoveMovieFromTheList(options) {
         }
 
         if (cacheKey === "searchMovieList") {
-          return handleSearchMovieListAddMutation(queryClient, list, movieID);
+          return handleSearchMovieListRemoveMutation(
+            queryClient,
+            list,
+            movieID
+          );
         }
       },
-      onError: (_err, _var, context) => {
-        queryClient.setQueryData(cacheKey, context.prevData);
-        console.log("ERROR");
-      },
-      onSettled: () => {
-        queryClient.invalidateQueries(cacheKey);
-
-        if (cacheKey !== "watchList" && cacheKey !== "watchedList") {
-          queryClient.invalidateQueries("watchList");
-          queryClient.invalidateQueries("watchedList");
-        }
-      },
+      onError: (...errorParams) =>
+        handleMovieMutationError({ errorParams, queryClient, cacheKey }),
+      onSettled: () => handleMovieMutationSettled(queryClient, cacheKey),
     }
   );
 }

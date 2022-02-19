@@ -26,12 +26,7 @@ function useMovieListLogic(options) {
   );
 
   const movieList = useMemo(
-    () =>
-      pages
-        ?.map((group) => {
-          return group.data.items;
-        })
-        .flat() || [],
+    () => pages?.map((group) => group.data.items).flat() || [],
     [pages]
   );
 

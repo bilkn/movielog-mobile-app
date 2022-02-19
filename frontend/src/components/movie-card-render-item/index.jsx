@@ -1,11 +1,18 @@
+import { isLoading } from "expo-font";
 import React from "react";
 import Moment from "react-moment";
 import { View } from "react-native";
 import { IconButton, MovieCardItem, Typography } from "..";
 import { Icon } from "../../assets/icon";
+import { useAddMovieToTheList, useRemoveMovieFromTheList } from "../../hooks";
 
 const MovieCardRenderItem = (props) => {
   const { item: movie, index: i, navigation, listName } = props;
+  const { isLoading: addMovieLoading, mutate: addMovieToTheList } =
+    useAddMovieToTheList({ cacheKey: listName });
+  const { isLoading: removeMovieLoading, mutate: removeMovieFromTheList } =
+    useRemoveMovieFromTheList({ cacheKey: listName });
+
   return (
     <MovieCardItem
       key={i}
@@ -21,9 +28,13 @@ const MovieCardRenderItem = (props) => {
             <IconButton
               active
               icon={<Icon name="movie-open-check" size={22} />}
+              disabled={addMovieLoading || removeMovieLoading}
+              onPress={() => removeMovieFromTheList(["watchList", movie.id])}
             />
             <IconButton
               icon={<Icon name="checkbox-plus" size={22} />}
+              disabled={addMovieLoading || removeMovieLoading}
+              onPress={() => addMovieToTheList(["watchedList", movie.id])}
               style={{ marginLeft: 20 }}
             />
           </View>
