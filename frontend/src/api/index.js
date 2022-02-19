@@ -24,7 +24,6 @@ const removeMovieFromTheList = (instance, list, movieID) =>
   instance.delete(`/user/list/${list}?movie=${movieID}`);
 
 const getMovieList = (instance, list, query) => {
-  console.log({ query });
   const { pageParam = 1 } = query || {};
   return instance.get(`/user/list/${list}/?page=${pageParam}`);
 };

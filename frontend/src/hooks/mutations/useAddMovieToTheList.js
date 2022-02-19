@@ -14,6 +14,45 @@ export const useMovieOperationSuccess = () => {
   };
 };
 
+const handleMovieDetailAddMutation = (queryClient, list) => {
+  const { data: previousMovieDetail } =
+    queryClient.getQueryData("movieDetail") || {};
+  // TODO: Add operations for other cache keys too.
+
+  queryClient.setQueryData("movieDetail", (oldQueryData) => {
+    return {
+      data: {
+        ...oldQueryData.data,
+        [MAPPINGS.watchDataByList[list]]: true,
+        [MAPPINGS.watchDataByListReversed[list]]: false,
+      },
+    };
+  });
+  return { prevData: { data: previousMovieDetail } };
+};
+
+const handleSearchMovieListAddMutation = (queryClient, list, movieID) => {
+  const { data: previousMovieData } =
+    queryClient.getQueryData("searchMovieList") || {};
+
+  queryClient.setQueryData("searchMovieList", (oldQueryData) => {
+    return {
+      data: oldQueryData.data.map((item) =>
+        item.id === movieID
+          ? {
+              ...item,
+              [MAPPINGS.watchDataByList[list]]: true,
+              [MAPPINGS.watchDataByListReversed[list]]: false,
+            }
+          : item
+      ),
+    };
+  });
+  return {
+    prevData: { data: previousMovieData },
+  };
+};
+
 export default function useAddMovieToTheList(options) {
   const { cacheKey } = options;
   const queryClient = useQueryClient();
@@ -27,32 +66,25 @@ export default function useAddMovieToTheList(options) {
       onSuccess: ({ data }) => handleMovieOperationSuccess(data),
       onMutate: async ([list, movieID]) => {
         await queryClient.cancelQueries();
-        if (cacheKey === "movieDetail") {
-          const { data: previousMovieDetail } =
-            queryClient.getQueryData("movieDetail") || {};
-          // TODO: Add operations for other cache keys too.
-          console.log(previousMovieDetail);
 
-          queryClient.setQueryData("movieDetail", (oldQueryData) => {
-            return {
-              data: {
-                ...oldQueryData.data,
-                [MAPPINGS.watchDataByList[list]]: true,
-                [MAPPINGS.watchDataByListReversed[list]]: false,
-              },
-            };
-          });
-          return { prevData: { data: previousMovieDetail } };
+        if (cacheKey === "movieDetail") {
+          return handleMovieDetailAddMutation(queryClient, list);
+        }
+        if (cacheKey === "searchMovieList") {
+          return handleSearchMovieListAddMutation(queryClient, list, movieID);
         }
       },
       onError: (_err, _var, context) => {
-        console.log(cacheKey);
         queryClient.setQueryData(cacheKey, context.prevData);
         console.log("ERROR");
       },
       onSettled: () => {
-        console.log("SETTLED");
         queryClient.invalidateQueries(cacheKey);
+
+        if (cacheKey !== "watchList" && cacheKey !== "watchedList") {
+          queryClient.invalidateQueries("watchList");
+          queryClient.invalidateQueries("watchedList");
+        }
       },
     }
   );

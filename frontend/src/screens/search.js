@@ -16,8 +16,6 @@ const MovieCardRenderItem = (props) => {
   const { item: movie, index: i, navigation } = props;
   const { id, watched, willWatch } = movie;
 
-  console.log(i);
-
   const { isLoading: addMovieLoading, mutate: addMovieToTheList } =
     useAddMovieToTheList({ cacheKey: "searchMovieList" });
 
@@ -33,30 +31,20 @@ const MovieCardRenderItem = (props) => {
         <>
           <IconButton
             active={willWatch}
-            icon={
-              <Icon
-                name="movie-open-check"
-                size={22}
-                onPress={
-                  willWatch
-                    ? () => removeMovieFromTheList(["watchList", id])
-                    : () => addMovieToTheList(["watchList", id])
-                }
-              />
+            icon={<Icon name="movie-open-check" size={22} />}
+            onPress={
+              willWatch
+                ? () => removeMovieFromTheList(["watchList", id])
+                : () => addMovieToTheList(["watchList", id])
             }
           />
           <IconButton
             active={watched}
-            icon={
-              <Icon
-                name="checkbox-plus"
-                size={22}
-                onPress={
-                  watched
-                    ? () => removeMovieFromTheList(["watchedList", id])
-                    : () => addMovieToTheList(["watchedList", id])
-                }
-              />
+            icon={<Icon name="checkbox-plus" size={22} />}
+            onPress={
+              watched
+                ? () => removeMovieFromTheList(["watchedList", id])
+                : () => addMovieToTheList(["watchedList", id])
             }
             style={{ marginLeft: 20 }}
           />
