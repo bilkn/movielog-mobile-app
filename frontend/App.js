@@ -13,11 +13,12 @@ import { MainTheme } from "./src/global-styles/main-theme";
 import { QueryClient, QueryClientProvider } from "react-query";
 import UserProvider from "./src/providers/UserProvider";
 import { AppScreens } from "./AppScreens";
+import { RootSiblingParent } from "react-native-root-siblings";
 
-import { LogBox } from 'react-native';
+import { LogBox } from "react-native";
 
 // Ignore log notification by message:
-LogBox.ignoreLogs(['Warning: ...']);
+LogBox.ignoreLogs(["Warning: ..."]);
 
 // Ignore all log notifications:
 LogBox.ignoreAllLogs();
@@ -38,14 +39,16 @@ export default function App() {
   }
   return (
     <>
-      <StatusBar style="light" />
-      <QueryClientProvider client={client}>
-        <UserProvider>
-          <NavigationContainer theme={MainTheme}>
-            <AppScreens />
-          </NavigationContainer>
-        </UserProvider>
-      </QueryClientProvider>
+      <RootSiblingParent>
+        <StatusBar style="light" />
+        <QueryClientProvider client={client}>
+          <UserProvider>
+            <NavigationContainer theme={MainTheme}>
+              <AppScreens />
+            </NavigationContainer>
+          </UserProvider>
+        </QueryClientProvider>
+      </RootSiblingParent>
     </>
   );
 }
