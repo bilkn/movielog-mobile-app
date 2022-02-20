@@ -1,5 +1,4 @@
 import React from "react";
-import { View } from "react-native";
 import { CustomFlatList, Spinner, MovieCardSkeletonList, Typography } from "..";
 import useMovieListLogic from "./useMovieListLogic";
 

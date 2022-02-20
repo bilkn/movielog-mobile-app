@@ -3,13 +3,9 @@ import { useAxios } from "..";
 import api from "../../api";
 import MAPPINGS from "../../constants/mappings";
 
-export const handleMovieMutationSettled = (queryClient, cacheKey) => {
-  queryClient.invalidateQueries(cacheKey);
-
-  if (cacheKey !== "watchList" && cacheKey !== "watchedList") {
-    queryClient.invalidateQueries("watchList");
-    queryClient.invalidateQueries("watchedList");
-  }
+export const handleMovieMutationSettled = (queryClient) => {
+  queryClient.invalidateQueries();
+  console.log("Handle invalidate");
 };
 
 export const handleMovieMutationError = ({
@@ -40,11 +36,11 @@ const handleMovieDetailAddMutation = (queryClient, list) => {
   return { prevData: { data: previousMovieDetail } };
 };
 
-const handleSearchMovieListAddMutation = (queryClient, list, movieID) => {
+const handleFeaturedMovieListAddMutation = (queryClient, list, movieID) => {
   const { data: previousMovieData } =
-    queryClient.getQueryData("searchMovieList") || {};
+    queryClient.getQueryData("featuredMovieList") || {};
 
-  queryClient.setQueryData("searchMovieList", (oldQueryData) => {
+  queryClient.setQueryData("featuredMovieList", (oldQueryData) => {
     return {
       data: oldQueryData.data.map((item) =>
         item.id === movieID
@@ -72,8 +68,37 @@ export const handleUserListMutation = (queryClient, movieID, cacheKey) => {
   });
 };
 
+const handleSearchedMovieListAddMutation = ({
+  queryClient,
+  list,
+  movieID,
+  searchQuery,
+}) => {
+  queryClient.setQueriesData(
+    ["searchMovieList", { searchQuery }],
+    (oldQueryData) => {
+      return {
+        pages: oldQueryData.pages.map(({ data: { items, ...rest } }) => ({
+          data: {
+            items: items.map((movie) =>
+              movie.id === movieID
+                ? {
+                    ...movie,
+                    [MAPPINGS.watchDataByList[list]]: true,
+                    [MAPPINGS.watchDataByListReversed[list]]: false,
+                  }
+                : movie
+            ),
+            ...rest,
+          },
+        })),
+      };
+    }
+  );
+};
+
 export default function useAddMovieToTheList(options) {
-  const { cacheKey } = options;
+  const { cacheKey, searchQuery = "" } = options;
   const queryClient = useQueryClient();
   const { axiosInstance } = useAxios();
   return useMutation(
@@ -87,11 +112,20 @@ export default function useAddMovieToTheList(options) {
         if (cacheKey === "movieDetail") {
           return handleMovieDetailAddMutation(queryClient, list);
         }
-        if (cacheKey === "searchMovieList") {
-          return handleSearchMovieListAddMutation(queryClient, list, movieID);
+        if (cacheKey === "featuredMovieList") {
+          return handleFeaturedMovieListAddMutation(queryClient, list, movieID);
         }
         if (cacheKey === "watchList" || cacheKey === "watchedList") {
           return handleUserListMutation(queryClient, movieID, cacheKey);
+        }
+
+        if (cacheKey === "searchMovieList") {
+          return handleSearchedMovieListAddMutation({
+            queryClient,
+            list,
+            movieID,
+            searchQuery,
+          });
         }
       },
       onError: (...errorParams) =>

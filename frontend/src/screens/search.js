@@ -13,14 +13,14 @@ import useSearchLogic from "../hooks/screens/useSearchLogic";
 import { useAddMovieToTheList, useRemoveMovieFromTheList } from "../hooks";
 
 const MovieCardRenderItem = (props) => {
-  const { item: movie, index: i, navigation } = props;
+  const { item: movie, index: i, navigation, cacheKey, searchQuery } = props;
   const { id, watched, willWatch } = movie;
 
   const { isLoading: addMovieLoading, mutate: addMovieToTheList } =
-    useAddMovieToTheList({ cacheKey: "searchMovieList" });
+    useAddMovieToTheList({ cacheKey, searchQuery });
 
   const { isLoading: removeMovieLoading, mutate: removeMovieFromTheList } =
-    useRemoveMovieFromTheList({ cacheKey: "searchMovieList" });
+    useRemoveMovieFromTheList({ cacheKey, searchQuery });
 
   return (
     <MovieCardItem
@@ -37,6 +37,7 @@ const MovieCardRenderItem = (props) => {
                 ? () => removeMovieFromTheList(["watchList", id])
                 : () => addMovieToTheList(["watchList", id])
             }
+            disabled={addMovieLoading || removeMovieLoading}
           />
           <IconButton
             active={watched}
@@ -46,6 +47,7 @@ const MovieCardRenderItem = (props) => {
                 ? () => removeMovieFromTheList(["watchedList", id])
                 : () => addMovieToTheList(["watchedList", id])
             }
+            disabled={addMovieLoading || removeMovieLoading}
             style={{ marginLeft: 20 }}
           />
         </>
@@ -58,10 +60,11 @@ const Search = ({ navigation }) => {
   const {
     handlers,
     formikValues,
-    movies,
+    searchedMovies,
     featuredMovies,
     isLoading,
     isFetchingNextPage,
+    debouncedSearchQuery
   } = useSearchLogic();
   const { handleSearchQueryChange, handleReachList } = handlers;
 
@@ -78,7 +81,7 @@ const Search = ({ navigation }) => {
         <MovieCardSkeletonList style={{ marginTop: 0 }} />
       ) : (
         <CustomFlatList
-          items={movies || featuredMovies}
+          items={searchedMovies || featuredMovies}
           onEndReached={handleReachList}
           style={{ paddingTop: 0 }}
           renderItem={({ index, item }) => (
@@ -86,6 +89,12 @@ const Search = ({ navigation }) => {
               item={item}
               index={index}
               navigation={navigation}
+              searchQuery={debouncedSearchQuery}
+              cacheKey={
+                !!searchedMovies?.length
+                  ? "searchMovieList"
+                  : "featuredMovieList"
+              }
             />
           )}
         />

@@ -28,7 +28,7 @@ function useSearchLogic() {
     fetchNextPage,
     isFetchingNextPage,
   } = useInfiniteQuery(
-    ["searchMovieList", { searchQuery: values.searchQuery }],
+    ["searchMovieList", { searchQuery: debouncedSearchQuery }],
     getMoviesBySearchQueryRequest,
     {
       getNextPageParam: (lastPage) => {
@@ -37,7 +37,7 @@ function useSearchLogic() {
       },
       enabled: false,
       onSuccess: () => {
-        console.log("REFETCH");
+        console.log("REFETCH SEARCH");
       },
     }
   );
@@ -45,7 +45,7 @@ function useSearchLogic() {
   const {
     data: { data: featuredMovies } = {},
     isLoading: isLoadingFeaturedMovies,
-  } = useQuery("searchMovieList", () =>
+  } = useQuery("featuredMovieList", () =>
     api.getFeaturedMoviesRequest(axiosInstance)
   );
 
@@ -82,20 +82,22 @@ function useSearchLogic() {
     []
   );
 
-  const movies = useMemo(
-    () =>
+  const searchedMovies = useMemo(() => {
+    console.log('SEARCH MOVIES');
+    return (
       pages?.length &&
-      filterDuplicatedItems(pages.map((group) => group.data.list).flat()),
-    [pages]
-  );
+      filterDuplicatedItems(pages.map((group) => group.data.items).flat())
+    );
+  }, [pages]);
 
   return {
     handlers,
     formikValues,
     isLoading: isLoading || isLoadingFeaturedMovies,
-    movies,
+    searchedMovies,
     featuredMovies,
     isFetchingNextPage,
+    debouncedSearchQuery,
   };
 }
 
