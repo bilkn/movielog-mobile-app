@@ -36,7 +36,9 @@ function useSearchLogic() {
         return page < total_pages ? page + 1 : undefined;
       },
       enabled: false,
-      onSuccess: () => {},
+      onSettled:()=>{
+        console.log('SETTLED');
+      }
     }
   );
 
