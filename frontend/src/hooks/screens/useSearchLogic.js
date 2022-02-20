@@ -36,9 +36,7 @@ function useSearchLogic() {
         return page < total_pages ? page + 1 : undefined;
       },
       enabled: false,
-      onSuccess: () => {
-        console.log("REFETCH SEARCH");
-      },
+      onSuccess: () => {},
     }
   );
 
@@ -83,7 +81,6 @@ function useSearchLogic() {
   );
 
   const searchedMovies = useMemo(() => {
-    console.log('SEARCH MOVIES');
     return (
       pages?.length &&
       filterDuplicatedItems(pages.map((group) => group.data.items).flat())

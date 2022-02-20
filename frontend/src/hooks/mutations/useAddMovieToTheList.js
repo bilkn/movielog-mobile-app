@@ -5,7 +5,7 @@ import MAPPINGS from "../../constants/mappings";
 
 export const handleMovieMutationSettled = (queryClient) => {
   queryClient.invalidateQueries();
-  console.log("Handle invalidate");
+  queryClient.refetchQueries(["searchMovieList"]);
 };
 
 export const handleMovieMutationError = ({
@@ -101,6 +101,7 @@ export default function useAddMovieToTheList(options) {
   const { cacheKey, searchQuery = "" } = options;
   const queryClient = useQueryClient();
   const { axiosInstance } = useAxios();
+
   return useMutation(
     ([list, movieID]) => {
       return api.addMovieToTheList(axiosInstance, list, movieID);
@@ -130,7 +131,8 @@ export default function useAddMovieToTheList(options) {
       },
       onError: (...errorParams) =>
         handleMovieMutationError({ errorParams, queryClient, cacheKey }),
-      onSettled: () => handleMovieMutationSettled(queryClient, cacheKey),
+      onSettled: () =>
+        handleMovieMutationSettled(queryClient, cacheKey),
     }
   );
 }
