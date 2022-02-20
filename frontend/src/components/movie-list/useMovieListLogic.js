@@ -11,6 +11,7 @@ function useMovieListLogic(options) {
     fetchNextPage,
     refetch,
     isLoading,
+    isFetched,
     isFetchingNextPage,
   } = useInfiniteQuery(
     listName,
@@ -26,12 +27,7 @@ function useMovieListLogic(options) {
   );
 
   const movieList = useMemo(
-    () =>
-      pages
-        ?.map((group) => {
-          return group.data.items;
-        })
-        .flat() || [],
+    () => pages?.map((group) => group.data.items).flat() || [],
     [pages]
   );
 
@@ -44,7 +40,7 @@ function useMovieListLogic(options) {
     handleReachList,
   };
 
-  return { handlers, movieList, isLoading, isFetchingNextPage };
+  return { handlers, movieList, isLoading, isFetchingNextPage,isFetched };
 }
 
 export default useMovieListLogic;

@@ -39,8 +39,20 @@ const List = ({ navigation }) => {
   return (
     <>
       <ListTabs listTab={listTab} onTabChange={handleTabChange} />
-      {listTab.watchList && <MovieList navigation={navigation} listName='watchList' />}
-      {listTab.watchedList && <MovieList navigation={navigation} listName='watchedList' />}
+      {listTab.watchList && (
+        <MovieList
+          emptyListMessage="Your movie watch list is empty."
+          navigation={navigation}
+          listName="watchList"
+        />
+      )}
+      {listTab.watchedList && (
+        <MovieList
+          emptyListMessage="Your movie watched list is empty."
+          navigation={navigation}
+          listName="watchedList"
+        />
+      )}
     </>
   );
 };

@@ -28,7 +28,7 @@ function CustomFlatList(props) {
       data={items}
       initialNumToRender={4}
       style={{ ...styles.listTab, ...style }}
-      keyExtractor={(item) => item.key}
+      keyExtractor={(item) => item.id}
       renderItem={renderItem || renderItemFn}
       contentInset={{ bottom: 60 }}
       onEndReached={onEndReached}

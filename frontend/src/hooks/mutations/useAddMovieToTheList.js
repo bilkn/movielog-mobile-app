@@ -1,59 +1,136 @@
-import { QueryClient, useMutation, useQueryClient } from "react-query";
+import { useMutation, useQueryClient } from "react-query";
 import { useAxios } from "..";
 import api from "../../api";
 import MAPPINGS from "../../constants/mappings";
 
-export const useMovieOperationSuccess = () => {
-  const queryClient = useQueryClient();
-  return () => {
-    // TODO: Prevent refetch, use setQueryData.
-    /*     queryClient.invalidateQueries("movieList");
-    queryClient.invalidateQueries("featuredMovies");
-    queryClient.invalidateQueries("watchList");
-    queryClient.invalidateQueries("watchedList"); */
+export const handleMovieMutationSettled = (queryClient) => {
+  queryClient.invalidateQueries();
+  console.log("Handle invalidate");
+};
+
+export const handleMovieMutationError = ({
+  errorParams: { 2: context },
+  queryClient,
+  cacheKey,
+}) => {
+  if (context.prevData) {
+    return queryClient.setQueryData(cacheKey, context.prevData);
+  }
+  queryClient.invalidateQueries();
+};
+
+const handleMovieDetailAddMutation = (queryClient, list) => {
+  const { data: previousMovieDetail } =
+    queryClient.getQueryData("movieDetail") || {};
+  // TODO: Add operations for other cache keys too.
+
+  queryClient.setQueryData("movieDetail", (oldQueryData) => {
+    return {
+      data: {
+        ...oldQueryData.data,
+        [MAPPINGS.watchDataByList[list]]: true,
+        [MAPPINGS.watchDataByListReversed[list]]: false,
+      },
+    };
+  });
+  return { prevData: { data: previousMovieDetail } };
+};
+
+const handleFeaturedMovieListAddMutation = (queryClient, list, movieID) => {
+  const { data: previousMovieData } =
+    queryClient.getQueryData("featuredMovieList") || {};
+
+  queryClient.setQueryData("featuredMovieList", (oldQueryData) => {
+    return {
+      data: oldQueryData.data.map((item) =>
+        item.id === movieID
+          ? {
+              ...item,
+              [MAPPINGS.watchDataByList[list]]: true,
+              [MAPPINGS.watchDataByListReversed[list]]: false,
+            }
+          : item
+      ),
+    };
+  });
+  return {
+    prevData: { data: previousMovieData },
   };
 };
 
+export const handleUserListMutation = (queryClient, movieID, cacheKey) => {
+  queryClient.setQueryData(cacheKey, (oldQueryData) => {
+    return {
+      pages: oldQueryData.pages.map(({ data: { items } }) => ({
+        data: { items: items.filter((movie) => movie.id !== movieID) },
+      })),
+    };
+  });
+};
+
+const handleSearchedMovieListAddMutation = ({
+  queryClient,
+  list,
+  movieID,
+  searchQuery,
+}) => {
+  queryClient.setQueriesData(
+    ["searchMovieList", { searchQuery }],
+    (oldQueryData) => {
+      return {
+        pages: oldQueryData.pages.map(({ data: { items, ...rest } }) => ({
+          data: {
+            items: items.map((movie) =>
+              movie.id === movieID
+                ? {
+                    ...movie,
+                    [MAPPINGS.watchDataByList[list]]: true,
+                    [MAPPINGS.watchDataByListReversed[list]]: false,
+                  }
+                : movie
+            ),
+            ...rest,
+          },
+        })),
+      };
+    }
+  );
+};
+
 export default function useAddMovieToTheList(options) {
-  const { cacheKey } = options;
+  const { cacheKey, searchQuery = "" } = options;
   const queryClient = useQueryClient();
   const { axiosInstance } = useAxios();
-  const handleMovieOperationSuccess = useMovieOperationSuccess();
   return useMutation(
     ([list, movieID]) => {
       return api.addMovieToTheList(axiosInstance, list, movieID);
     },
     {
-      onSuccess: ({ data }) => handleMovieOperationSuccess(data),
       onMutate: async ([list, movieID]) => {
         await queryClient.cancelQueries();
-        if (cacheKey === "movieDetail") {
-          const { data: previousMovieDetail } =
-            queryClient.getQueryData("movieDetail") || {};
-          // TODO: Add operations for other cache keys too.
-          console.log(previousMovieDetail);
 
-          queryClient.setQueryData("movieDetail", (oldQueryData) => {
-            return {
-              data: {
-                ...oldQueryData.data,
-                [MAPPINGS.watchDataByList[list]]: true,
-                [MAPPINGS.watchDataByListReversed[list]]: false,
-              },
-            };
+        if (cacheKey === "movieDetail") {
+          return handleMovieDetailAddMutation(queryClient, list);
+        }
+        if (cacheKey === "featuredMovieList") {
+          return handleFeaturedMovieListAddMutation(queryClient, list, movieID);
+        }
+        if (cacheKey === "watchList" || cacheKey === "watchedList") {
+          return handleUserListMutation(queryClient, movieID, cacheKey);
+        }
+
+        if (cacheKey === "searchMovieList") {
+          return handleSearchedMovieListAddMutation({
+            queryClient,
+            list,
+            movieID,
+            searchQuery,
           });
-          return { prevData: { data: previousMovieDetail } };
         }
       },
-      onError: (_err, _var, context) => {
-        console.log(cacheKey);
-        queryClient.setQueryData(cacheKey, context.prevData);
-        console.log("ERROR");
-      },
-      onSettled: () => {
-        console.log("SETTLED");
-        queryClient.invalidateQueries(cacheKey);
-      },
+      onError: (...errorParams) =>
+        handleMovieMutationError({ errorParams, queryClient, cacheKey }),
+      onSettled: () => handleMovieMutationSettled(queryClient, cacheKey),
     }
   );
 }
