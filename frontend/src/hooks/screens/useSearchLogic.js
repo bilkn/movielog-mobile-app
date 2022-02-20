@@ -35,10 +35,10 @@ function useSearchLogic() {
         const { total_pages = 1, page } = lastPage?.data || {};
         return page < total_pages ? page + 1 : undefined;
       },
-      enabled: false,
-      onSettled:()=>{
-        console.log('SETTLED');
-      }
+      enabled: !!debouncedSearchQuery,
+      onSettled: () => {
+        console.log("SETTLED");
+      },
     }
   );
 

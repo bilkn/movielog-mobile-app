@@ -3,14 +3,8 @@ import { useAxios } from "..";
 import api from "../../api";
 import MAPPINGS from "../../constants/mappings";
 
-export const handleMovieMutationSettled = (
-  queryClient,
-  _cacheKey,
-  searchQuery
-) => {
+export const handleMovieMutationSettled = (queryClient) => {
   queryClient.invalidateQueries();
-  if (!searchQuery) return;
-  queryClient.refetchQueries(["searchMovieList"]);
 };
 
 export const handleMovieMutationError = ({
@@ -136,8 +130,7 @@ export default function useAddMovieToTheList(options) {
       },
       onError: (...errorParams) =>
         handleMovieMutationError({ errorParams, queryClient, cacheKey }),
-      onSettled: () =>
-        handleMovieMutationSettled( queryClient, cacheKey, searchQuery ),
+      onSettled: () => handleMovieMutationSettled(queryClient),
     }
   );
 }
