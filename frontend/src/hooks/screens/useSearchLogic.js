@@ -7,7 +7,11 @@ import api from "../../api";
 
 function useSearchLogic() {
   const { axiosInstance } = useAxios();
-  const { values, handleChange } = useFormik({
+  const {
+    values,
+    handleChange,
+    resetForm: resetSearchQuery,
+  } = useFormik({
     initialValues: {
       searchQuery: "",
     },
@@ -35,9 +39,9 @@ function useSearchLogic() {
         const { total_pages = 1, page } = lastPage?.data || {};
         return page < total_pages ? page + 1 : undefined;
       },
-      enabled: false,
-      onSuccess: () => {
-        console.log("REFETCH SEARCH");
+      enabled: !!debouncedSearchQuery,
+      onSettled: () => {
+        console.log("SETTLED");
       },
     }
   );
@@ -59,11 +63,6 @@ function useSearchLogic() {
     }
   };
 
-  const handlers = {
-    handleSearchQueryChange,
-    handleReachList,
-  };
-
   useEffect(() => {
     if (debouncedSearchQuery) {
       getMoviesBySearchQuery({ refetchPage: (page, index) => index === 0 });
@@ -83,12 +82,17 @@ function useSearchLogic() {
   );
 
   const searchedMovies = useMemo(() => {
-    console.log('SEARCH MOVIES');
     return (
       pages?.length &&
       filterDuplicatedItems(pages.map((group) => group.data.items).flat())
     );
   }, [pages]);
+
+  const handlers = {
+    handleSearchQueryChange,
+    handleReachList,
+    resetSearchQuery,
+  };
 
   return {
     handlers,

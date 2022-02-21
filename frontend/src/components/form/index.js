@@ -1,8 +1,8 @@
 import { useTheme } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
-import { View, Text, TextInput } from "react-native";
+import { View, TextInput, Pressable } from "react-native";
 import { styles } from "./styles";
-import { Feather } from "@expo/vector-icons";
+import { Feather, MaterialIcons } from "@expo/vector-icons";
 import { Typography } from "..";
 
 const Form = () => {
@@ -120,6 +120,7 @@ Form.Label = (props) => {
 
 Form.Searchbox = (props) => {
   const { colors } = useTheme();
+  const { onCancelPress, value } = props;
   const [isFocused, setIsFocused] = useState(false);
 
   const toggleIsFocused = () => {
@@ -127,18 +128,33 @@ Form.Searchbox = (props) => {
   };
 
   return (
-    <CommonTextInput
-      placeholder={isFocused ? "" : "Search"}
-      onFocus={toggleIsFocused}
-      onBlur={toggleIsFocused}
-      inputStyle={{ paddingLeft: 45 }}
-      icon={
-        <View style={styles.iconContainer}>
-          <Feather name="search" size={24} color={colors.text} />
-        </View>
-      }
-      {...props}
-    />
+    <View style={{ position: "relative" }}>
+      <CommonTextInput
+        placeholder={isFocused ? "" : "Search"}
+        onFocus={toggleIsFocused}
+        onBlur={toggleIsFocused}
+        inputStyle={{ paddingLeft: 45 }}
+        icon={
+          <View style={styles.iconContainer}>
+            <Feather name="search" size={24} color={colors.text} />
+          </View>
+        }
+        {...props}
+      />
+      {!!value && (
+        <Pressable
+          style={{
+            position: "absolute",
+            top: 14,
+            right: 15,
+            zIndex: 1,
+          }}
+          onPress={onCancelPress}
+        >
+          <MaterialIcons name="cancel" size={24} color={colors.text} />
+        </Pressable>
+      )}
+    </View>
   );
 };
 

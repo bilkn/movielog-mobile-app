@@ -108,7 +108,8 @@ export default function useRemoveMovieFromTheList(options) {
       },
       onError: (...errorParams) =>
         handleMovieMutationError({ errorParams, queryClient, cacheKey }),
-      onSettled: () => handleMovieMutationSettled(queryClient, cacheKey),
+      onSettled: () =>
+        handleMovieMutationSettled(queryClient, cacheKey, searchQuery),
     }
   );
 }

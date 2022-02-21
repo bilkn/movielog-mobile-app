@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useCallback, useMemo } from "react";
 import { useSecureStore, useUser } from ".";
+import Toast from "react-native-root-toast";
 
 const apiBaseURL = process.env.REACT_APP_API_BASE_URL;
 const authBaseURL = process.env.REACT_APP_AUTH_BASE_URL;
@@ -51,10 +52,27 @@ function useAxios(options) {
     }
   }, []);
 
+  const showToastMessage = (success, message) => {
+    Toast.show(message, {
+      backgroundColor: "#151823",
+      // rgba(0, 0, 0, 0.05),
+      shadowColor: "#0000000d",
+      shadow: true,
+      duration: Toast.durations.LONG,
+      textColor: success ? "white" : "#FF3B30",
+      position: 50,
+      animation: true,
+    });
+  };
+
   // TODO: Add connection interceptor to prevent unnecessary requests.
 
   axiosInstance.interceptors.response.use(
     (response) => {
+      const { message } = response?.data || {};
+      if (message !== undefined) {
+        showToastMessage(true, message);
+      }
       return response;
     },
     async (error) => {
@@ -79,11 +97,17 @@ function useAxios(options) {
             console.log(err);
           }
         }
+        const { message, success } = response?.data || {};
+
+        if (message !== undefined && success !== undefined) {
+          showToastMessage(false, message);
+        }
 
         // TODO: If timeout show timeout error.
-        if (status == "408") console.log("TIMEOUT");
+        if (status == "408") {
+          showToastMessage(false, "Request timed out");
+        }
       }
-
 
       console.log("reject it");
       return Promise.reject(error);

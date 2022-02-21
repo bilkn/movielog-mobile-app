@@ -9,10 +9,10 @@ function useMovieListLogic(options) {
   const {
     data: { pages } = {},
     fetchNextPage,
-    refetch,
     isLoading,
     isFetched,
     isFetchingNextPage,
+    hasNextPage,
   } = useInfiniteQuery(
     listName,
     (query) => api.getMovieList(axiosInstance, listName, query),
@@ -33,14 +33,14 @@ function useMovieListLogic(options) {
 
   const handleReachList = () => {
     console.log("Handle reach list.");
-    fetchNextPage();
+    hasNextPage && fetchNextPage();
   };
 
   const handlers = {
     handleReachList,
   };
 
-  return { handlers, movieList, isLoading, isFetchingNextPage,isFetched };
+  return { handlers, movieList, isLoading, isFetchingNextPage, isFetched };
 }
 
 export default useMovieListLogic;

@@ -11,6 +11,8 @@ import {
 import { Icon } from "../assets/icon";
 import useSearchLogic from "../hooks/screens/useSearchLogic";
 import { useAddMovieToTheList, useRemoveMovieFromTheList } from "../hooks";
+import { Pressable, View } from "react-native";
+import { FontAwesome } from "@expo/vector-icons";
 
 const MovieCardRenderItem = (props) => {
   const { item: movie, index: i, navigation, cacheKey, searchQuery } = props;
@@ -64,9 +66,10 @@ const Search = ({ navigation }) => {
     featuredMovies,
     isLoading,
     isFetchingNextPage,
-    debouncedSearchQuery
+    debouncedSearchQuery,
   } = useSearchLogic();
-  const { handleSearchQueryChange, handleReachList } = handlers;
+  const { handleSearchQueryChange, handleReachList, resetSearchQuery } =
+    handlers;
 
   return (
     <>
@@ -75,6 +78,7 @@ const Search = ({ navigation }) => {
           value={formikValues.searchQuery}
           onChangeText={(value) => handleSearchQueryChange(value)}
           style={{ marginBottom: 30 }}
+          onCancelPress={resetSearchQuery}
         />
       </MainLayout>
       {isLoading ? (

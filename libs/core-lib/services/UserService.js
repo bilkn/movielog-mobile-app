@@ -25,6 +25,7 @@ function addItemToList(id, listName, item) {
 
 function getList(id, listName, skip = 0) {
   const ITEMS_PER_PAGE = 10;
+  console.log({skip});
   const aggregation = [
     {
       $match: {
