@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useCallback, useMemo } from "react";
 import { useSecureStore, useUser } from ".";
-import Toast from "react-native-root-toast";
+import { toaster } from "../helpers";
 
 const apiBaseURL = process.env.REACT_APP_API_BASE_URL;
 const authBaseURL = process.env.REACT_APP_AUTH_BASE_URL;
@@ -52,76 +52,77 @@ function useAxios(options) {
     }
   }, []);
 
-  const showToastMessage = (success, message) => {
-    Toast.show(message, {
-      backgroundColor: "#151823",
-      // rgba(0, 0, 0, 0.05),
-      shadowColor: "#0000000d",
-      shadow: true,
-      duration: Toast.durations.LONG,
-      textColor: success ? "white" : "#FF3B30",
-      position: 50,
-      animation: true,
-    });
-  };
+  const showToastMessage = (success, message) => {};
 
   // TODO: Add connection interceptor to prevent unnecessary requests.
 
-  axiosInstance.interceptors.response.use(
-    (response) => {
-      const { message } = response?.data || {};
-      if (message !== undefined) {
-        showToastMessage(true, message);
-      }
-      return response;
-    },
-    async (error) => {
-      const { response, request } = error;
-
-      if (error?.code === "ECONNABORTED") {
-        // TODO: If timeout show timeout error.
-        console.log("TIMEOUT");
-      }
-
-      // TODO: Handle refresh token if it is expired.
-
-      if (response) {
-        const { status } = response;
-        if (response?.data.expired) {
-          console.log("EXPIRED");
-          const { config } = error;
-          try {
-            const data = config && (await retryRequestByFreshTokens(config));
-            if (data?.data) return data;
-          } catch (err) {
-            console.log(err);
+  useMemo(
+    () =>
+      axiosInstance.interceptors.response.use(
+        (response) => {
+          const { message } = response?.data || {};
+          if (message !== undefined) {
+            console.log("SUCCESS");
+            toaster.show(true, message);
           }
-        }
-        const { message, success } = response?.data || {};
+          return response;
+        },
+        async (error) => {
+          const { response, request } = error;
 
-        if (message !== undefined && success !== undefined) {
-          showToastMessage(false, message);
-        }
+          if (error?.code === "ECONNABORTED") {
+            // TODO: If timeout show timeout error.
+            console.log("TIMEOUT");
+          }
 
-        // TODO: If timeout show timeout error.
-        if (status == "408") {
-          showToastMessage(false, "Request timed out");
-        }
-      }
+          // TODO: Handle refresh token if it is expired.
 
-      console.log("reject it");
-      return Promise.reject(error);
-    }
+          if (response) {
+            const { status } = response;
+            if (response?.data.expired) {
+              console.log("EXPIRED");
+              const { config } = error;
+              try {
+                const data =
+                  config && (await retryRequestByFreshTokens(config));
+                if (data?.data) return data;
+              } catch (err) {
+                console.log(err);
+              }
+            }
+            const { message, success } = response?.data || {};
+            console.log("request");
+
+            if (message !== undefined && success !== undefined) {
+              console.log("message");
+              toaster.show(success, message);
+            }
+
+            // TODO: If timeout show timeout error.
+            if (status == "408") {
+              toaster.show(false, "Request timed out");
+            }
+          }
+
+          console.log("reject it");
+          return Promise.reject(error);
+        }
+      ),
+    []
   );
 
-  axiosInstance.interceptors.request.use((config) => {
-    const { accessToken } = user?.tokens || {};
+  useMemo(
+    () =>
+      axiosInstance.interceptors.request.use((config) => {
+        const { accessToken } = user?.tokens || {};
 
-    if (accessToken) {
-      config.headers.authorization = `Bearer ${accessToken}`;
-    }
-    return config;
-  });
+        if (accessToken) {
+          config.headers.authorization = `Bearer ${accessToken}`;
+        }
+        return config;
+      }),
+    []
+  );
 
   return { axiosInstance };
 }
