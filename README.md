@@ -1,3 +1,3 @@
 # movielog-mobile-app
 
-An app where you can add the movie you watched or will watch.  
+A simple and user friendly movie list app
