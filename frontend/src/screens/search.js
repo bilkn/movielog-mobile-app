@@ -7,12 +7,13 @@ import {
   MovieCardItem,
   MovieCardSkeletonList,
   Spinner,
+  Typography,
 } from "../components";
 import { Icon } from "../assets/icon";
 import useSearchLogic from "../hooks/screens/useSearchLogic";
 import { useAddMovieToTheList, useRemoveMovieFromTheList } from "../hooks";
-import { Pressable, View } from "react-native";
-import { FontAwesome } from "@expo/vector-icons";
+import { View } from "react-native";
+import { useTheme } from "@react-navigation/native";
 
 const MovieCardRenderItem = (props) => {
   const { item: movie, index: i, navigation, cacheKey, searchQuery } = props;
@@ -67,17 +68,34 @@ const Search = ({ navigation }) => {
     isLoading,
     isFetchingNextPage,
     debouncedSearchQuery,
+    genre,
   } = useSearchLogic();
   const { handleSearchQueryChange, handleReachList, resetSearchQuery } =
     handlers;
+  const { colors } = useTheme();
 
   return (
     <>
-      <MainLayout style={{ marginBottom: 0 }}>
+      <MainLayout style={{ marginTop: 20, marginBottom: 0 }}>
+        {!!genre && (
+          <View style={{ marginBottom: 10, width: "100%" }}>
+            <Typography
+              color={colors.secondary}
+              style={{
+                textTransform: "capitalize",
+                textAlign: "left",
+                fontSize: "22px",
+              }}
+              variant="title"
+            >
+              {genre} Movies
+            </Typography>
+          </View>
+        )}
         <Form.Searchbox
           value={formikValues.searchQuery}
           onChangeText={(value) => handleSearchQueryChange(value)}
-          style={{ marginBottom: 30 }}
+          style={{ marginBottom: 20 }}
           onCancelPress={resetSearchQuery}
         />
       </MainLayout>

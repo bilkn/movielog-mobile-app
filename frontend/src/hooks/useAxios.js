@@ -52,8 +52,6 @@ function useAxios(options) {
     }
   }, []);
 
-  const showToastMessage = (success, message) => {};
-
   // TODO: Add connection interceptor to prevent unnecessary requests.
 
   useMemo(

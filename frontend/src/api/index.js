@@ -28,10 +28,18 @@ const getMovieList = (instance, list, query) => {
   return instance.get(`/user/list/${list}/?page=${pageParam}`);
 };
 
+const getMoviesByGenre = (instance, query, optionalQuery) => {
+  const { pageParam = 1 } = query || {};
+  const { genre } = optionalQuery || {};
+  console.log(`/discover?genres=${genre}&page=${pageParam}`,'PATH');
+  return instance.get(`/discover?genres=${genre}&page=${pageParam}`);
+};
+
 export default api = {
   getUserInfoRequest,
   getFeaturedMoviesRequest,
   addMovieToTheList,
   removeMovieFromTheList,
   getMovieList,
+  getMoviesByGenre,
 };

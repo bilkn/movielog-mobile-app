@@ -1,12 +1,15 @@
 import { useFormik } from "formik";
-import React, { useCallback, useEffect, useMemo } from "react";
+import { useCallback, useEffect, useMemo } from "react";
 import { useInfiniteQuery, useQuery } from "react-query";
 import { useAxios } from "..";
 import { useDebounce } from "use-debounce";
 import api from "../../api";
+import { useRoute } from "@react-navigation/native";
 
 function useSearchLogic() {
   const { axiosInstance } = useAxios();
+  const { params } = useRoute();
+  const { genre = "" } = params || {};
   const {
     values,
     handleChange,
@@ -22,7 +25,9 @@ function useSearchLogic() {
   const getMoviesBySearchQueryRequest = (query) => {
     const { queryKey, pageParam = 1 } = query;
     const [_, { searchQuery }] = queryKey;
-    return axiosInstance.get(`/search/?q=${searchQuery}&page=${pageParam}`);
+    return axiosInstance.get(
+      `/search/?q=${searchQuery}&page=${pageParam}&genre=${genre}`
+    );
   };
 
   const {
@@ -64,7 +69,7 @@ function useSearchLogic() {
   };
 
   useEffect(() => {
-    if (debouncedSearchQuery) {
+    if (debouncedSearchQuery || genre) {
       getMoviesBySearchQuery({ refetchPage: (page, index) => index === 0 });
     }
   }, [debouncedSearchQuery]);
@@ -102,6 +107,7 @@ function useSearchLogic() {
     featuredMovies,
     isFetchingNextPage,
     debouncedSearchQuery,
+    genre,
   };
 }
 

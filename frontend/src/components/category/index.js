@@ -5,48 +5,58 @@ import { styles } from "./styles";
 import { useTheme } from "@react-navigation/native";
 import { Typography } from "..";
 import { Icon } from "../../assets/icon";
+import { SCREENS } from "../../constants/screens";
 
 const categoryList = [
   {
     genre: "Action",
+    value: "28",
     iconName: "gun",
   },
   {
     genre: "Adventure",
+    value: "12",
     iconName: "compass",
   },
   {
     genre: "Crime",
+    value: "80",
     iconName: "handcuffs",
   },
   {
     genre: "Comedy",
+    value: "35",
     iconName: "happy-face",
   },
   {
     genre: "Drama",
+    value: "18",
     iconName: "drama-masks",
   },
   {
     genre: "Horror",
+    value: "27",
     iconName: "ghost",
   },
   {
-    genre: "Romantic",
+    genre: "Romance",
+    value: "10749",
     iconName: "rose",
   },
   {
     genre: "Sci-fi",
+    value: "878",
     iconName: "alien",
   },
 ];
 
-const Card = ({ item, i }) => {
+const Card = ({ item, i, onCardPress }) => {
   const { colors } = useTheme();
   const { genre, iconName } = item;
 
   return (
     <Pressable
+      onPress={onCardPress}
       style={({ pressed }) => ({
         ...styles.cardContainer,
         opacity: pressed ? 0.8 : 1,
@@ -66,7 +76,8 @@ const Card = ({ item, i }) => {
   );
 };
 
-const Category = () => {
+const Category = ({ navigation }) => {
+  console.log({ navigation });
   return (
     <ScrollView
       contentContainerStyle={styles.container}
@@ -74,7 +85,16 @@ const Category = () => {
       showsHorizontalScrollIndicator={false}
     >
       {categoryList.map((item, i) => (
-        <Card key={item.genre} item={item} i={i} />
+        <Card
+          onCardPress={() =>
+            navigation.navigate(SCREENS.MOVIES_BY_GENRE, {
+              genre: item.value,
+            })
+          }
+          key={item.genre}
+          item={item}
+          i={i}
+        />
       ))}
     </ScrollView>
   );

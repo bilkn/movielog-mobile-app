@@ -3,7 +3,7 @@ import React from "react";
 import { SCREENS } from "../constants/screens";
 import { HomeTabs } from ".";
 import { createStackNavigator } from "@react-navigation/stack";
-import { ChangePassword, MovieDetail } from "../screens";
+import { ChangePassword, MovieDetail, MoviesByGenre } from "../screens";
 
 const Stack = createStackNavigator();
 
@@ -34,6 +34,13 @@ const MainStack = () => {
         }}
         name={SCREENS.MOVIE_DETAIL}
         component={MovieDetail}
+      />
+      <Stack.Screen
+        options={{
+          title: "Movies by genre",
+        }}
+        name={SCREENS.MOVIES_BY_GENRE}
+        component={MoviesByGenre}
       />
       <Stack.Screen
         options={{
