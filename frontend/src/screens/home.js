@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
 
 const lightTitleProps = { style: { fontWeight: "300" }, variant: "titleLight" };
 
-const Home = ({ navigation }) => {
+const Home = ({  navigation }) => {
   const { featuredMovies, isLoading, username } = useHomeLogic();
 
   return (
@@ -57,7 +57,7 @@ const Home = ({ navigation }) => {
           Categories
         </Typography>
       </MainLayout>
-      <Category />
+      <Category navigation={navigation} />
       <View style={{ paddingHorizontal: 20 }}>
         <View style={styles.featuredHeading}>
           <Typography variant="title">Featured </Typography>

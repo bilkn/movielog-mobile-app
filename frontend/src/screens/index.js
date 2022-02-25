@@ -4,6 +4,7 @@ export { default as List } from "./list";
 export { default as Profile } from "./profile";
 export { default as MovieDetail } from "./movie-detail";
 export { default as ChangePassword } from "./change-password";
+export { default as MoviesByGenre } from "./movies-by-genre";
 
 /* AUTH SCREENS */
 export { default as SignIn } from "./auth-screens/sign-in";

@@ -1,10 +1,10 @@
-import { useEffect, useMemo } from "react";
+import { useMemo } from "react";
 import { useInfiniteQuery } from "react-query";
 import api from "../../api";
 import { useAxios } from "../../hooks";
 
 function useMovieListLogic(options) {
-  const { listName } = options;
+  const { listName, queryFn } = options;
   const { axiosInstance } = useAxios();
   const {
     data: { pages } = {},
@@ -15,7 +15,10 @@ function useMovieListLogic(options) {
     hasNextPage,
   } = useInfiniteQuery(
     listName,
-    (query) => api.getMovieList(axiosInstance, listName, query),
+    (query) =>
+      queryFn
+        ? queryFn(axiosInstance, query)
+        : api.getMovieList(axiosInstance, listName, query),
     {
       getNextPageParam: (lastPage) => {
         const { pagination } = lastPage?.data || {};

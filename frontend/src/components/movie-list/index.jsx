@@ -3,9 +3,9 @@ import { CustomFlatList, Spinner, MovieCardSkeletonList, Typography } from "..";
 import useMovieListLogic from "./useMovieListLogic";
 
 function MovieList(props) {
-  const { listName, navigation, emptyListMessage } = props;
+  const { listName, navigation, emptyListMessage, queryFn } = props;
   const { movieList, handlers, isFetchingNextPage, isLoading, isFetched } =
-    useMovieListLogic({ listName });
+    useMovieListLogic({ listName, queryFn });
   const { handleReachList } = handlers;
 
   if (isFetched && !movieList.length) {
@@ -15,6 +15,8 @@ function MovieList(props) {
       </Typography>
     );
   }
+
+  console.log({movieList});
 
   return (
     <>
