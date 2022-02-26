@@ -6,7 +6,6 @@ import {
   handleMovieMutationError,
   handleMovieMutationSettled,
   handleUserListMutation,
-  handleWatchListMutation,
 } from "./useAddMovieToTheList";
 
 const handleMovieDetailRemoveMutation = (queryClient, list, movieID) => {
@@ -25,7 +24,7 @@ const handleMovieDetailRemoveMutation = (queryClient, list, movieID) => {
     return { prevData: { data: previousMovieDetail } };
   }
 };
-const handleFeaturedMovieList = (queryClient, list, movieID) => {
+const handleFeaturedListRemoveMutation = (queryClient, list, movieID) => {
   const { data: previousMovieData } =
     queryClient.getQueryData("featuredMovieList") || {};
 
@@ -46,32 +45,29 @@ const handleFeaturedMovieList = (queryClient, list, movieID) => {
   };
 };
 
-const handleSearchMovideListRemoveMutation = ({
+const handleMovieListRemoveMutation = ({
   queryClient,
   list,
   movieID,
-  searchQuery,
+  query,
 }) => {
-  queryClient.setQueriesData(
-    ["searchMovieList", { searchQuery }],
-    (oldQueryData) => {
-      return {
-        pages: oldQueryData.pages.map(({ data: { items, ...rest } }) => ({
-          data: {
-            items: items.map((movie) =>
-              movie.id === movieID
-                ? {
-                    ...movie,
-                    [MAPPINGS.watchDataByList[list]]: false,
-                  }
-                : movie
-            ),
-            ...rest,
-          },
-        })),
-      };
-    }
-  );
+  queryClient.setQueriesData(query, (oldQueryData) => {
+    return {
+      pages: oldQueryData.pages.map(({ data: { items, ...rest } }) => ({
+        data: {
+          items: items.map((movie) =>
+            movie.id === movieID
+              ? {
+                  ...movie,
+                  [MAPPINGS.watchDataByList[list]]: false,
+                }
+              : movie
+          ),
+          ...rest,
+        },
+      })),
+    };
+  });
 };
 
 export default function useRemoveMovieFromTheList(options) {
@@ -91,18 +87,27 @@ export default function useRemoveMovieFromTheList(options) {
         }
 
         if (cacheKey === "featuredMovieList") {
-          return handleFeaturedMovieList(queryClient, list, movieID);
+          return handleFeaturedListRemoveMutation(queryClient, list, movieID);
         }
         if (cacheKey === "watchList" || cacheKey === "watchedList") {
           return handleUserListMutation(queryClient, movieID, cacheKey);
         }
 
         if (cacheKey === "searchMovieList") {
-          return handleSearchMovideListRemoveMutation({
+          return handleMovieListRemoveMutation({
             queryClient,
             list,
             movieID,
-            searchQuery,
+            query: ["searchMovieList", { searchQuery }],
+          });
+        }
+
+        if (cacheKey === "moviesByGenre") {
+          return handleMovieListRemoveMutation({
+            queryClient,
+            list,
+            movieID,
+            query: cacheKey,
           });
         }
       },
