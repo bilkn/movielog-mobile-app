@@ -36,9 +36,6 @@ const MainStack = () => {
         component={MovieDetail}
       />
       <Stack.Screen
-        options={{
-          title: "Movies by genre",
-        }}
         name={SCREENS.MOVIES_BY_GENRE}
         component={MoviesByGenre}
       />

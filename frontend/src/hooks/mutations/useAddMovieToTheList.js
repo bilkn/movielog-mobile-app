@@ -21,7 +21,6 @@ export const handleMovieMutationError = ({
 const handleMovieDetailAddMutation = (queryClient, list) => {
   const { data: previousMovieDetail } =
     queryClient.getQueryData("movieDetail") || {};
-  // TODO: Add operations for other cache keys too.
 
   queryClient.setQueryData("movieDetail", (oldQueryData) => {
     return {
@@ -67,33 +66,25 @@ export const handleUserListMutation = (queryClient, movieID, cacheKey) => {
   });
 };
 
-const handleSearchedMovieListAddMutation = ({
-  queryClient,
-  list,
-  movieID,
-  searchQuery,
-}) => {
-  queryClient.setQueriesData(
-    ["searchMovieList", { searchQuery }],
-    (oldQueryData) => {
-      return {
-        pages: oldQueryData.pages.map(({ data: { items, ...rest } }) => ({
-          data: {
-            items: items.map((movie) =>
-              movie.id === movieID
-                ? {
-                    ...movie,
-                    [MAPPINGS.watchDataByList[list]]: true,
-                    [MAPPINGS.watchDataByListReversed[list]]: false,
-                  }
-                : movie
-            ),
-            ...rest,
-          },
-        })),
-      };
-    }
-  );
+const handleMovieListAddMutation = ({ queryClient, list, movieID, query }) => {
+  queryClient.setQueriesData(query, (oldQueryData) => {
+    return {
+      pages: oldQueryData.pages.map(({ data: { items, ...rest } }) => ({
+        data: {
+          items: items.map((movie) =>
+            movie.id === movieID
+              ? {
+                  ...movie,
+                  [MAPPINGS.watchDataByList[list]]: true,
+                  [MAPPINGS.watchDataByListReversed[list]]: false,
+                }
+              : movie
+          ),
+          ...rest,
+        },
+      })),
+    };
+  });
 };
 
 export default function useAddMovieToTheList(options) {
@@ -120,11 +111,19 @@ export default function useAddMovieToTheList(options) {
         }
 
         if (cacheKey === "searchMovieList") {
-          return handleSearchedMovieListAddMutation({
+          return handleMovieListAddMutation({
             queryClient,
             list,
             movieID,
-            searchQuery,
+            query: [cacheKey, { searchQuery }],
+          });
+        }
+        if (cacheKey === "moviesByGenre") {
+          return handleMovieListAddMutation({
+            queryClient,
+            list,
+            movieID,
+            query: cacheKey,
           });
         }
       },

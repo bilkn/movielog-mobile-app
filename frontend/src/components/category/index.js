@@ -7,44 +7,44 @@ import { Typography } from "..";
 import { Icon } from "../../assets/icon";
 import { SCREENS } from "../../constants/screens";
 
-const categoryList = [
+const genres = [
   {
-    genre: "Action",
+    name: "Action",
     value: "28",
     iconName: "gun",
   },
   {
-    genre: "Adventure",
+    name: "Adventure",
     value: "12",
     iconName: "compass",
   },
   {
-    genre: "Crime",
+    name: "Crime",
     value: "80",
     iconName: "handcuffs",
   },
   {
-    genre: "Comedy",
+    name: "Comedy",
     value: "35",
     iconName: "happy-face",
   },
   {
-    genre: "Drama",
+    name: "Drama",
     value: "18",
     iconName: "drama-masks",
   },
   {
-    genre: "Horror",
+    name: "Horror",
     value: "27",
     iconName: "ghost",
   },
   {
-    genre: "Romance",
+    name: "Romance",
     value: "10749",
     iconName: "rose",
   },
   {
-    genre: "Sci-fi",
+    name: "Sci-fi",
     value: "878",
     iconName: "alien",
   },
@@ -52,7 +52,7 @@ const categoryList = [
 
 const Card = ({ item, i, onCardPress }) => {
   const { colors } = useTheme();
-  const { genre, iconName } = item;
+  const { name, iconName } = item;
 
   return (
     <Pressable
@@ -63,7 +63,7 @@ const Card = ({ item, i, onCardPress }) => {
         marginLeft: i === 0 ? 0 : 15,
       })}
     >
-      <Typography variant="textSmall">{genre}</Typography>
+      <Typography variant="textSmall">{name}</Typography>
       <LinearGradient
         start={{ x: 0, y: 0 }}
         end={{ x: 360, y: 360 }}
@@ -77,22 +77,22 @@ const Card = ({ item, i, onCardPress }) => {
 };
 
 const Category = ({ navigation }) => {
-  console.log({ navigation });
   return (
     <ScrollView
       contentContainerStyle={styles.container}
       horizontal
       showsHorizontalScrollIndicator={false}
     >
-      {categoryList.map((item, i) => (
+      {genres.map((genre, i) => (
         <Card
           onCardPress={() =>
             navigation.navigate(SCREENS.MOVIES_BY_GENRE, {
-              genre: item.value,
+              genre: genre.name,
+              genreID: genre.value,
             })
           }
-          key={item.genre}
-          item={item}
+          key={genre.name}
+          item={genre}
           i={i}
         />
       ))}

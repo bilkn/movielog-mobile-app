@@ -16,8 +16,6 @@ function MovieList(props) {
     );
   }
 
-  console.log({movieList});
-
   return (
     <>
       {isLoading ? (
