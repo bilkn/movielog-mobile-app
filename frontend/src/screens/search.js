@@ -16,7 +16,14 @@ import { View } from "react-native";
 import { useTheme } from "@react-navigation/native";
 
 const MovieCardRenderItem = (props) => {
-  const { item: movie, index: i, navigation, cacheKey, searchQuery } = props;
+  const {
+    item: movie,
+    index: i,
+    navigation,
+    cacheKey,
+    searchQuery,
+    style,
+  } = props;
   const { id, watched, willWatch } = movie;
 
   const { isLoading: addMovieLoading, mutate: addMovieToTheList } =
@@ -29,7 +36,7 @@ const MovieCardRenderItem = (props) => {
     <MovieCardItem
       movie={movie}
       navigation={navigation}
-      style={{ marginTop: i !== 0 ? 30 : 0 }}
+      style={{ marginTop: i !== 0 ? 30 : 0, ...style }}
       extraComponent={
         <>
           <IconButton
@@ -112,6 +119,12 @@ const Search = ({ navigation }) => {
               index={index}
               navigation={navigation}
               searchQuery={debouncedSearchQuery}
+              style={
+                index === searchedMovies?.length - 1 ||
+                index === featuredMovies?.length - 1
+                  ? { borderBottomWidth: 0 }
+                  : {}
+              }
               cacheKey={
                 !!searchedMovies?.length
                   ? "searchMovieList"

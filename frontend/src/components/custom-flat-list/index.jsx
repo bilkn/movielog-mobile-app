@@ -19,6 +19,7 @@ function CustomFlatList(props) {
       listName={listName}
       item={item}
       navigation={navigation}
+      style={index === items.length - 1 ? { borderBottomWidth: 0 } : {}}
     />
   );
 

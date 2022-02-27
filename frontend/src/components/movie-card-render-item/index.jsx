@@ -7,7 +7,7 @@ import { Icon } from "../../assets/icon";
 import { useAddMovieToTheList, useRemoveMovieFromTheList } from "../../hooks";
 
 const MovieCardRenderItem = (props) => {
-  const { item: movie, index: i, navigation, listName } = props;
+  const { item: movie, index: i, navigation, listName, style } = props;
   const { isLoading: addMovieLoading, mutate: addMovieToTheList } =
     useAddMovieToTheList({ cacheKey: listName });
   const { isLoading: removeMovieLoading, mutate: removeMovieFromTheList } =
@@ -90,6 +90,7 @@ const MovieCardRenderItem = (props) => {
         borderColor: "rgba(81, 83, 93, 0.4)",
         paddingHorizontal: 20,
         paddingVertical: 15,
+        ...style,
       }}
     />
   );
