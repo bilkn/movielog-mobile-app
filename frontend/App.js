@@ -25,7 +25,10 @@ LogBox.ignoreAllLogs();
 
 const client = new QueryClient();
 
+
+
 export default function App() {
+
   const [fontsLoaded] = useFonts({
     IcoMoon: require("./src/assets/font-icons/icomoon.ttf"),
     Righteous_400Regular,
@@ -43,7 +46,10 @@ export default function App() {
         <StatusBar style="light" />
         <QueryClientProvider client={client}>
           <UserProvider>
-            <NavigationContainer theme={MainTheme}>
+            <NavigationContainer
+              theme={MainTheme}
+              fallback={<Text>Loading...</Text>}
+            >
               <AppScreens />
             </NavigationContainer>
           </UserProvider>

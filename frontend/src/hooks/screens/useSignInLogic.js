@@ -67,6 +67,7 @@ function useSignInLogic({ navigation }) {
     navigation.navigate(SCREENS.FORGOT_PASSWORD);
   };
 
+
   const handlers = {
     handleSubmit,
     handleSignUpPress,

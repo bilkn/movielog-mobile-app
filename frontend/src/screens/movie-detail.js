@@ -5,6 +5,7 @@ import {
   IconButton,
   MainLayout,
   MovieTitleDetail,
+  NoPoster,
   Typography,
 } from "../components";
 import useMovieDetailLogic from "../hooks/screens/useMovieDetailLogic";
@@ -16,7 +17,7 @@ const styles = StyleSheet.create({
   },
   controls: {
     flexDirection: "row",
-    marginTop: 10,
+    marginTop: 15,
   },
   carouselContainer: {
     width: "100%",
@@ -100,12 +101,17 @@ const MovieDetail = ({ route }) => {
     <ScrollView showsVerticalScrollIndicator={false}>
       <MainLayout style={{ marginBottom: 0 }}>
         <View style={styles.container}>
-          <Image
-            style={styles.poster}
-            source={{
-              uri: `${process.env.REACT_APP_POSTER_API_URL}/w300${poster}`,
-            }}
-          />
+          {poster ? (
+            <Image
+              style={styles.poster}
+              source={{
+                uri: `${process.env.REACT_APP_POSTER_API_URL}/w300${poster}`,
+              }}
+            />
+          ) : (
+            <NoPoster style={styles.poster} fontVariant="subtitle" />
+          )}
+
           <View style={styles.controls}>
             <View
               style={{
@@ -118,8 +124,7 @@ const MovieDetail = ({ route }) => {
                 icon={<Icon name="movie-open-check" size={22} />}
                 onPress={
                   willWatch
-                    ? () =>
-                        removeMovieFromTheList(["watchList", id])
+                    ? () => removeMovieFromTheList(["watchList", id])
                     : () => addMovieToTheList(["watchList", id])
                 }
                 disabled={isOperationLoading}
@@ -145,14 +150,8 @@ const MovieDetail = ({ route }) => {
                 icon={<Icon name="checkbox-plus" size={22} />}
                 onPress={
                   watched
-                    ? () =>
-                        removeMovieFromTheList([
-                          "watchedList",
-                          id,
-                      ,
-                        ])
-                    : () =>
-                        addMovieToTheList(["watchedList", id])
+                    ? () => removeMovieFromTheList(["watchedList", id, ,])
+                    : () => addMovieToTheList(["watchedList", id])
                 }
                 disabled={isOperationLoading}
               />

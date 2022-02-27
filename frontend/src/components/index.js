@@ -18,6 +18,7 @@ export { default as MovieTitleDetail } from "./utils/movie-title-detail";
 export { default as MovieCardItem } from "./utils/movie-card-item";
 export { default as Rate } from "./utils/rate";
 export { default as Spinner } from "./utils/spinner";
+export { default as NoPoster } from "./utils/no-poster";
 
 /* Skeletons */
 export { default as MovieCardItemSkeleton } from "./skeletons/movie-card-item-skeleton";

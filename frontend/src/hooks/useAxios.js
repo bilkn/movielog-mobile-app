@@ -59,26 +59,32 @@ function useAxios(options) {
       axiosInstance.interceptors.response.use(
         (response) => {
           const { message } = response?.data || {};
+          let errorShown = false;
+
           if (message !== undefined) {
             console.log("SUCCESS");
             toaster.show(true, message);
+            errorShown = true;
           }
           return response;
         },
         async (error) => {
           const { response, request } = error;
 
-          if (error?.code === "ECONNABORTED") {
-            // TODO: If timeout show timeout error.
-            console.log("TIMEOUT");
+          let errorShown = false;
+
+          if (
+            error?.code === "ECONNABORTED" ||
+            error?.response?.status === "408"
+          ) {
+            toaster.show(false, "Request timed out");
+            errorShown = true;
           }
 
           // TODO: Handle refresh token if it is expired.
 
           if (response) {
-            const { status } = response;
             if (response?.data.expired) {
-              console.log("EXPIRED");
               const { config } = error;
               try {
                 const data =
@@ -89,20 +95,16 @@ function useAxios(options) {
               }
             }
             const { message, success } = response?.data || {};
-            console.log("request");
 
             if (message !== undefined && success !== undefined) {
-              console.log("message");
               toaster.show(success, message);
-            }
-
-            // TODO: If timeout show timeout error.
-            if (status == "408") {
-              toaster.show(false, "Request timed out");
+              errorShown = true;
             }
           }
+          if (!errorShown && !response?.data) {
+            toaster.show(false, "An error occurred");
+          }
 
-          console.log("reject it");
           return Promise.reject(error);
         }
       ),
