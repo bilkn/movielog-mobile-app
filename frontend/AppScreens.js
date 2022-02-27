@@ -5,6 +5,6 @@ import AppTabs from "./src/navigation/main-stack";
 
 export function AppScreens() {
   const { user } = useUser();
-  console.log({user});
+  
   return <>{user ? <AppTabs /> : <AuthStack />}</>;
 }

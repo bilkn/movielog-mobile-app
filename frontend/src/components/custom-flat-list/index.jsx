@@ -30,7 +30,6 @@ function CustomFlatList(props) {
       style={{ ...styles.listTab, ...style }}
       keyExtractor={(item) => item.id}
       renderItem={renderItem || renderItemFn}
-      contentInset={{ bottom: 60 }}
       onEndReached={onEndReached}
       {...rest}
     />
@@ -39,9 +38,7 @@ function CustomFlatList(props) {
 
 const styles = StyleSheet.create({
   listTab: {
-    paddingTop: 30,
     paddingBottom: 60,
-    paddingHorizontal: 20,
     width: "100%",
   },
 });

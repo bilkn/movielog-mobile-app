@@ -28,7 +28,18 @@ const MovieCardItem = (props) => {
   );
 
   return (
-    <View style={{ ...styles.container, marginTop: 30, ...style }}>
+    <View
+      style={{
+        ...styles.container,
+        marginTop: 30,
+        borderBottomWidth: 1,
+        borderColor: "rgba(81, 83, 93, 0.4)",
+        paddingHorizontal: 20,
+        paddingVertical: 15,
+        ...style,
+        marginTop: 0,
+      }}
+    >
       <Pressable onPress={() => handleCardPress(id)}>
         {poster ? (
           <Image
