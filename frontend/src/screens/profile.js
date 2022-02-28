@@ -20,7 +20,7 @@ const Profile = ({ navigation }) => {
     handleBlur,
     handleSubmit,
   } = handlers;
-  
+
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
       <MainLayout>
@@ -55,6 +55,7 @@ const Profile = ({ navigation }) => {
                   error={errors.password}
                   touched={touched.password}
                   onBlur={handleBlur("password")}
+                  secureTextEntry
                 />
               </View>
               <CustomButton
