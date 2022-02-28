@@ -10,14 +10,18 @@ const ListTabs = (props) => {
 
   return (
     <View
-      style={{ ...styles.listTabContainer, borderColor: colors.primaryBorder }}
+      style={{
+        backgroundColor: colors.primary,
+        ...styles.listTabContainer,
+        borderColor: colors.primaryBorder,
+      }}
     >
       <Pressable style={styles.tab} onPress={() => onTabChange("watchList")}>
         <Typography
           color={listTab.watchList ? colors.ternary : colors.text}
           variant="subtitle"
         >
-          Watch List
+          Watchlist
         </Typography>
       </Pressable>
       <Pressable style={styles.tab} onPress={() => onTabChange("watchedList")}>
@@ -25,11 +29,12 @@ const ListTabs = (props) => {
           color={listTab.watchedList ? colors.ternary : colors.text}
           variant="subtitle"
         >
-          Watched List
+          Watchlog
         </Typography>
       </Pressable>
     </View>
   );
+  r;
 };
 
 const List = ({ navigation }) => {
@@ -68,6 +73,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     flexDirection: "row",
     justifyContent: "space-around",
+    paddingTop: 50,
     width: "100%",
   },
   tab: {

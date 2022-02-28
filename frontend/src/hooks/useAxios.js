@@ -1,6 +1,8 @@
+import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
 import { useCallback, useMemo } from "react";
 import { useSecureStore, useUser } from ".";
+import { SCREENS } from "../constants/screens";
 import { toaster } from "../helpers";
 
 const apiBaseURL = process.env.REACT_APP_API_BASE_URL;
@@ -9,6 +11,7 @@ const authBaseURL = process.env.REACT_APP_AUTH_BASE_URL;
 function useAxios(options) {
   const { base } = options || {};
   const { user, signOut, setUser } = useUser();
+  const navigation = useNavigation();
   const secureStore = useSecureStore();
 
   const axiosInstance = useMemo(
@@ -94,9 +97,24 @@ function useAxios(options) {
                 console.log(err);
               }
             }
+
+            if (response?.data?.refreshTokenExpired) {
+              toaster.show(false, response.data.message);
+              setUser(null);
+              errorShown = true;
+              navigation.navigate(SCREENS.SIGN_IN);
+              secureStore
+                .deleteItem("tokens")
+                .then(() => console.log("Tokens has been deleted."))
+                .catch((err) => {
+                  console.log(err);
+                  toaster.show(false, "An error occurred");
+                });
+            }
+
             const { message, success } = response?.data || {};
 
-            if (message !== undefined && success !== undefined) {
+            if (message !== undefined && success !== undefined && !errorShown) {
               toaster.show(success, message);
               errorShown = true;
             }

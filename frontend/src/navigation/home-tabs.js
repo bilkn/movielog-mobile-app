@@ -25,6 +25,9 @@ const HomeTabs = () => {
         tabBarActiveTintColor: colors.ternary,
         tabBarInactiveTintColor: colors.text,
         tabBarShowLabel: false,
+        headerBackgroundContainerStyle: {
+          backgroundColor: colors.primary,
+        },
         headerStyle: {
           backgroundColor: colors.primary,
           borderColor: colors.primaryBorder,
@@ -59,7 +62,7 @@ const HomeTabs = () => {
         name={SCREENS.LIST}
         component={ListStack}
         options={({ navigation }) => ({
-          headerTitle: () => <Header navigation={navigation} />,
+          headerShown: false,
           tabBarLabel: "List",
           tabBarIcon: ({ color }) => (
             <Feather name="list" size={27} color={color} />

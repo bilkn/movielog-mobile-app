@@ -1,4 +1,4 @@
-import { isLoading } from "expo-font";
+import { useTheme } from "@react-navigation/native";
 import React from "react";
 import Moment from "react-moment";
 import { View } from "react-native";
@@ -7,11 +7,12 @@ import { Icon } from "../../assets/icon";
 import { useAddMovieToTheList, useRemoveMovieFromTheList } from "../../hooks";
 
 const MovieCardRenderItem = (props) => {
-  const { item: movie, index: i, navigation, listName } = props;
+  const { item: movie, index: i, navigation, listName, style } = props;
   const { isLoading: addMovieLoading, mutate: addMovieToTheList } =
     useAddMovieToTheList({ cacheKey: listName });
   const { isLoading: removeMovieLoading, mutate: removeMovieFromTheList } =
     useRemoveMovieFromTheList({ cacheKey: listName });
+  const { colors } = useTheme();
 
   const { id, willWatch, watched, watchDate } = movie;
 
@@ -82,7 +83,15 @@ const MovieCardRenderItem = (props) => {
           </>
         )
       }
-      style={{ marginTop: i !== 0 ? 30 : 0 }}
+      style={{
+        marginTop: 0,
+        backgroundColor: colors.darkGray,
+        borderBottomWidth: 1,
+        borderColor: "rgba(81, 83, 93, 0.4)",
+        paddingHorizontal: 20,
+        paddingVertical: 15,
+        ...style,
+      }}
     />
   );
 };
