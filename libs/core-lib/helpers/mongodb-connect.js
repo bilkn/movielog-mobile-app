@@ -1,8 +1,15 @@
 const mongoose = require("mongoose");
-main().catch((err) => console.log(err));
+
+const username = process.env.MONGO_USER;
+const password = process.env.MONGO_PASS;
+
 
 async function main() {
-  await mongoose.connect("mongodb://localhost:27017/test");
+  await mongoose.connect(
+    `mongodb+srv://${username}:${password}@maincluster.jbvab.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`
+  );
 }
 
-export default mongoose;
+main().catch((err) => console.log(err));
+
+module.exports = mongoose;

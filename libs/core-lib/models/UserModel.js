@@ -1,4 +1,4 @@
-const { default: mongoose } = require("../helpers/mongodb-connect");
+const mongoose = require("../helpers/mongodb-connect");
 
 const UserSchema = new mongoose.Schema({
   id: { type: Number, required: true },
