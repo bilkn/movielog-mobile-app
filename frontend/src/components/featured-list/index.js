@@ -4,6 +4,7 @@ import Carousel from "react-native-snap-carousel";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { styles } from "./styles";
 import { SCREENS } from "../../constants/screens";
+import { MovieCardSkeleton } from "..";
 
 const { width: screenWidth } = Dimensions.get("window");
 
@@ -28,7 +29,7 @@ const Card = ({ item, navigation }) => {
 };
 
 const FeaturedList = (props) => {
-  const { featuredMovies, navigation } = props;
+  const { featuredMovies, navigation, isLoading } = props;
   const carouselRef = useRef(null);
 
   return (
@@ -40,7 +41,13 @@ const FeaturedList = (props) => {
         autoplayInterval={5000}
         ref={carouselRef}
         data={featuredMovies}
-        renderItem={({ item }) => <Card item={item} navigation={navigation} />}
+        renderItem={({ item }) =>
+          isLoading ? (
+            <MovieCardSkeleton />
+          ) : (
+            <Card item={item} navigation={navigation} />
+          )
+        }
         itemHeight={250}
         sliderWidth={screenWidth}
         itemWidth={170}
