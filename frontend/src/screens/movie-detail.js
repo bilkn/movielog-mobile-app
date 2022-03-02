@@ -1,6 +1,7 @@
 import React from "react";
 import { View, Image, StyleSheet, ScrollView } from "react-native";
 import { Icon } from "../assets/icon";
+import NoAvatar from "../assets/no-avatar.png";
 import {
   IconButton,
   MainLayout,
@@ -53,9 +54,9 @@ const ActorCard = (props) => {
   return (
     <View style={{ ...styles.smallCard, ...style, backgroundColor: "#22232D" }}>
       <Image
-        source={{
+        source={profile ? {
           uri: `${process.env.REACT_APP_POSTER_API_URL}/w200${profile}`,
-        }}
+        } : NoAvatar}
         style={{ height: "75%", resizeMode: "cover", width: "100%" }}
         progressiveRenderingEnabled
       />
