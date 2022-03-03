@@ -65,7 +65,6 @@ function useAxios(options) {
           let errorShown = false;
 
           if (message !== undefined) {
-            console.log("SUCCESS");
             toaster.show(true, message);
             errorShown = true;
           }

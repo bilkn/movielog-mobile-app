@@ -9,14 +9,14 @@ import { useRoute } from "@react-navigation/native";
 function useSearchLogic() {
   const { axiosInstance } = useAxios();
   const { params } = useRoute();
-  const { genre = "" } = params || {};
+  const { genre = "", searchQuery: searchQueryParam } = params || {};
   const {
     values,
     handleChange,
     resetForm: resetSearchQuery,
   } = useFormik({
     initialValues: {
-      searchQuery: "",
+      searchQuery: searchQueryParam || "",
     },
   });
 

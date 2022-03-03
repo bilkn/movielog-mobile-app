@@ -1,5 +1,7 @@
 import { useNavigation } from "@react-navigation/native";
+import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
+import { useDebounce } from "use-debounce/lib";
 import { useAxios } from "..";
 import api from "../../api";
 import { SCREENS } from "../../constants/screens";
@@ -7,6 +9,8 @@ import { SCREENS } from "../../constants/screens";
 function useHomeLogic() {
   const { axiosInstance } = useAxios();
   const navigation = useNavigation();
+  const [searchQuery, setSearchQuery] = useState("");
+  const [debouncedSearchQuery] = useDebounce(searchQuery, 1500);
 
   const { data: { data: featuredMovies } = {}, isLoading } = useQuery(
     "featuredMovies",
@@ -17,23 +21,27 @@ function useHomeLogic() {
     api.getUserInfoRequest(axiosInstance)
   );
 
-  /*   const handleSearchQueryChange = (value, handleChange) => {
-    console.log(value);
-
-    if (value) {
-      navigation.navigate(SCREENS.SEARCH, {
-        searchQuery: value,
-      });
-    }
-
-    return handleChange("searchQuery")(value);
+  const handleSearchQueryChange = (value) => {
+    setSearchQuery(value);
   };
+
+  const resetSearchQuery = () => setSearchQuery("");
 
   const handlers = {
     handleSearchQueryChange,
+    resetSearchQuery,
   };
- */
-  return { featuredMovies, isLoading, username };
+
+  useEffect(() => {
+    if (searchQuery && debouncedSearchQuery) {
+      navigation.navigate(SCREENS.SEARCH, {
+        screen: SCREENS.SEARCH,
+        params: { searchQuery },
+      });
+    }
+  }, [debouncedSearchQuery, searchQuery]);
+
+  return { featuredMovies, isLoading, username, searchQuery, handlers };
 }
 
 export default useHomeLogic;

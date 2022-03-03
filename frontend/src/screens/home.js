@@ -29,8 +29,10 @@ const styles = StyleSheet.create({
 
 const lightTitleProps = { style: { fontWeight: "300" }, variant: "titleLight" };
 
-const Home = ({  navigation }) => {
-  const { featuredMovies, isLoading, username } = useHomeLogic();
+const Home = ({ navigation }) => {
+  const { featuredMovies, isLoading, username, searchQuery, handlers } =
+    useHomeLogic();
+  const { handleSearchQueryChange, resetSearchQuery } = handlers;
 
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
@@ -40,11 +42,12 @@ const Home = ({  navigation }) => {
           <Typography {...lightTitleProps}>{username}!</Typography>
         </View>
         <View style={{ marginTop: 20 }}>
-          <Formik initialValues={{ searchQuery: "" }}>
-            {({ values, handleChange }) => (
-              <Form.Searchbox value={values.searchQuery} />
-            )}
-          </Formik>
+          <Form.Searchbox
+            value={searchQuery}
+            onChangeText={(value) => handleSearchQueryChange(value)}
+            style={{ marginBottom: 20 }}
+            onCancelPress={resetSearchQuery}
+          />
         </View>
         <Typography
           style={{
