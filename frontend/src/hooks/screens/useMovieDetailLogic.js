@@ -1,5 +1,11 @@
+
 import { useQuery } from "react-query";
-import { useAddMovieToTheList, useRemoveMovieFromTheList, useAxios } from "..";
+import {
+  useAddMovieToTheList,
+  useRemoveMovieFromTheList,
+  useAxios,
+
+} from "..";
 
 function useMovieDetailLogic({ route }) {
   const { axiosInstance } = useAxios();
@@ -12,7 +18,7 @@ function useMovieDetailLogic({ route }) {
   const { movieID } = params || {};
 
   const getMovieDetailRequest = () => {
-    console.log("AXIOS INSTANCE",movieID);
+    console.log("AXIOS INSTANCE", movieID);
     return axiosInstance.get(`/${movieID}`);
   };
 

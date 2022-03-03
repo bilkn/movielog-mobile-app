@@ -1,18 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { ScrollView, View } from "react-native";
 import { MovieCardItemSkeleton } from "..";
+import { useDelayCallback } from "../../hooks";
 
 const MovieCardSkeletonList = ({ style }) => {
   const [enableAnimation, setShowEnableAnimation] = useState(false);
-
-  useEffect(() => {
-    let timeout = null;
-    if (!enableAnimation) {
-      timeout = setTimeout(() => setShowEnableAnimation(true), 300);
-    }
-
-    return () => clearTimeout(timeout);
-  }, [enableAnimation]);
+  useDelayCallback({
+    callback: () => setShowEnableAnimation(true),
+    condition: !enableAnimation,
+  });
 
   return (
     <ScrollView

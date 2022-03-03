@@ -24,3 +24,4 @@ export { default as NoPoster } from "./utils/no-poster";
 export { default as MovieCardItemSkeleton } from "./skeletons/movie-card-item-skeleton";
 export { default as MovieCardSkeletonList } from "./skeletons/movie-card-skeleton-list";
 export { default as MovieCardSkeleton } from "./skeletons/movie-card-skeleton";
+export { default as DelayedSkeleton } from "./skeletons/delayed-skeleton";
