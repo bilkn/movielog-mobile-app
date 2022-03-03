@@ -108,7 +108,8 @@ const Search = ({ navigation }) => {
       </MainLayout>
       {isLoading ? (
         <MovieCardSkeletonList style={{ marginTop: 0 }} />
-      ) : (
+      ) : searchedMovies?.length ||
+        (featuredMovies?.length && !debouncedSearchQuery) ? (
         <CustomFlatList
           items={searchedMovies || featuredMovies}
           onEndReached={handleReachList}
@@ -133,6 +134,13 @@ const Search = ({ navigation }) => {
             />
           )}
         />
+      ) : (
+        <Typography
+          variant="text"
+          style={{ marginTop: 35, textAlign: "center" }}
+        >
+          Your search for "{debouncedSearchQuery}" did not have any matches.
+        </Typography>
       )}
       {isFetchingNextPage && <Spinner />}
     </>

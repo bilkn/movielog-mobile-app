@@ -35,7 +35,6 @@ function useMovieListLogic(options) {
   );
 
   const handleReachList = () => {
-    console.log("Handle reach list.");
     hasNextPage && fetchNextPage();
   };
 
