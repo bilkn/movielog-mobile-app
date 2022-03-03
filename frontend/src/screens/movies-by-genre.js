@@ -1,6 +1,5 @@
 import React from "react";
-import { MainLayout, MovieList } from "../components";
-import { useNavigation, useRoute } from "@react-navigation/native";
+import { MovieList } from "../components";
 import api from "../api";
 import useMoviesByGenreLogic from "../hooks/screens/useMoviesByGenreLogic";
 
