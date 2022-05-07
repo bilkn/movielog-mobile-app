@@ -1,10 +1,8 @@
-const mongoose = require("../helpers/mongodb-connect");
-
-const UserSchema = new mongoose.Schema({
+const UserSchema = new Mongoose.Schema({
   id: { type: Number, required: true },
   watchList: [],
   watchedList: [],
 });
-const UserModel = mongoose.model("User", UserSchema);
+const UserModel = Mongoose.model("User", UserSchema);
 
 module.exports = UserModel;

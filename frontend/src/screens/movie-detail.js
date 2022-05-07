@@ -1,8 +1,10 @@
+import { MotiView } from "moti";
 import React from "react";
 import { View, Image, StyleSheet, ScrollView } from "react-native";
 import { Icon } from "../assets/icon";
 import NoAvatar from "../assets/no-avatar.png";
 import {
+  DelayedSkeleton,
   IconButton,
   MainLayout,
   MovieTitleDetail,
@@ -34,6 +36,7 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     marginTop: 30,
+    width: "100%",
   },
   smallCard: {
     borderRadius: 15,
@@ -45,6 +48,7 @@ const styles = StyleSheet.create({
     marginBottom: 30,
     marginTop: 20,
     maxHeight: 150,
+    width: "100%",
   },
 });
 
@@ -54,9 +58,13 @@ const ActorCard = (props) => {
   return (
     <View style={{ ...styles.smallCard, ...style, backgroundColor: "#22232D" }}>
       <Image
-        source={profile ? {
-          uri: `${process.env.REACT_APP_POSTER_API_URL}/w200${profile}`,
-        } : NoAvatar}
+        source={
+          profile
+            ? {
+                uri: `${process.env.REACT_APP_POSTER_API_URL}/w200${profile}`,
+              }
+            : NoAvatar
+        }
         style={{ height: "75%", resizeMode: "cover", width: "100%" }}
         progressiveRenderingEnabled
       />
@@ -80,8 +88,6 @@ const MovieDetail = ({ route }) => {
     useMovieDetailLogic({
       route,
     });
-  // TODO: Add skeleton if data is loading.
-  if (isLoading) return <Typography>Loading...</Typography>;
 
   const { addMovieToTheList, removeMovieFromTheList } = handlers;
 
@@ -96,13 +102,17 @@ const MovieDetail = ({ route }) => {
     rating,
     willWatch,
     watched,
-  } = movieDetail;
+  } = movieDetail || {};
+
+  const Spacer = ({ height = 8 }) => <MotiView style={{ height }} />;
 
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
       <MainLayout style={{ marginBottom: 0 }}>
         <View style={styles.container}>
-          {poster ? (
+          {isLoading ? (
+            <DelayedSkeleton radius={20} height={290} width={195} />
+          ) : poster ? (
             <Image
               style={styles.poster}
               source={{
@@ -120,58 +130,106 @@ const MovieDetail = ({ route }) => {
                 left: 30,
               }}
             >
-              <IconButton
-                active={willWatch}
-                icon={<Icon name="movie-open-check" size={22} />}
-                onPress={
-                  willWatch
-                    ? () => removeMovieFromTheList(["watchList", id])
-                    : () => addMovieToTheList(["watchList", id])
-                }
-                disabled={isOperationLoading}
-              />
+              {isLoading ? (
+                <View style={{ position: "relative", left: 10 }}>
+                  <DelayedSkeleton radius={"round"} height={40} width={40} />
+                </View>
+              ) : (
+                <IconButton
+                  active={willWatch}
+                  icon={<Icon name="movie-open-check" size={22} />}
+                  onPress={
+                    willWatch
+                      ? () => removeMovieFromTheList(["watchList", id])
+                      : () => addMovieToTheList(["watchList", id])
+                  }
+                  disabled={isOperationLoading}
+                />
+              )}
             </View>
-            <MovieTitleDetail
-              align="center"
-              title={title}
-              releaseYear={releaseYear}
-              genres={genres}
-              rating={rating}
-              style={styles.titleDetail}
-              textAlign="center"
-            />
+            {isLoading ? (
+              <View
+                style={{
+                  alignItems: "center",
+
+                  width: "100%",
+                }}
+              >
+                <DelayedSkeleton radius={10} height={15} width={150} />
+                <Spacer />
+                <DelayedSkeleton radius={10} height={15} width={120} />
+                <Spacer />
+                <DelayedSkeleton radius={10} height={10} width={120} />
+              </View>
+            ) : (
+              <MovieTitleDetail
+                align="center"
+                title={title}
+                releaseYear={releaseYear}
+                genres={genres}
+                rating={rating}
+                style={styles.titleDetail}
+                textAlign="center"
+              />
+            )}
+
             <View
               style={{
                 position: "relative",
                 right: 30,
               }}
             >
-              <IconButton
-                active={watched}
-                icon={<Icon name="checkbox-plus" size={22} />}
-                onPress={
-                  watched
-                    ? () => removeMovieFromTheList(["watchedList", id, ,])
-                    : () => addMovieToTheList(["watchedList", id])
-                }
-                disabled={isOperationLoading}
-              />
+              {isLoading ? (
+                <View style={{ position: "relative", right: 10 }}>
+                  <DelayedSkeleton radius={"round"} height={40} width={40} />
+                </View>
+              ) : (
+                <IconButton
+                  active={watched}
+                  icon={<Icon name="checkbox-plus" size={22} />}
+                  onPress={
+                    watched
+                      ? () => removeMovieFromTheList(["watchedList", id])
+                      : () => addMovieToTheList(["watchedList", id])
+                  }
+                  disabled={isOperationLoading}
+                />
+              )}
             </View>
           </View>
         </View>
         <View style={styles.contentContainer}>
-          <View>
-            <Typography variant="subtitle">Description</Typography>
-            <Typography variant="body" style={{ marginTop: 10 }}>
-              {overview}
-            </Typography>
+          <View style={{ width: "100%" }}>
+            {isLoading ? (
+              <DelayedSkeleton height={20} width={120} />
+            ) : (
+              <Typography variant="subtitle">Description</Typography>
+            )}
+            {isLoading ? (
+              <>
+                <Spacer />
+                <DelayedSkeleton height={20} width={"100%"} />
+                <Spacer />
+                <DelayedSkeleton height={20} width={"100%"} />
+                <Spacer />
+                <DelayedSkeleton height={20} width={"100%"} />
+              </>
+            ) : (
+              <Typography variant="body" style={{ marginTop: 10 }}>
+                {overview}
+              </Typography>
+            )}
           </View>
           <View
             style={{
               marginTop: 20,
             }}
           >
-            <Typography variant="subtitle">Cast</Typography>
+            {isLoading ? (
+              <DelayedSkeleton height={20} width={120} />
+            ) : (
+              <Typography variant="subtitle">Cast</Typography>
+            )}
           </View>
         </View>
       </MainLayout>
@@ -180,13 +238,27 @@ const MovieDetail = ({ route }) => {
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={styles.castContainer}
       >
-        {cast.map((actor, i) => (
-          <ActorCard
-            key={actor.name}
-            {...actor}
-            style={{ marginLeft: i !== 0 ? 25 : 0 }}
-          />
-        ))}
+        {isLoading ? (
+          <>
+            <View>
+              <DelayedSkeleton radius={15} height={125} width={100} />
+            </View>
+            <View style={{ marginLeft: 25 }}>
+              <DelayedSkeleton radius={15} height={125} width={100} />
+            </View>
+            <View style={{ marginLeft: 25 }}>
+              <DelayedSkeleton radius={15} height={125} width={100} />
+            </View>
+          </>
+        ) : (
+          cast.map((actor, i) => (
+            <ActorCard
+              key={actor.name}
+              {...actor}
+              style={{ marginLeft: i !== 0 ? 25 : 0 }}
+            />
+          ))
+        )}
       </ScrollView>
     </ScrollView>
   );
