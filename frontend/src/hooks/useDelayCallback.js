@@ -4,7 +4,6 @@ function useDelayCallback({ callback, condition = true, duration = 300 }) {
 
   useEffect(() => {
     let timeout = null;
-    console.log({callback})
     if (condition) {
       timeout = setTimeout(callback, duration);
     }

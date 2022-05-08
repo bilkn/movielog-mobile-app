@@ -76,7 +76,7 @@ const Search = ({ navigation }) => {
     isFetchingNextPage,
     debouncedSearchQuery,
     genre,
-  } = useSearchLogic();
+  } = useSearchLogic({navigation});
   const { handleSearchQueryChange, handleReachList, resetSearchQuery } =
     handlers;
   const { colors } = useTheme();
