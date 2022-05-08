@@ -144,10 +144,15 @@ Form.Searchbox = (props) => {
       {!!value && (
         <Pressable
           style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
             position: "absolute",
-            top: 14,
+            top: 10,
             right: 15,
             zIndex: 1,
+            height: 30,
+            width: 30,
           }}
           onPress={onCancelPress}
         >

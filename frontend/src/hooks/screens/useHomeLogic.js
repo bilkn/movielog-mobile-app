@@ -1,5 +1,5 @@
-import { useNavigation } from "@react-navigation/native";
-import { useEffect, useState } from "react";
+import { useNavigation, useFocusEffect } from "@react-navigation/native";
+import { useEffect, useState, useCallback } from "react";
 import { useQuery } from "react-query";
 import { useDebounce } from "use-debounce/lib";
 import { useAxios } from "..";
@@ -25,7 +25,10 @@ function useHomeLogic() {
     setSearchQuery(value);
   };
 
-  const resetSearchQuery = () => setSearchQuery("");
+  const resetSearchQuery = () => {
+    console.log("click");
+    setSearchQuery("");
+  };
 
   const handlers = {
     handleSearchQueryChange,
@@ -38,6 +41,7 @@ function useHomeLogic() {
         screen: SCREENS.SEARCH,
         params: { searchQuery },
       });
+      resetSearchQuery();
     }
   }, [debouncedSearchQuery, searchQuery]);
 

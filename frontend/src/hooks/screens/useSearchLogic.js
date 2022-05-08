@@ -10,17 +10,21 @@ function useSearchLogic() {
   const { axiosInstance } = useAxios();
   const { params } = useRoute();
   const { genre = "", searchQuery: searchQueryParam } = params || {};
-  const {
-    values,
-    handleChange,
-    resetForm: resetSearchQuery,
-  } = useFormik({
+
+  console.log({searchQueryParam});
+
+  const { values, handleChange, setFieldValue } = useFormik({
     initialValues: {
       searchQuery: searchQueryParam || "",
     },
+    enableReinitialize: true,
   });
 
   const [debouncedSearchQuery] = useDebounce(values.searchQuery, 1000);
+
+  const resetSearchQuery = () => {
+    setFieldValue("searchQuery", "");
+  };
 
   const getMoviesBySearchQueryRequest = (query) => {
     const { queryKey, pageParam = 1 } = query;
