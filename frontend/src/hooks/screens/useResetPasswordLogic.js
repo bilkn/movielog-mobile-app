@@ -1,4 +1,4 @@
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import { useFormik } from "formik";
 import { useMutation } from "react-query";
 import { useAxios } from "..";
@@ -7,11 +7,16 @@ import { populateFieldErrors } from "../../helpers";
 import { resetPasswordSchema } from "../../validations/authValidation";
 
 function useResetPasswordLogic() {
-  const { axiosInstance } = useAxios();
-  const navigate = useNavigation();
+  const { axiosInstance } = useAxios({ base: "auth" });
+  const { params } = useRoute();
+  const navigation = useNavigation();
 
   const resetPasswordRequest = (data) => {
-    return axiosInstance.patch("/reset", data);
+    const requestBody = {
+      id: params.id,
+      ...data,
+    };
+    return axiosInstance.patch("/reset-password", requestBody);
   };
 
   const submitHandler = (values) => {
@@ -38,8 +43,7 @@ function useResetPasswordLogic() {
   const { mutate: resetPassword, isLoading } = useMutation(
     resetPasswordRequest,
     {
-      // TODO: Redirect to the Sign In screen on success.
-      onSuccess: (data) => null,
+      onSuccess: () => navigation.navigate(SCREENS.SIGN_IN),
       onError: (error) => {
         console.log(error);
         populateFieldErrors(error, setFieldError);
@@ -47,7 +51,7 @@ function useResetPasswordLogic() {
     }
   );
 
-  const handleBackToSignInPress = () => navigate(SCREENS.SIGN_IN);
+  const handleBackToSignInPress = () => navigation.navigate(SCREENS.SIGN_IN);
 
   const handlers = {
     handleSubmit,

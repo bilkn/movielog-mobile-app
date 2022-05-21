@@ -35,7 +35,6 @@ function useForgotPasswordLogic({ navigation }) {
   const { mutate: sendResetEmail, isLoading } = useMutation(
     forgotPasswordRequest,
     {
-      onSuccess: (data) => console.log("SUCCESS", data), // TODO: REDIRECT TO THE RESET PASSWORD SCREEN.
       onError: (error) => {
         console.log("ERROR", error);
         populateFieldErrors(error, setFieldError);
