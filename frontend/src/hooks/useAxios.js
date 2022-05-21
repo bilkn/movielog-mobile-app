@@ -8,8 +8,6 @@ import { toaster } from "../helpers";
 const apiBaseURL = process.env.REACT_APP_API_BASE_URL;
 const authBaseURL = process.env.REACT_APP_AUTH_BASE_URL;
 
-console.log("keys:", apiBaseURL, authBaseURL);
-
 function useAxios(options) {
   const { base } = options || {};
   const { user, signOut, setUser } = useUser();

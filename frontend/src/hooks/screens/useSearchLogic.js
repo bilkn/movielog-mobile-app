@@ -11,7 +11,6 @@ function useSearchLogic() {
   const { params } = useRoute();
   const { genre = "", searchQuery: searchQueryParam } = params || {};
 
-  console.log({searchQueryParam});
 
   const { values, handleChange, setFieldValue } = useFormik({
     initialValues: {
@@ -19,7 +18,6 @@ function useSearchLogic() {
     },
     enableReinitialize: true,
   });
-
   const [debouncedSearchQuery] = useDebounce(values.searchQuery, 1000);
 
   const resetSearchQuery = () => {

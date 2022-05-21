@@ -1,4 +1,4 @@
-import { NavigationContainer } from "@react-navigation/native";
+import { NavigationContainer, useNavigation } from "@react-navigation/native";
 import { useFonts } from "expo-font";
 import { Righteous_400Regular } from "@expo-google-fonts/righteous";
 import {
@@ -14,7 +14,6 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import UserProvider from "./src/providers/UserProvider";
 import { AppScreens } from "./AppScreens";
 import { RootSiblingParent } from "react-native-root-siblings";
-
 import { LogBox } from "react-native";
 
 // Ignore log notification by message:
@@ -25,10 +24,7 @@ LogBox.ignoreAllLogs();
 
 const client = new QueryClient();
 
-
-
 export default function App() {
-
   const [fontsLoaded] = useFonts({
     IcoMoon: require("./src/assets/font-icons/icomoon.ttf"),
     Righteous_400Regular,
@@ -40,6 +36,7 @@ export default function App() {
   if (!fontsLoaded) {
     return <Text> "its loading"</Text>;
   }
+
   return (
     <>
       <RootSiblingParent>
