@@ -18,7 +18,6 @@ function useMovieDetailLogic({ route }) {
   const { movieID } = params || {};
 
   const getMovieDetailRequest = () => {
-    console.log("AXIOS INSTANCE", movieID);
     return axiosInstance.get(`/${movieID}`);
   };
 

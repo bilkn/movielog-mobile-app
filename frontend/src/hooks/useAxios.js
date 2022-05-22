@@ -83,7 +83,7 @@ function useAxios(options) {
             errorShown = true;
           }
 
-          // TODO: Handle refresh token if it is expired.
+          // Handles expired tokens.
 
           if (response) {
             if (response?.data.expired) {

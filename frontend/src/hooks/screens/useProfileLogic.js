@@ -41,6 +41,7 @@ function useProfileLogic() {
     handleSubmit,
     handleBlur,
     setFieldError,
+    setFieldTouched,
     validateField,
     values,
     errors,
@@ -74,6 +75,7 @@ function useProfileLogic() {
   );
 
   const showDeleteDataAlert = () => {
+    console.log('DELETE DATA');
     Alert.alert(
       "Are you really want to delete your data?",
       "(only your watched list and watch list will be removed).",
@@ -112,6 +114,7 @@ function useProfileLogic() {
   };
 
   const validatePassword = () => {
+    setFieldTouched('password')
     validateField("password");
     return values.password;
   };
