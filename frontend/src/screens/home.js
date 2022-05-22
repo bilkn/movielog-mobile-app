@@ -1,7 +1,5 @@
-import { Formik } from "formik";
 import React from "react";
 import { StyleSheet, View, Pressable } from "react-native";
-import * as Linking from "expo-linking";
 import { ScrollView } from "react-native-gesture-handler";
 import {
   Category,

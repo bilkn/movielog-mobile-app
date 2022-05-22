@@ -251,7 +251,7 @@ const MovieDetail = ({ route }) => {
             </View>
           </>
         ) : (
-          cast.map((actor, i) => (
+          cast?.map((actor, i) => (
             <ActorCard
               key={actor.name}
               {...actor}
