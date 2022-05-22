@@ -12,7 +12,7 @@ function useHomeLogic() {
   const [searchQuery, setSearchQuery] = useState("");
   const [debouncedSearchQuery] = useDebounce(searchQuery, 1500);
 
-  const { data: { data: featuredMovies } = {}, isLoading } = useQuery(
+  const { data: { data: featuredMovies = [] } = {}, isLoading } = useQuery(
     "featuredMovies",
     () => api.getFeaturedMoviesRequest(axiosInstance)
   );

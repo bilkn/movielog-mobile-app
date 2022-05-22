@@ -83,7 +83,15 @@ function useAxios(options) {
             errorShown = true;
           }
 
-          // TODO: Handle refresh token if it is expired.
+          if (error?.message === "Network Error") {
+            toaster.show(
+              false,
+              "There seems to be a problem with your internet connection. Please try again."
+            );
+            errorShown = true;
+          }
+
+          // Handles expired tokens.
 
           if (response) {
             if (response?.data.expired) {
@@ -118,6 +126,7 @@ function useAxios(options) {
               errorShown = true;
             }
           }
+
           if (!errorShown && !response?.data) {
             toaster.show(false, "An error occurred");
           }
