@@ -1,6 +1,5 @@
-
-
-const UserAuthSchema = new Mongoose.Schema({
+const mongoose = require('mongoose')
+const UserAuthSchema = new mongoose.Schema({
   id: {
     type: Number,
     required: true,
@@ -28,6 +27,6 @@ function updatePassword(password) {
 
 UserAuthSchema.methods = { updatePassword };
 
-const UserAuthModel = Mongoose.model("accounts", UserAuthSchema);
+const UserAuthModel = mongoose.model("accounts", UserAuthSchema);
 
 module.exports = UserAuthModel;
