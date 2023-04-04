@@ -30,7 +30,7 @@ const Profile = ({ navigation }) => {
               <View>
                 <CommonTextInput
                   onChangeText={handleChange("username")}
-                  value={values.username || userInfo?.username}
+                  value={values.username === null ? userInfo?.username || "" : values.username}
                   label="Username"
                   error={errors.username}
                   touched={touched.username}
@@ -40,7 +40,7 @@ const Profile = ({ navigation }) => {
               <View style={{ marginTop: 15 }}>
                 <CommonTextInput
                   onChangeText={handleChange("email")}
-                  value={values.email || userInfo?.email}
+                  value={values.email === null ? userInfo?.email || "" : values.email}
                   label="Email"
                   error={errors.email}
                   touched={touched.email}

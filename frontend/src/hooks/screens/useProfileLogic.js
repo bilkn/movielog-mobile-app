@@ -49,12 +49,13 @@ function useProfileLogic() {
     values,
     errors,
     touched,
+    resetForm
   } = useFormik({
     enableReinitialize: true,
     initialValues: {
-      username: userInfo?.username || "",
-      email: userInfo?.email || "",
-      password: "",
+      username: userInfo?.username || null,
+      email: userInfo?.email || null,
+      password: '',
     },
     onSubmit: updateProfileHandler,
     validationSchema: updateProfileSchema,
@@ -79,10 +80,7 @@ function useProfileLogic() {
 
   useFocusEffect(
     useCallback(() => {
-      const {email,username} = userInfo || {}
-      if(!email || !username) return
-      setFieldValue('email',email)
-      setFieldValue('username',username)
+      resetForm()
     },[userInfo])
   )
 
