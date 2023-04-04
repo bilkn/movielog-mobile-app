@@ -6,7 +6,7 @@ import { CustomButton, Logo, MainLayout, Typography } from "../../components";
 import { CommonTextInput } from "../../components/form";
 import { useSignInLogic } from "../../hooks";
 
-const SignUp = ({ navigation }) => {
+const SignIn = ({ navigation }) => {
   const { colors } = useTheme();
   const { handlers, isLoading, values, errors, touched } = useSignInLogic({
     navigation,
@@ -97,4 +97,4 @@ const SignUp = ({ navigation }) => {
   );
 };
 
-export default SignUp;
+export default SignIn;

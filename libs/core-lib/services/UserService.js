@@ -25,7 +25,7 @@ function addItemToList(id, listName, item) {
 
 function getList(id, listName, skip = 0) {
   const ITEMS_PER_PAGE = 10;
-  console.log({skip});
+  
   const aggregation = [
     {
       $match: {
@@ -63,13 +63,6 @@ function getList(id, listName, skip = 0) {
 
   return UserModel.aggregate(aggregation);
 }
-
-/* function getItemFromList(userID, itemID, listName) {
-  return UserModel.exists({
-    id: userID,
-    [listName]: { $elemMatch: { id: itemID } },
-  });
-} */
 
 function checkIfItemExistsInList(userID, itemID, listName) {
   return UserModel.exists({

@@ -13,7 +13,7 @@ function useAxios(options) {
   const { user, signOut, setUser } = useUser();
   const navigation = useNavigation();
   const secureStore = useSecureStore();
-
+  
   const axiosInstance = useMemo(
     () =>
       axios.create({

@@ -1,10 +1,12 @@
 import { useFormik } from "formik";
+import { useCallback } from "react";
 import { Alert } from "react-native";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useAxios, useSecureStore, useUser } from "..";
 import { populateFieldErrors } from "../../helpers";
 import { updateProfileSchema } from "../../validations/authValidation";
 import api from "../../api";
+import { useFocusEffect } from "@react-navigation/native";
 
 function useProfileLogic() {
   const queryClient = useQueryClient();
@@ -40,6 +42,7 @@ function useProfileLogic() {
     handleChange,
     handleSubmit,
     handleBlur,
+    setFieldValue,
     setFieldError,
     setFieldTouched,
     validateField,
@@ -73,6 +76,15 @@ function useProfileLogic() {
       },
     }
   );
+
+  useFocusEffect(
+    useCallback(() => {
+      const {email,username} = userInfo || {}
+      if(!email || !username) return
+      setFieldValue('email',email)
+      setFieldValue('username',username)
+    },[userInfo])
+  )
 
   const showDeleteDataAlert = () => {
     console.log('DELETE DATA');
