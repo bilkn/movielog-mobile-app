@@ -33,6 +33,22 @@ function getList(id, listName, skip = 0) {
       },
     },
     {
+      $unwind: `$${listName}`
+    },
+    {
+      $sort: {
+        [`${listName}.watchDate`]: -1
+      }
+    },
+    {
+      $group: {
+        _id: "$_id",
+        [listName]: {
+          $push: `$${listName}`
+        }
+      }
+    },
+    {
       $project: {
         _id: 0,
         [listName]: {
