@@ -49,17 +49,27 @@ function useProfileLogic() {
     values,
     errors,
     touched,
-    resetForm
+    resetForm,
   } = useFormik({
     enableReinitialize: true,
     initialValues: {
-      username: userInfo?.username || null,
-      email: userInfo?.email || null,
-      password: '',
+      username: userInfo?.username || "",
+      email: userInfo?.email || "",
+      password: "",
     },
     onSubmit: updateProfileHandler,
     validationSchema: updateProfileSchema,
   });
+
+  const deleteUserDataHandler = () => {
+    const { password } = values;
+    if (!password) return;
+    deleteUserData({ password });
+  };
+
+  const deleteDataRequest = (data) => {
+    return axiosInstance.delete("/user/data", {data});
+  };
 
   const { mutate: updateProfile, isLoading } = useMutation(
     updateProfileRequest,
@@ -72,23 +82,32 @@ function useProfileLogic() {
         queryClient.setQueryData("user", { data: { username } });
       },
       onError: (error) => {
-        console.log("ERROR!!");
+        console.log(error);
         populateFieldErrors(error, setFieldError);
       },
     }
   );
 
+  const { mutate: deleteUserData, isLoading: isLoadingDataDeletion } =
+    useMutation(deleteDataRequest, {
+      onSuccess: () => {
+        console.log("SUCCESS DELETE");
+      },
+      onError: (error) => {
+        console.log(error);
+      },
+    });
+
   useFocusEffect(
     useCallback(() => {
-      resetForm()
-    },[userInfo])
-  )
+      resetForm();
+    }, [userInfo])
+  );
 
   const showDeleteDataAlert = () => {
-    console.log('DELETE DATA');
     Alert.alert(
       "Are you really want to delete your data?",
-      "(only your watched list and watch list will be removed).",
+      "(only your watchlist and watchlog will be removed).",
       [
         {
           text: "Cancel",
@@ -98,7 +117,7 @@ function useProfileLogic() {
         {
           text: "Delete my data",
           style: "destructive",
-          onPress: () => console.log("deleted"),
+          onPress: deleteUserDataHandler,
         },
       ]
     );
@@ -124,7 +143,7 @@ function useProfileLogic() {
   };
 
   const validatePassword = () => {
-    setFieldTouched('password')
+    setFieldTouched("password");
     validateField("password");
     return values.password;
   };

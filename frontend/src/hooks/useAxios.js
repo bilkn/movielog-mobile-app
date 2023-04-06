@@ -40,7 +40,9 @@ function useAxios(options) {
       await secureStore.save("tokens", data);
       setUser((prev) => ({ ...prev, tokens: data }));
       return data;
-    } catch (err) {}
+    } catch (err) {
+      console.log(err)
+    }
   }, []);
 
   const retryRequestByFreshTokens = useCallback(async (config) => {
@@ -51,7 +53,7 @@ function useAxios(options) {
       config.headers.authorization = `Bearer ${accessToken}`;
       return axios.request(config);
     } catch (err) {
-      console.log(e);
+      console.log(err);
     }
   }, []);
 
