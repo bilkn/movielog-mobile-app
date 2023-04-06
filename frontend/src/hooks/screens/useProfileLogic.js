@@ -71,6 +71,18 @@ function useProfileLogic() {
     return axiosInstance.delete("/user/data", {data});
   };
 
+  const deleteUserAccountHandler = async () => {
+    const { password } = values;
+    const {refreshToken} = await secureStore.getValueFor('tokens')
+
+    if (!password || !refreshToken) return;
+    deleteUserAccount({ password,refreshToken });
+  };
+
+  const deleteUserAccountRequest = (data) => {
+    return axiosInstance.delete("/user", {data});
+  };
+
   const { mutate: updateProfile, isLoading } = useMutation(
     updateProfileRequest,
     {
@@ -95,6 +107,16 @@ function useProfileLogic() {
       },
       onError: (error) => {
         console.log(error);
+      },
+    });
+
+  const { mutate: deleteUserAccount, isLoading: isLoadingAccountDeletion } =
+    useMutation(deleteUserAccountRequest, {
+      onSuccess: () => {
+        signOut();
+      },
+      onError: (error) => {
+        console.log("ERROR",error);
       },
     });
 
@@ -136,7 +158,7 @@ function useProfileLogic() {
         {
           text: "Delete my account",
           style: "destructive",
-          onPress: () => console.log("deleted"),
+          onPress: deleteUserAccountHandler,
         },
       ]
     );
