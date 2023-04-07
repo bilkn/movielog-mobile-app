@@ -17,5 +17,5 @@
         ".expo": true,
         ".env": false
     },
-    "explorerExclude.backup": null
+    "explorerExclude.backup": {}
 }

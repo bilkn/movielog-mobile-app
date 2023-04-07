@@ -33,7 +33,7 @@ function useMovieListLogic(options) {
     () => pages?.map((group) => group.data.items).flat() || [],
     [pages]
   );
-
+  
   const handleReachList = () => {
     hasNextPage && fetchNextPage();
   };

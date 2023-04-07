@@ -15,7 +15,8 @@
       "fallbackToCacheTimeout": 0
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.bilkn.movielog"
     },
     "android": {
       "adaptiveIcon": {

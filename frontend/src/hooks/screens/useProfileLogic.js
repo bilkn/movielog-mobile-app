@@ -1,10 +1,12 @@
 import { useFormik } from "formik";
+import { useCallback } from "react";
 import { Alert } from "react-native";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useAxios, useSecureStore, useUser } from "..";
 import { populateFieldErrors } from "../../helpers";
 import { updateProfileSchema } from "../../validations/authValidation";
 import api from "../../api";
+import { useFocusEffect } from "@react-navigation/native";
 
 function useProfileLogic() {
   const queryClient = useQueryClient();
@@ -40,12 +42,14 @@ function useProfileLogic() {
     handleChange,
     handleSubmit,
     handleBlur,
+    setFieldValue,
     setFieldError,
     setFieldTouched,
     validateField,
     values,
     errors,
     touched,
+    resetForm,
   } = useFormik({
     enableReinitialize: true,
     initialValues: {
@@ -56,6 +60,28 @@ function useProfileLogic() {
     onSubmit: updateProfileHandler,
     validationSchema: updateProfileSchema,
   });
+
+  const deleteUserDataHandler = () => {
+    const { password } = values;
+    if (!password) return;
+    deleteUserData({ password });
+  };
+
+  const deleteDataRequest = (data) => {
+    return axiosInstance.delete("/user/data", {data});
+  };
+
+  const deleteUserAccountHandler = async () => {
+    const { password } = values;
+    const {refreshToken} = await secureStore.getValueFor('tokens')
+
+    if (!password || !refreshToken) return;
+    deleteUserAccount({ password,refreshToken });
+  };
+
+  const deleteUserAccountRequest = (data) => {
+    return axiosInstance.delete("/user", {data});
+  };
 
   const { mutate: updateProfile, isLoading } = useMutation(
     updateProfileRequest,
@@ -68,17 +94,42 @@ function useProfileLogic() {
         queryClient.setQueryData("user", { data: { username } });
       },
       onError: (error) => {
-        console.log("ERROR!!");
+        console.log(error);
         populateFieldErrors(error, setFieldError);
       },
     }
   );
 
+  const { mutate: deleteUserData, isLoading: isLoadingDataDeletion } =
+    useMutation(deleteDataRequest, {
+      onSuccess: () => {
+        console.log("SUCCESS DELETE");
+      },
+      onError: (error) => {
+        console.log(error);
+      },
+    });
+
+  const { mutate: deleteUserAccount, isLoading: isLoadingAccountDeletion } =
+    useMutation(deleteUserAccountRequest, {
+      onSuccess: () => {
+        signOut();
+      },
+      onError: (error) => {
+        console.log("ERROR",error);
+      },
+    });
+
+  useFocusEffect(
+    useCallback(() => {
+      resetForm();
+    }, [userInfo])
+  );
+
   const showDeleteDataAlert = () => {
-    console.log('DELETE DATA');
     Alert.alert(
       "Are you really want to delete your data?",
-      "(only your watched list and watch list will be removed).",
+      "(only your watchlist and watchlog will be removed).",
       [
         {
           text: "Cancel",
@@ -88,7 +139,7 @@ function useProfileLogic() {
         {
           text: "Delete my data",
           style: "destructive",
-          onPress: () => console.log("deleted"),
+          onPress: deleteUserDataHandler,
         },
       ]
     );
@@ -107,14 +158,14 @@ function useProfileLogic() {
         {
           text: "Delete my account",
           style: "destructive",
-          onPress: () => console.log("deleted"),
+          onPress: deleteUserAccountHandler,
         },
       ]
     );
   };
 
   const validatePassword = () => {
-    setFieldTouched('password')
+    setFieldTouched("password");
     validateField("password");
     return values.password;
   };

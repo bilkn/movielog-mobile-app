@@ -1,5 +1,5 @@
-import { useNavigation, useFocusEffect } from "@react-navigation/native";
-import { useEffect, useState, useCallback } from "react";
+import { useNavigation,} from "@react-navigation/native";
+import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import { useDebounce } from "use-debounce/lib";
 import { useAxios } from "..";
