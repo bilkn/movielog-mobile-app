@@ -82,6 +82,9 @@ const Profile = ({ navigation }) => {
         <FullWidthButton variant="important" onPress={handleDeleteAccount}>
           Delete my account
         </FullWidthButton>
+        <FullWidthButton onPress={()=>navigation.navigate(SCREENS.ABOUT_MOVIE_DATA)}>
+          About movie data
+        </FullWidthButton>
         <FullWidthButton
           onPress={handleSignOut}
           style={{ borderBottomWidth: 0 }}
