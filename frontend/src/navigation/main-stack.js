@@ -36,6 +36,7 @@ const MainStack = () => {
       <Stack.Screen
         options={{
           title: "Movie Detail",
+          headerBackTitle:''
         }}
         name={SCREENS.MOVIE_DETAIL}
         component={MovieDetail}
@@ -44,6 +45,7 @@ const MainStack = () => {
       <Stack.Screen
         options={{
           title: "Change Password",
+          headerBackTitle:''
         }}
         name={SCREENS.CHANGE_PASSWORD}
         component={ChangePassword}
@@ -51,6 +53,7 @@ const MainStack = () => {
       <Stack.Screen
         options={{
           title: "About Movie Data",
+          headerBackTitle:''
         }}
         name={SCREENS.ABOUT_MOVIE_DATA}
         component={AboutMovieData}

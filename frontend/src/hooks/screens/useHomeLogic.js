@@ -26,7 +26,6 @@ function useHomeLogic() {
   };
 
   const resetSearchQuery = () => {
-    console.log("click");
     setSearchQuery("");
   };
 
