@@ -30,10 +30,7 @@ function useProfileLogic() {
       onError: (error) => {
         console.log(error);
         // TODO: Add error handling.
-      },
-      onSettled: () => {
-        console.log("settled");
-      },
+      }
     }
   );
   const { data: userInfo } = data || {};

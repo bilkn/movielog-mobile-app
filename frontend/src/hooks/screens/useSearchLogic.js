@@ -47,9 +47,6 @@ function useSearchLogic() {
         return page < total_pages ? page + 1 : undefined;
       },
       enabled: !!debouncedSearchQuery,
-      onSettled: () => {
-        console.log("SETTLED");
-      },
     }
   );
 

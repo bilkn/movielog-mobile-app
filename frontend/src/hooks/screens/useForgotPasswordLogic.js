@@ -28,7 +28,6 @@ function useForgotPasswordLogic({ navigation }) {
   });
 
   const forgotPasswordRequest = (data) => {
-    console.log({data})
     return axiosInstance.post("/forgot-password", data);
   };
 

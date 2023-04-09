@@ -5,8 +5,6 @@ function useMoviesByGenreLogic() {
   const navigation = useNavigation();
   const { params } = useRoute();
 
-  console.log("GENRE", params.genre);
-
   useEffect(() => {
     navigation.setOptions({ title: params.genre });
   }, []);
