@@ -3,11 +3,28 @@
 A mobile app that allows users to discover, and add movies
 to their watchlist   
 
-![Home screen](homescreen.PNG)
+<img src="homescreen.PNG" width="200"/> <img src="search.PNG" width="200"/> <img src="list.PNG" width="200"/> 
 
-=======
-## Libraries
+## Technologies Used
+
+### Frontend
 
 - React Native 
+- Expo
+- Formik
+- React Query
+- Axios
+- Moment
 
-!<img src="image1.png" width="425"/> <img src="image2.png" width="425"/> 
+### Backend
+
+- NodeJS
+- ExpressJS
+- MongoDB
+- Mongoose
+- Yup
+- Bcrypt
+- Crypto
+- Json Web Token
+- Needle
+- Nodemailer
