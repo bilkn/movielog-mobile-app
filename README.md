@@ -1,5 +1,12 @@
 # movielog-mobile-app
 
-An app where you can add the movie you watched or will watch.  
+A mobile app that allows users to discover, and add movies
+to their watchlist   
 
 ![Home screen](homescreen.PNG)
+
+=======
+## Libraries
+
+- React Native 
+
