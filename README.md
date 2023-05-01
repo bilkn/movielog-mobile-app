@@ -2,4 +2,4 @@
 
 An app where you can add the movie you watched or will watch.  
 
-![Home screen](homescreen.PNG)
+!<img src="image1.png" width="425"/> <img src="image2.png" width="425"/> 
