@@ -6,6 +6,7 @@
     "orientation": "portrait",
     "icon": "",
     "scheme": "exp",
+    "privacy": "unlisted",
     "splash": {
       "image": "",
       "resizeMode": "contain",
@@ -22,11 +23,17 @@
       "adaptiveIcon": {
         "foregroundImage": "",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "com.bilkn.movielog"
     },
     "web": {
       "favicon": ""
     },
-    "description": ""
+    "description": "",
+    "extra": {
+      "eas": {
+        "projectId": "b6ce2e95-b364-4657-a5ec-c1a4efed2366"
+      }
+    }
   }
 }

@@ -1,7 +1,12 @@
 # movielog-mobile-app
 
-A simple and user friendly movie list app powered by tmdb.
+A mobile app that allows users to discover, and add movies
+to their watchlist   
 
+![Home screen](homescreen.PNG)
+
+=======
 ## Libraries
 
 - React Native 
+
